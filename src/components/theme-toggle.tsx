@@ -16,7 +16,11 @@ export function ThemeToggle({ className }: { className?: string }) {
   const [mounted, setMounted] = useState(false);
   const [isChanging, setIsChanging] = useState(false);
 
-  useEffect(() => setMounted(true), []);
+  /* eslint-disable react-hooks/set-state-in-effect */
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+  /* eslint-enable react-hooks/set-state-in-effect */
 
   const handleThemeChange = (id: string) => {
     if (id === theme) return;

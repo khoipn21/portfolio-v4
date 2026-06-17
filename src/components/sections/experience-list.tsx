@@ -17,10 +17,9 @@ gsap.registerPlugin(ScrollTrigger);
  */
 function ExperienceCard({
   exp,
-  index,
 }: {
   exp: (typeof experiences)[number];
-  index: number;
+  index?: number;
 }) {
   const [expanded, setExpanded] = useState(false);
   const contentRef = useRef<HTMLDivElement>(null);

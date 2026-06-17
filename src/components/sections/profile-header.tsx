@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useEffect, useState } from "react";
+import { useRef } from "react";
 import { userData } from "@/data/user-data";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { CommandMenu } from "@/components/layout/command-menu";
@@ -18,17 +18,12 @@ gsap.registerPlugin(ScrollTrigger);
 export function ProfileHeader() {
   const containerRef = useRef<HTMLDivElement>(null);
   const nameRef = useRef<HTMLHeadingElement>(null);
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
 
   // Character-by-character reveal on scroll
   useGSAP(
     () => {
       const prefersReduced = window.matchMedia(
-        "(prefers-reduced-motion: reduce)"
+        "(prefers-reduced-motion: reduce)",
       ).matches;
       if (prefersReduced || !nameRef.current || !containerRef.current) return;
 
@@ -41,7 +36,7 @@ export function ProfileHeader() {
         .split("")
         .map(
           (char) =>
-            `<span class="char-reveal" style="display:inline-block; will-change:transform">${char === " " ? "&nbsp;" : char}</span>`
+            `<span class="char-reveal" style="display:inline-block; will-change:transform">${char === " " ? "&nbsp;" : char}</span>`,
         )
         .join("");
 
@@ -68,7 +63,7 @@ export function ProfileHeader() {
         },
       });
     },
-    { scope: containerRef }
+    { scope: containerRef },
   );
 
   return (
@@ -90,12 +85,15 @@ export function ProfileHeader() {
                 boxShadow: "inset 0 1px 1px rgba(255,255,255,0.05)",
               }}
             >
-              {/* Pixel art avatar - using img for GIF animation support */}
-              <img
+              {/* Pixel art avatar */}
+              <Image
                 src="/images/pixel-avatar.gif"
                 alt="Pixel Art Avatar"
+                width={96}
+                height={96}
                 className="h-full w-full object-cover"
                 style={{ imageRendering: "pixelated" }}
+                unoptimized
               />
             </div>
           </div>
@@ -108,10 +106,13 @@ export function ProfileHeader() {
                 color: "var(--text-primary)",
               }}
             >
-              {userData.displayName}
+              {userData.name}
             </h1>
-            <p className="text-[13px] sm:text-[14px]" style={{ color: "var(--text-tertiary)" }}>
-              {userData.age}
+            <p
+              className="text-[13px] sm:text-[14px]"
+              style={{ color: "var(--text-tertiary)" }}
+            >
+              {userData.headline}
             </p>
           </div>
         </div>

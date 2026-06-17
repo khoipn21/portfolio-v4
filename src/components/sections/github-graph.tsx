@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { userData } from "@/data/user-data";
+import Image from "next/image";
 
 /**
  * GitHub contribution graph using github-readme-stats.
@@ -10,7 +11,9 @@ import { userData } from "@/data/user-data";
 export function GithubGraph() {
   const [mounted, setMounted] = useState(false);
 
+  /* eslint-disable react-hooks/set-state-in-effect */
   useEffect(() => setMounted(true), []);
+  /* eslint-enable react-hooks/set-state-in-effect */
 
   if (!mounted) return null;
 
@@ -53,11 +56,14 @@ export function GithubGraph() {
           rel="noopener noreferrer"
           className="block"
         >
-          <img
+          <Image
             src={`https://github-readme-stats.vercel.app/api?username=${userData.githubUsername}&show_icons=true&theme=transparent&hide_border=true&count_private=true`}
             alt="GitHub Stats"
+            width={600}
+            height={200}
             className="w-full max-w-md"
             loading="lazy"
+            unoptimized
           />
         </a>
       </div>

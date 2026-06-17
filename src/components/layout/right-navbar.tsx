@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { ThemeToggle } from "@/components/theme-toggle";
 
 export function RightNavbar() {
   const [activeSection, setActiveSection] = useState<string | null>(null);
@@ -15,10 +14,16 @@ export function RightNavbar() {
           }
         });
       },
-      { rootMargin: "-20% 0px -60% 0px", threshold: 0.1 }
+      { rootMargin: "-20% 0px -60% 0px", threshold: 0.1 },
     );
 
-    const sections = ["experience", "projects", "opensource", "skills", "blogs"];
+    const sections = [
+      "experience",
+      "projects",
+      // "opensource",
+      "skills",
+      // "blogs",
+    ];
     sections.forEach((id) => {
       const el = document.getElementById(id);
       if (el) observer.observe(el);
@@ -30,9 +35,9 @@ export function RightNavbar() {
   const links = [
     { name: "Experience", href: "#experience", id: "experience" },
     { name: "Projects", href: "#projects", id: "projects" },
-    { name: "Open Source", href: "#opensource", id: "opensource" },
+    // { name: "Open Source", href: "#opensource", id: "opensource" },
     { name: "Skills", href: "#skills", id: "skills" },
-    { name: "Blog", href: "#blogs", id: "blogs" },
+    // { name: "Blog", href: "#blogs", id: "blogs" },
   ];
 
   return (
@@ -71,18 +76,15 @@ export function RightNavbar() {
                 borderColor: isActive
                   ? "var(--accent-primary)"
                   : "var(--border-primary)",
-                background: isActive ? "var(--accent-primary)" : "var(--bg-primary)",
+                background: isActive
+                  ? "var(--accent-primary)"
+                  : "var(--bg-primary)",
                 boxShadow: isActive ? "0 0 8px var(--accent-glow)" : "none",
               }}
             />
           </a>
         );
       })}
-
-      {/* Theme toggle at bottom */}
-      <div className="mt-4">
-        <ThemeToggle />
-      </div>
     </div>
   );
 }

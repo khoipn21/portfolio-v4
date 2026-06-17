@@ -2,6 +2,7 @@
 
 import { skills } from "@/data/user-data";
 import { useStaggerChildren } from "@/hooks/use-gsap";
+import Image from "next/image";
 
 /**
  * Skills grid with premium pill design and hover physics.
@@ -31,14 +32,14 @@ export function SkillsGrid() {
               e.currentTarget.style.boxShadow = "inset 0 1px 1px rgba(255,255,255,0.03)";
             }}
           >
-            <img
+            <Image
               src={`https://cdn.simpleicons.org/${skill.icon}/71717a`}
               alt={skill.name}
               width={14}
               height={14}
               loading="lazy"
-              decoding="async"
               className="h-3.5 w-3.5 opacity-80"
+              unoptimized
             />
             <span
               className="text-[12px] font-medium"

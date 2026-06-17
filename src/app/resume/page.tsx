@@ -1,6 +1,6 @@
 "use client";
 
-import { experiences, education, skills, userData } from "@/data/user-data";
+import { experiences, education, userData } from "@/data/user-data";
 import { ArrowLeft, Download, MapPin, Calendar, Mail, Phone, Globe } from "lucide-react";
 import { SiGithub } from "react-icons/si";
 import Link from "next/link";

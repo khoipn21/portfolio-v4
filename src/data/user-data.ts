@@ -2,6 +2,8 @@ export const userData = {
   name: "Pham Ngoc Khoi",
   displayName: "khoipn21",
   age: new Date().getFullYear() - 2003,
+  headline:
+    "Junior Full-Stack Developer | React, TypeScript & Go | Building Scalable Web Applications",
   location: "Ho Chi Minh, Vietnam",
   email: "khoingoc456@gmail.com",
   phone: "(+84) 832-211-203",
@@ -107,7 +109,8 @@ export const projects: Project[] = [
   {
     slug: "codexbar-linux",
     title: "CodexBar Linux Port",
-    description: "Full Linux port of a macOS AI-coding usage monitor, replacing the native Swift/AppKit UI with a Rust GTK4/libadwaita desktop application.",
+    description:
+      "Full Linux port of a macOS AI-coding usage monitor, replacing the native Swift/AppKit UI with a Rust GTK4/libadwaita desktop application.",
     tech: ["Rust", "GTK4", "libadwaita", "Swift", "GitHub Actions"],
     github: "https://github.com/khoipn21/CodexBar-Linux",
     image: "/images/project-codexbar.png",
@@ -121,7 +124,8 @@ export const projects: Project[] = [
   {
     slug: "study-platform",
     title: "Study Platform",
-    description: "A comprehensive online learning platform built with Go microservices architecture featuring authentication, course management, and progress tracking.",
+    description:
+      "A comprehensive online learning platform built with Go microservices architecture featuring authentication, course management, and progress tracking.",
     tech: ["React", "TypeScript", "Go", "gRPC", "PostgreSQL", "Docker"],
     github: "https://github.com/khoipn21/study-platform",
     image: "/images/project-study.png",
@@ -135,7 +139,8 @@ export const projects: Project[] = [
   {
     slug: "murmur-chatapp",
     title: "Murmur Chatapp",
-    description: "A real-time chat web application supporting multiple users using WebSocket with a friendly UI/UX.",
+    description:
+      "A real-time chat web application supporting multiple users using WebSocket with a friendly UI/UX.",
     tech: ["React", "Go", "Gin", "WebSocket", "PostgreSQL", "Redis", "AWS"],
     github: "https://github.com/khoipn21/murmur-chatapp",
     image: "/images/project-murmur.png",
@@ -149,7 +154,8 @@ export const projects: Project[] = [
   {
     slug: "multimart-laravel",
     title: "Multi-function Mart",
-    description: "An e-commerce web application using Laravel for the backend and React for the frontend with product browsing, cart, and checkout.",
+    description:
+      "An e-commerce web application using Laravel for the backend and React for the frontend with product browsing, cart, and checkout.",
     tech: ["React", "Laravel", "PHP", "MySQL", "Bootstrap"],
     github: "https://github.com/khoipn21/multimart-laravel",
     highlights: [
@@ -161,7 +167,8 @@ export const projects: Project[] = [
   {
     slug: "bookstore",
     title: "E-commerce Bookstore",
-    description: "Frontend built with ReactJS for dynamic interfaces, styled with Bootstrap 5, and managed with Redux. Backend with Node.js and MongoDB.",
+    description:
+      "Frontend built with ReactJS for dynamic interfaces, styled with Bootstrap 5, and managed with Redux. Backend with Node.js and MongoDB.",
     tech: ["React", "Redux", "Node.js", "Express", "MongoDB", "Bootstrap"],
     github: "https://github.com/khoipn21/TMDT-main",
     highlights: [

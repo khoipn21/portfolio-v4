@@ -38,6 +38,7 @@ export function Banner() {
   const orb2Ref = useRef<HTMLDivElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
 
+  /* eslint-disable react-hooks/set-state-in-effect */
   useEffect(() => {
     setMounted(true);
   }, []);
@@ -46,6 +47,7 @@ export function Banner() {
   useEffect(() => {
     setVideoReady(false);
   }, [theme]);
+  /* eslint-enable react-hooks/set-state-in-effect */
 
   // Velocity-driven parallax — uses useLenis callback (no re-renders)
   useLenis((lenis: { scroll: number; velocity: number }) => {

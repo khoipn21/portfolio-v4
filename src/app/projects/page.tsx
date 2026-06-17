@@ -1,7 +1,7 @@
 "use client";
 
 import { projects } from "@/data/user-data";
-import { ExternalLink, ArrowLeft, ChevronRight } from "lucide-react";
+import { ArrowLeft, ChevronRight } from "lucide-react";
 import { SiGithub } from "react-icons/si";
 import Link from "next/link";
 
