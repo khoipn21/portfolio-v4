@@ -1,8 +1,9 @@
 "use client";
 
-import { useRef, useState, useCallback } from "react";
+import { useRef, useState, useCallback, useEffect } from "react";
 import { experiences } from "@/data/user-data";
 import { MapPin, Calendar, ChevronDown, Building2 } from "lucide-react";
+import { useScrollVelocity } from "@/hooks/use-scroll-velocity";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
@@ -64,7 +65,7 @@ function ExperienceCard({
   }, [expanded]);
 
   return (
-    <div className="group relative">
+    <div className="group relative" data-experience-card>
       {/* Double-Bezel: Outer Shell */}
       <div
         className="rounded-[1rem] p-[1.5px] transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)]"
@@ -208,6 +209,34 @@ function ExperienceCard({
  */
 export function ExperienceList() {
   const containerRef = useRef<HTMLDivElement>(null);
+  const { velocity } = useScrollVelocity();
+  const cardsRef = useRef<Element[]>([]);
+
+  // Cache card elements once
+  useEffect(() => {
+    if (!containerRef.current) return;
+    cardsRef.current = Array.from(
+      containerRef.current.querySelectorAll("[data-experience-card]")
+    );
+  }, []);
+
+  // Apply velocity-based scale via gsap.set (scale not eligible for quickTo)
+  useEffect(() => {
+    const prefersReduced = window.matchMedia(
+      "(prefers-reduced-motion: reduce)"
+    ).matches;
+    if (prefersReduced || !cardsRef.current.length) return;
+
+    // Dead zone: only apply when velocity is significant
+    if (Math.abs(velocity) < 50) {
+      cardsRef.current.forEach((card) => gsap.set(card, { scale: 1 }));
+      return;
+    }
+
+    // Subtle scale: 0.98 to 1.02 range
+    const scale = 1 + gsap.utils.clamp(-0.02, 0.02, velocity * 0.00005);
+    cardsRef.current.forEach((card) => gsap.set(card, { scale }));
+  }, [velocity]);
 
   useGSAP(
     () => {
@@ -216,7 +245,7 @@ export function ExperienceList() {
       ).matches;
       if (prefersReduced || !containerRef.current) return;
 
-      const cards = containerRef.current.querySelectorAll(".group.relative");
+      const cards = containerRef.current.querySelectorAll("[data-experience-card]");
       if (!cards.length) return;
 
       gsap.fromTo(

@@ -2,9 +2,11 @@
 
 import { useEffect, useState, useCallback } from "react";
 import { Search, Command } from "lucide-react";
+import { useLenis } from "lenis/react";
 
 export function CommandMenu() {
   const [open, setOpen] = useState(false);
+  const lenis = useLenis();
 
   const handleKeyDown = useCallback((e: KeyboardEvent) => {
     if ((e.metaKey || e.ctrlKey) && e.key === "k") {
@@ -19,10 +21,20 @@ export function CommandMenu() {
     return () => document.removeEventListener("keydown", handleKeyDown);
   }, [handleKeyDown]);
 
+  const scrollToSection = useCallback(
+    (id: string) => {
+      const el = document.getElementById(id);
+      if (el && lenis) {
+        lenis.scrollTo(el, { offset: -80 });
+      }
+    },
+    [lenis]
+  );
+
   const commands = [
-    { label: "Go to Experience", action: () => document.getElementById("experience")?.scrollIntoView({ behavior: "smooth" }) },
-    { label: "Go to Projects", action: () => document.getElementById("projects")?.scrollIntoView({ behavior: "smooth" }) },
-    { label: "Go to Skills", action: () => document.getElementById("skills")?.scrollIntoView({ behavior: "smooth" }) },
+    { label: "Go to Experience", action: () => scrollToSection("experience") },
+    { label: "Go to Projects", action: () => scrollToSection("projects") },
+    { label: "Go to Skills", action: () => scrollToSection("skills") },
     { label: "View Resume", action: () => window.open("/resume", "_self") },
     { label: "Contact Me", action: () => window.open("mailto:khoingoc456@gmail.com") },
     { label: "View GitHub", action: () => window.open("https://github.com/khoipn21", "_blank") },
@@ -50,7 +62,7 @@ export function CommandMenu() {
 
       {/* Command palette overlay */}
       {open && (
-        <div className="fixed inset-0 z-[200] flex items-start justify-center pt-[20vh]" onClick={() => setOpen(false)}>
+        <div className="fixed inset-0 z-[200] flex items-start justify-center pt-[20vh]" onClick={() => setOpen(false)} data-lenis-prevent>
           <div className="absolute inset-0 bg-black/40 backdrop-blur-sm" />
           <div
             className="relative w-full max-w-md mx-4 rounded-xl border overflow-hidden"

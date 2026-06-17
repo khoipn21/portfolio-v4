@@ -2,6 +2,7 @@
 
 import { useEffect, useRef } from "react";
 import { useTheme } from "next-themes";
+import { useLenis } from "lenis/react";
 
 interface Particle {
   x: number;
@@ -14,12 +15,19 @@ interface Particle {
 
 /**
  * Canvas-based particle system for the banner.
+ * Reads Lenis velocity each frame to influence particle drift.
  * Respects prefers-reduced-motion.
  */
 export function BannerParticles() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const { theme } = useTheme();
   const animRef = useRef<number>(0);
+  const velocityRef = useRef(0);
+
+  // Track Lenis velocity in a ref (outside React render cycle)
+  useLenis((lenis: { velocity: number }) => {
+    velocityRef.current = lenis.velocity;
+  });
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -65,9 +73,14 @@ export function BannerParticles() {
       ctx.clearRect(0, 0, w(), h());
       const color = getParticleColor();
 
+      // Velocity influence: fast scroll = particles scatter
+      const velocityInfluence = Math.min(Math.abs(velocityRef.current) * 0.002, 0.8);
+
       for (const p of particles) {
+        // Apply velocity to vertical drift
+        const vyBoost = velocityRef.current * 0.001;
         p.x += p.vx;
-        p.y += p.vy;
+        p.y += p.vy + vyBoost;
 
         if (p.x < 0) p.x = w();
         if (p.x > w()) p.x = 0;
@@ -80,17 +93,18 @@ export function BannerParticles() {
         ctx.fill();
       }
 
-      // Draw connections
+      // Draw connections (thinner when scrolling fast)
+      const connectionThreshold = 80 - velocityInfluence * 20;
       for (let i = 0; i < particles.length; i++) {
         for (let j = i + 1; j < particles.length; j++) {
           const dx = particles[i].x - particles[j].x;
           const dy = particles[i].y - particles[j].y;
           const dist = Math.sqrt(dx * dx + dy * dy);
-          if (dist < 80) {
+          if (dist < connectionThreshold) {
             ctx.beginPath();
             ctx.moveTo(particles[i].x, particles[i].y);
             ctx.lineTo(particles[j].x, particles[j].y);
-            ctx.strokeStyle = `${color}${0.08 * (1 - dist / 80)})`;
+            ctx.strokeStyle = `${color}${0.08 * (1 - dist / connectionThreshold)})`;
             ctx.lineWidth = 0.5;
             ctx.stroke();
           }

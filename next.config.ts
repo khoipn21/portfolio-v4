@@ -16,7 +16,7 @@ const nextConfig: NextConfig = {
         hostname: "cdn.simpleicons.org",
       },
     ],
-    qualities: [75, 80],
+    qualities: [75, 80, 90],
   },
 };
 

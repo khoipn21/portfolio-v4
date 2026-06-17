@@ -1,16 +1,81 @@
 "use client";
 
+import { useRef, useEffect, useState } from "react";
 import { userData } from "@/data/user-data";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { CommandMenu } from "@/components/layout/command-menu";
 import Image from "next/image";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useGSAP } from "@gsap/react";
+
+gsap.registerPlugin(ScrollTrigger);
 
 /**
  * Profile row below the banner — avatar, name, theme toggle + command menu.
+ * Name reveals character-by-character on scroll (center-outward stagger).
  */
 export function ProfileHeader() {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const nameRef = useRef<HTMLHeadingElement>(null);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  // Character-by-character reveal on scroll
+  useGSAP(
+    () => {
+      const prefersReduced = window.matchMedia(
+        "(prefers-reduced-motion: reduce)"
+      ).matches;
+      if (prefersReduced || !nameRef.current || !containerRef.current) return;
+
+      const el = nameRef.current;
+      const text = el.textContent || "";
+      if (!text) return;
+
+      // Split text into individual character spans
+      el.innerHTML = text
+        .split("")
+        .map(
+          (char) =>
+            `<span class="char-reveal" style="display:inline-block; will-change:transform">${char === " " ? "&nbsp;" : char}</span>`
+        )
+        .join("");
+
+      const chars = el.querySelectorAll(".char-reveal");
+      if (!chars.length) return;
+
+      // Initial state: hidden
+      gsap.set(chars, { yPercent: 150, autoAlpha: 0 });
+
+      // Animate on scroll — center-outward stagger
+      gsap.to(chars, {
+        yPercent: 0,
+        autoAlpha: 1,
+        duration: 0.6,
+        stagger: {
+          from: "center",
+          each: 0.04,
+        },
+        ease: "power3.out",
+        scrollTrigger: {
+          trigger: containerRef.current,
+          start: "top 85%",
+          toggleActions: "play none none none",
+        },
+      });
+    },
+    { scope: containerRef }
+  );
+
   return (
-    <div className="absolute left-0 right-0 md:left-[30%] md:right-[30%] top-[22vh] h-[112px] flex items-center px-4 z-50">
+    <div
+      ref={containerRef}
+      className="absolute left-0 right-0 md:left-[30%] md:right-[30%] top-[22vh] h-[112px] flex items-center px-4 z-50"
+    >
       <div className="flex w-full items-center justify-between">
         <div className="flex items-center gap-4 sm:gap-5">
           {/* Avatar with pixel art style and Double-Bezel frame */}
@@ -25,15 +90,10 @@ export function ProfileHeader() {
                 boxShadow: "inset 0 1px 1px rgba(255,255,255,0.05)",
               }}
             >
-              {/* Pixel art avatar */}
-              <Image
-                src="/images/avatar-pixel.png"
+              {/* Pixel art avatar - using img for GIF animation support */}
+              <img
+                src="/images/pixel-avatar.gif"
                 alt="Pixel Art Avatar"
-                width={240}
-                height={240}
-                quality={90}
-                fetchPriority="high"
-                sizes="(min-width: 640px) 120px, 96px"
                 className="h-full w-full object-cover"
                 style={{ imageRendering: "pixelated" }}
               />
@@ -42,10 +102,10 @@ export function ProfileHeader() {
 
           <div className="flex flex-col justify-center">
             <h1
-              className="text-[20px] sm:text-[24px] font-bold tracking-tight leading-none mb-0.5"
+              ref={nameRef}
+              className="text-[20px] sm:text-[24px] font-bold tracking-tight leading-none mb-0.5 overflow-hidden"
               style={{
                 color: "var(--text-primary)",
-                textShadow: "var(--text-primary) === #fafafa ? -1.5px 0 0 rgba(0,200,255,0.3), 1.5px 0 0 rgba(255,80,0,0.3) : none",
               }}
             >
               {userData.displayName}

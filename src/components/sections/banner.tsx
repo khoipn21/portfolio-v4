@@ -2,25 +2,29 @@
 
 import { BannerParticles } from "./banner-particles";
 import { CurrentTime } from "./current-time";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useTheme } from "next-themes";
-import Image from "next/image";
+import { useLenis } from "lenis/react";
+import gsap from "gsap";
 
 /**
- * Banner image config per theme.
- * Each theme has its own banner image and opacity.
+ * Banner config per theme.
+ * Each theme has its own looping background video and opacity.
  */
 const bannerConfig = {
   dark: {
-    src: "/images/banner-pixel-dark.png",
+    video: "/videos/dark-loop.mp4",
+    poster: "/images/banner-pixel-dark.png",
     opacity: 0.35,
   },
   light: {
-    src: "/images/banner-pixel-light.png",
+    video: "/videos/light-loop.mp4",
+    poster: "/images/banner-pixel-light.png",
     opacity: 0.45,
   },
   mint: {
-    src: "/images/banner-mint.png",
+    video: "/videos/mint-loop.mp4",
+    poster: "/images/banner-mint.png",
     opacity: 0.4,
   },
 } as const;
@@ -32,10 +36,29 @@ const bannerConfig = {
 export function Banner() {
   const [mounted, setMounted] = useState(false);
   const { theme } = useTheme();
+  const orb1Ref = useRef<HTMLDivElement>(null);
+  const orb2Ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     setMounted(true);
   }, []);
+
+  // Velocity-driven parallax — uses useLenis callback (no re-renders)
+  useLenis((lenis: { scroll: number; velocity: number }) => {
+    if (!orb1Ref.current || !orb2Ref.current) return;
+
+    const prefersReduced = window.matchMedia(
+      "(prefers-reduced-motion: reduce)"
+    ).matches;
+    if (prefersReduced) return;
+
+    // Orb 1: moves slower than scroll (parallax depth)
+    gsap.set(orb1Ref.current, { y: lenis.scroll * -0.3 });
+    // Orb 2: moves even slower + velocity influence
+    gsap.set(orb2Ref.current, {
+      y: lenis.scroll * -0.2 + lenis.velocity * 0.05,
+    });
+  });
 
   // Get current theme config, fallback to dark
   const currentTheme = (theme as keyof typeof bannerConfig) || "dark";
@@ -49,25 +72,27 @@ export function Banner() {
         boxShadow: "var(--shadow-md)",
       }}
     >
-      {/* Theme-specific banner - only render after mount to avoid hydration mismatch */}
+      {/* Theme-specific looping video banner */}
       {mounted && (
-        <Image
-          src={config.src}
-          alt=""
-          fill
-          loading="eager"
-          fetchPriority="high"
-          sizes="(min-width: 768px) 40vw, 100vw"
-          quality={80}
-          className="object-cover object-center transition-opacity duration-700 ease-in-out"
+        <video
+          key={config.video}
+          autoPlay
+          loop
+          muted
+          playsInline
+          className="absolute inset-0 w-full h-full object-cover transition-opacity duration-700 ease-in-out"
           style={{ opacity: config.opacity }}
-        />
+          poster={config.poster}
+        >
+          <source src={config.video} type="video/mp4" />
+        </video>
       )}
 
       {/* Animated gradient orbs */}
       {mounted && (
         <>
           <div
+            ref={orb1Ref}
             className="absolute w-[300px] h-[300px] rounded-full blur-[80px] animate-float"
             style={{
               background: "var(--accent-primary)",
@@ -77,6 +102,7 @@ export function Banner() {
             }}
           />
           <div
+            ref={orb2Ref}
             className="absolute w-[200px] h-[200px] rounded-full blur-[60px] animate-float-delayed"
             style={{
               background: "var(--accent-secondary)",

@@ -140,7 +140,7 @@
 }
 
 html {
-  scroll-behavior: smooth;
+  scroll-behavior: auto; /* Lenis handles smooth scroll */
 }
 
 @media (prefers-reduced-motion: reduce) {

@@ -3,6 +3,7 @@
 import { userData } from "@/data/user-data";
 import { GridLines } from "@/components/layout/grid-lines";
 import { TopNavbar } from "@/components/layout/top-navbar";
+import { ScrollProgress } from "@/components/layout/scroll-progress";
 import { RightNavbar } from "@/components/layout/right-navbar";
 import { Banner } from "@/components/sections/banner";
 import { ProfileHeader } from "@/components/sections/profile-header";
@@ -23,6 +24,9 @@ export default function Home() {
     <div
       className="min-h-[100dvh] w-full relative overflow-x-hidden transition-colors duration-300 bg-[var(--bg-primary)] text-[var(--text-primary)]"
     >
+      {/* Scroll Progress */}
+      <ScrollProgress />
+
       {/* Navigation */}
       <TopNavbar />
       <RightNavbar />
@@ -132,9 +136,9 @@ export default function Home() {
           <ExperienceList />
         </SectionDivider>
 
-        {/* Projects */}
+        {/* Projects - Staggered Grid */}
         <SectionDivider title="Projects" id="projects" viewAllHref="/projects">
-          <div className="relative pt-6 pb-12 px-4">
+          <div className="relative pt-6 pb-12">
             <ProjectsGrid />
           </div>
         </SectionDivider>

@@ -1,18 +1,55 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { CommandMenu } from "@/components/layout/command-menu";
+import { useScrollVelocity } from "@/hooks/use-scroll-velocity";
+import gsap from "gsap";
 
 export function TopNavbar() {
-  const [scrolled, setScrolled] = useState(false);
+  const { scroll, direction } = useScrollVelocity();
   const [activeSection, setActiveSection] = useState<string | null>(null);
+  const navRef = useRef<HTMLDivElement>(null);
+  const hiddenRef = useRef(false);
 
+  const scrolled = scroll > 20;
+
+  // Direction-aware hide/show via GSAP quickTo
   useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 20);
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+    if (!navRef.current) return;
 
+    const prefersReduced = window.matchMedia(
+      "(prefers-reduced-motion: reduce)"
+    ).matches;
+
+    // Hide on scroll-down past 200px, show on scroll-up
+    if (scroll > 200 && direction === 1 && !hiddenRef.current) {
+      hiddenRef.current = true;
+      if (prefersReduced) {
+        gsap.set(navRef.current, { y: -100, opacity: 0 });
+      } else {
+        gsap.to(navRef.current, {
+          y: -100,
+          opacity: 0,
+          duration: 0.4,
+          ease: "power2.inOut",
+        });
+      }
+    } else if (direction === -1 && hiddenRef.current) {
+      hiddenRef.current = false;
+      if (prefersReduced) {
+        gsap.set(navRef.current, { y: 0, opacity: 1 });
+      } else {
+        gsap.to(navRef.current, {
+          y: 0,
+          opacity: 1,
+          duration: 0.4,
+          ease: "power2.out",
+        });
+      }
+    }
+  }, [scroll, direction]);
+
+  // IntersectionObserver for active section tracking (right tool for the job)
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
@@ -41,7 +78,10 @@ export function TopNavbar() {
   ];
 
   return (
-    <nav className="fixed top-2 right-4 md:right-[31%] z-[100] pointer-events-auto">
+    <nav
+      ref={navRef}
+      className="fixed top-2 right-4 md:right-[31%] z-[100] pointer-events-auto"
+    >
       <div
         className="flex items-center gap-5 px-5 py-2.5 rounded-full transition-all duration-300"
         style={{

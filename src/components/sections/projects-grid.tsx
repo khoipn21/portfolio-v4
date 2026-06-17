@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useCallback } from "react";
+import { useRef } from "react";
 import { projects } from "@/data/user-data";
 import { ExternalLink, ChevronRight, ArrowUpRight } from "lucide-react";
 import { SiGithub } from "react-icons/si";
@@ -11,23 +11,14 @@ import { useGSAP } from "@gsap/react";
 
 gsap.registerPlugin(ScrollTrigger);
 
-/**
- * Stagger layout map per card index.
- * Creates an asymmetric bento-grid feel with varying row/col spans.
- *
- * Desktop (3-col):
- *   [0] 2col 2row  | [1] 1col 1row
- *   [0]            | [2] 1col 1row
- *   [3] 2col 1row  | [4] 1col 1row
- *
- * Mobile: single column, all cards equal height.
- */
-const GRID_MAP = [
-  { colSpan: "md:col-span-2", rowSpan: "md:row-span-2" },
-  { colSpan: "md:col-span-1", rowSpan: "md:row-span-1" },
-  { colSpan: "md:col-span-1", rowSpan: "md:row-span-1" },
-  { colSpan: "md:col-span-2", rowSpan: "md:row-span-1" },
-  { colSpan: "md:col-span-1", rowSpan: "md:row-span-1" },
+// Staggered grid layout configuration - each card gets different spans
+const gridLayouts = [
+  { colSpan: "md:col-span-2", rowSpan: "md:row-span-2", height: "h-64 md:h-full" }, // Large featured
+  { colSpan: "md:col-span-1", rowSpan: "md:row-span-1", height: "h-48" },           // Medium
+  { colSpan: "md:col-span-1", rowSpan: "md:row-span-1", height: "h-48" },           // Medium
+  { colSpan: "md:col-span-1", rowSpan: "md:row-span-2", height: "h-48 md:h-full" }, // Tall
+  { colSpan: "md:col-span-2", rowSpan: "md:row-span-1", height: "h-48" },           // Wide
+  { colSpan: "md:col-span-1", rowSpan: "md:row-span-1", height: "h-48" },           // Medium
 ];
 
 export function ProjectsGrid() {
@@ -43,35 +34,32 @@ export function ProjectsGrid() {
       const cards = gridRef.current.querySelectorAll(".project-card");
       if (!cards.length) return;
 
-      // Determine column count for center-outward stagger
-      const computedStyle = getComputedStyle(gridRef.current);
-      const colCount = computedStyle
-        .getPropertyValue("grid-template-columns")
-        .split(" ").length;
-      const middleCol = Math.floor(colCount / 2);
-
-      // Assign each card a column position for delay calculation
+      // Staggered entrance animation - cards appear from different directions
       cards.forEach((card, i) => {
-        const colIndex = i % colCount;
-        const delay = Math.abs(colIndex - middleCol) * 0.12;
+        const direction = i % 3 === 0 ? -30 : i % 3 === 1 ? 0 : 30;
+        const delay = i * 0.08;
 
         gsap.fromTo(
           card,
           {
-            y: 80,
             autoAlpha: 0,
+            y: 40,
+            x: direction,
             scale: 0.95,
+            rotation: direction > 0 ? 2 : direction < 0 ? -2 : 0,
           },
           {
-            y: 0,
             autoAlpha: 1,
+            y: 0,
+            x: 0,
             scale: 1,
+            rotation: 0,
             duration: 0.8,
             delay,
             ease: "power3.out",
             scrollTrigger: {
               trigger: card,
-              start: "top 88%",
+              start: "top 90%",
               toggleActions: "play none none none",
             },
           }
@@ -84,11 +72,11 @@ export function ProjectsGrid() {
   return (
     <div
       ref={gridRef}
-      className="grid grid-cols-1 md:grid-cols-3 gap-4 w-full auto-rows-[minmax(200px,auto)]"
+      className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-5 auto-rows-auto"
     >
       {projects.map((project, i) => {
-        const layout = GRID_MAP[i] ?? GRID_MAP[GRID_MAP.length - 1];
-        const isLarge = i === 0;
+        const layout = gridLayouts[i % gridLayouts.length];
+        const isFeatured = i === 0;
 
         return (
           <div
@@ -97,8 +85,11 @@ export function ProjectsGrid() {
           >
             {/* Double-Bezel: Outer Shell */}
             <div
-              className="rounded-[1.25rem] p-[2px] h-full transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)]"
-              style={{ background: "var(--border-accent)" }}
+              className="rounded-[1.25rem] p-[2px] h-full transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] group-hover:shadow-lg"
+              style={{
+                background: "var(--border-accent)",
+                boxShadow: "var(--shadow-sm)",
+              }}
             >
               {/* Double-Bezel: Inner Core */}
               <div
@@ -110,7 +101,7 @@ export function ProjectsGrid() {
               >
                 {/* Project image area */}
                 <div
-                  className={`relative overflow-hidden ${isLarge ? "h-48 md:h-full min-h-[180px]" : "h-36"}`}
+                  className={`relative overflow-hidden ${layout.height}`}
                   style={{ background: "var(--gradient-hero)" }}
                 >
                   {project.image ? (
@@ -119,7 +110,7 @@ export function ProjectsGrid() {
                       alt={project.title}
                       fill
                       className="object-cover transition-transform duration-700 ease-[cubic-bezier(0.32,0.72,0,1)] group-hover:scale-105"
-                      sizes="(min-width: 768px) 66vw, 100vw"
+                      sizes="(max-width: 768px) 100vw, 33vw"
                     />
                   ) : (
                     <>
@@ -141,22 +132,42 @@ export function ProjectsGrid() {
                     </>
                   )}
 
-                  {/* Hover overlay */}
+                  {/* Hover overlay with accent glow */}
                   <div
-                    className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-center justify-center"
+                    className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-all duration-500 flex items-center justify-center"
                     style={{
-                      background: "color-mix(in srgb, var(--bg-primary) 80%, transparent)",
+                      background: "color-mix(in srgb, var(--bg-primary) 85%, transparent)",
                     }}
                   >
-                    <ArrowUpRight
-                      className="w-7 h-7"
-                      style={{ color: "var(--accent-primary)" }}
-                    />
+                    <div className="flex items-center gap-2 px-4 py-2 rounded-full border backdrop-blur-sm"
+                      style={{
+                        borderColor: "var(--accent-primary)",
+                        background: "color-mix(in srgb, var(--accent-primary) 10%, transparent)",
+                        color: "var(--accent-primary)",
+                      }}
+                    >
+                      <span className="text-[12px] font-medium">View Project</span>
+                      <ArrowUpRight className="w-4 h-4" />
+                    </div>
                   </div>
+
+                  {/* Featured badge for first project */}
+                  {isFeatured && (
+                    <div
+                      className="absolute top-3 left-3 px-2.5 py-1 rounded-full text-[10px] font-semibold uppercase tracking-wider backdrop-blur-sm"
+                      style={{
+                        background: "color-mix(in srgb, var(--accent-primary) 15%, transparent)",
+                        color: "var(--accent-primary)",
+                        border: "1px solid var(--accent-primary)",
+                      }}
+                    >
+                      Featured
+                    </div>
+                  )}
                 </div>
 
-                {/* Content - only visible when not the large hero card, or on mobile */}
-                <div className={`p-5 flex flex-col flex-1 ${isLarge ? "md:hidden" : ""}`}>
+                {/* Content */}
+                <div className="p-5 flex flex-col flex-1">
                   <div className="flex items-start justify-between gap-2 mb-2">
                     <h3
                       className="text-[15px] font-semibold transition-colors duration-300 group-hover:text-[var(--accent-primary)]"
@@ -218,7 +229,7 @@ export function ProjectsGrid() {
                   </ul>
 
                   <div className="flex flex-wrap gap-1.5 mt-auto">
-                    {project.tech.slice(0, isLarge ? 6 : 4).map((t) => (
+                    {project.tech.slice(0, isFeatured ? 6 : 4).map((t) => (
                       <span
                         key={t}
                         className="px-2 py-0.5 rounded-full text-[10px] font-medium border transition-all duration-300 hover:scale-105"
@@ -233,75 +244,6 @@ export function ProjectsGrid() {
                     ))}
                   </div>
                 </div>
-
-                {/* Large card: overlay content on image (desktop only) */}
-                {isLarge && (
-                  <div className="hidden md:flex absolute inset-0 flex-col justify-end p-5 z-10 pointer-events-none">
-                    <div
-                      className="absolute inset-0"
-                      style={{
-                        background: "linear-gradient(to top, color-mix(in srgb, var(--bg-primary) 90%, transparent) 0%, transparent 60%)",
-                      }}
-                    />
-                    <div className="relative z-10">
-                      <div className="flex items-center gap-3 mb-2 pointer-events-auto">
-                        <h3
-                          className="text-[16px] font-semibold transition-colors duration-300 group-hover:text-[var(--accent-primary)]"
-                          style={{ color: "var(--text-primary)" }}
-                        >
-                          {project.title}
-                        </h3>
-                        <div className="flex items-center gap-2">
-                          {project.github && (
-                            <a
-                              href={project.github}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="transition-all duration-300 hover:scale-110"
-                              style={{ color: "var(--text-muted)" }}
-                              title="View on GitHub"
-                            >
-                              <SiGithub className="w-4 h-4" />
-                            </a>
-                          )}
-                          {project.live && (
-                            <a
-                              href={project.live}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="transition-all duration-300 hover:scale-110"
-                              style={{ color: "var(--text-muted)" }}
-                              title="View live"
-                            >
-                              <ExternalLink className="w-4 h-4" />
-                            </a>
-                          )}
-                        </div>
-                      </div>
-                      <p
-                        className="text-[13px] leading-relaxed mb-2 line-clamp-2"
-                        style={{ color: "var(--text-secondary)" }}
-                      >
-                        {project.description}
-                      </p>
-                      <div className="flex flex-wrap gap-1.5 pointer-events-auto">
-                        {project.tech.slice(0, 5).map((t) => (
-                          <span
-                            key={t}
-                            className="px-2 py-0.5 rounded-full text-[10px] font-medium border"
-                            style={{
-                              borderColor: "var(--border-accent)",
-                              color: "var(--text-tertiary)",
-                              background: "color-mix(in srgb, var(--bg-secondary) 80%, transparent)",
-                            }}
-                          >
-                            {t}
-                          </span>
-                        ))}
-                      </div>
-                    </div>
-                  </div>
-                )}
               </div>
             </div>
           </div>
