@@ -14,17 +14,14 @@ import gsap from "gsap";
 const bannerConfig = {
   dark: {
     video: "/videos/dark-loop.mp4",
-    poster: "/images/banner-pixel-dark.png",
     opacity: 0.35,
   },
   light: {
     video: "/videos/light-loop.mp4",
-    poster: "/images/banner-pixel-light.png",
     opacity: 0.45,
   },
   mint: {
     video: "/videos/mint-loop.mp4",
-    poster: "/images/banner-mint.png",
     opacity: 0.4,
   },
 } as const;
@@ -35,13 +32,20 @@ const bannerConfig = {
  */
 export function Banner() {
   const [mounted, setMounted] = useState(false);
+  const [videoReady, setVideoReady] = useState(false);
   const { theme } = useTheme();
   const orb1Ref = useRef<HTMLDivElement>(null);
   const orb2Ref = useRef<HTMLDivElement>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
     setMounted(true);
   }, []);
+
+  // Reset video ready state when theme changes
+  useEffect(() => {
+    setVideoReady(false);
+  }, [theme]);
 
   // Velocity-driven parallax — uses useLenis callback (no re-renders)
   useLenis((lenis: { scroll: number; velocity: number }) => {
@@ -72,17 +76,18 @@ export function Banner() {
         boxShadow: "var(--shadow-md)",
       }}
     >
-      {/* Theme-specific looping video banner */}
+      {/* Theme-specific looping video banner - hidden until ready */}
       {mounted && (
         <video
+          ref={videoRef}
           key={config.video}
           autoPlay
           loop
           muted
           playsInline
-          className="absolute inset-0 w-full h-full object-cover transition-opacity duration-700 ease-in-out"
-          style={{ opacity: config.opacity }}
-          poster={config.poster}
+          className="absolute inset-0 w-full h-full object-cover transition-opacity duration-500 ease-in-out"
+          style={{ opacity: videoReady ? config.opacity : 0 }}
+          onCanPlay={() => setVideoReady(true)}
         >
           <source src={config.video} type="video/mp4" />
         </video>
