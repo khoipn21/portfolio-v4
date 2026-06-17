@@ -1,0 +1,249 @@
+"use client";
+
+import { useRef, useState, useCallback } from "react";
+import { experiences } from "@/data/user-data";
+import { MapPin, Calendar, ChevronDown, Building2 } from "lucide-react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useGSAP } from "@gsap/react";
+
+gsap.registerPlugin(ScrollTrigger);
+
+/**
+ * Single collapsible experience card.
+ * Collapsed: company icon + role + company + period.
+ * Expanded: full description + tech tags.
+ */
+function ExperienceCard({
+  exp,
+  index,
+}: {
+  exp: (typeof experiences)[number];
+  index: number;
+}) {
+  const [expanded, setExpanded] = useState(false);
+  const contentRef = useRef<HTMLDivElement>(null);
+  const chevronRef = useRef<SVGSVGElement>(null);
+
+  const toggle = useCallback(() => {
+    if (!contentRef.current || !chevronRef.current) return;
+
+    if (!expanded) {
+      // Expand
+      setExpanded(true);
+      gsap.fromTo(
+        contentRef.current,
+        { height: 0, opacity: 0 },
+        {
+          height: "auto",
+          opacity: 1,
+          duration: 0.45,
+          ease: "power2.out",
+        }
+      );
+      gsap.to(chevronRef.current, {
+        rotation: 180,
+        duration: 0.3,
+        ease: "power2.out",
+      });
+    } else {
+      // Collapse
+      gsap.to(contentRef.current, {
+        height: 0,
+        opacity: 0,
+        duration: 0.35,
+        ease: "power2.inOut",
+        onComplete: () => setExpanded(false),
+      });
+      gsap.to(chevronRef.current, {
+        rotation: 0,
+        duration: 0.3,
+        ease: "power2.out",
+      });
+    }
+  }, [expanded]);
+
+  return (
+    <div className="group relative">
+      {/* Double-Bezel: Outer Shell */}
+      <div
+        className="rounded-[1rem] p-[1.5px] transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)]"
+        style={{ background: "var(--border-accent)" }}
+      >
+        {/* Double-Bezel: Inner Core */}
+        <div
+          className="rounded-[calc(1rem-1.5px)] overflow-hidden transition-all duration-500"
+          style={{
+            background: "var(--bg-card)",
+            boxShadow: "inset 0 1px 1px rgba(255,255,255,0.03)",
+          }}
+        >
+          {/* Clickable header - always visible */}
+          <button
+            onClick={toggle}
+            className="w-full text-left p-5 flex items-start gap-4 cursor-pointer transition-colors duration-200"
+            style={{ background: "transparent" }}
+            aria-expanded={expanded}
+          >
+            {/* Company icon placeholder */}
+            <div
+              className="w-10 h-10 rounded-[10px] flex items-center justify-center shrink-0 transition-all duration-300 group-hover:scale-105"
+              style={{
+                background: "var(--bg-secondary)",
+                border: "1px solid var(--border-accent)",
+              }}
+            >
+              <Building2
+                className="w-4.5 h-4.5"
+                style={{ color: "var(--accent-primary)" }}
+                strokeWidth={1.5}
+              />
+            </div>
+
+            {/* Role + company + meta */}
+            <div className="flex-1 min-w-0">
+              <div className="flex items-center gap-2 flex-wrap">
+                <h3
+                  className="text-[15px] font-semibold transition-colors duration-300"
+                  style={{ color: "var(--text-primary)" }}
+                >
+                  {exp.role}
+                </h3>
+                {exp.current && (
+                  <span
+                    className="px-2 py-0.5 rounded-full text-[9px] font-medium uppercase tracking-wider"
+                    style={{
+                      background: "var(--accent-glow)",
+                      color: "var(--accent-primary)",
+                    }}
+                  >
+                    Current
+                  </span>
+                )}
+              </div>
+              <p
+                className="text-[13px] font-medium mt-0.5"
+                style={{ color: "var(--accent-primary)" }}
+              >
+                {exp.company}
+              </p>
+              <div
+                className="flex items-center gap-3 text-[11px] mt-1.5 flex-wrap"
+                style={{ color: "var(--text-muted)" }}
+              >
+                <span className="flex items-center gap-1">
+                  <Calendar className="w-3 h-3" />
+                  {exp.period}
+                </span>
+                <span className="flex items-center gap-1">
+                  <MapPin className="w-3 h-3" />
+                  {exp.location}
+                </span>
+              </div>
+            </div>
+
+            {/* Chevron */}
+            <ChevronDown
+              ref={chevronRef}
+              className="w-4 h-4 shrink-0 mt-1 transition-colors duration-200"
+              style={{ color: "var(--text-muted)" }}
+            />
+          </button>
+
+          {/* Expandable content */}
+          <div
+            ref={contentRef}
+            className="overflow-hidden"
+            style={{ height: 0, opacity: 0 }}
+          >
+            <div className="px-5 pb-5 pt-0">
+              {/* Divider */}
+              <div
+                className="mb-4 h-0 border-t"
+                style={{ borderColor: "var(--border-accent)" }}
+              />
+
+              <ul className="space-y-2 mb-4">
+                {exp.description.map((desc, j) => (
+                  <li
+                    key={j}
+                    className="flex gap-2 text-[13px] leading-relaxed"
+                    style={{ color: "var(--text-secondary)" }}
+                  >
+                    <span
+                      className="mt-1.5 w-1 h-1 rounded-full shrink-0"
+                      style={{ background: "var(--accent-primary)" }}
+                    />
+                    <span>{desc}</span>
+                  </li>
+                ))}
+              </ul>
+
+              <div className="flex flex-wrap gap-1.5">
+                {exp.tech.map((t) => (
+                  <span
+                    key={t}
+                    className="px-2.5 py-1 rounded-full text-[10px] font-medium border transition-all duration-300 hover:scale-105"
+                    style={{
+                      borderColor: "var(--border-accent)",
+                      color: "var(--text-tertiary)",
+                      background: "var(--bg-secondary)",
+                    }}
+                  >
+                    {t}
+                  </span>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/**
+ * Experience list with collapsible cards.
+ * GSAP stagger fade-in on scroll, each card independently expandable.
+ */
+export function ExperienceList() {
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  useGSAP(
+    () => {
+      const prefersReduced = window.matchMedia(
+        "(prefers-reduced-motion: reduce)"
+      ).matches;
+      if (prefersReduced || !containerRef.current) return;
+
+      const cards = containerRef.current.querySelectorAll(".group.relative");
+      if (!cards.length) return;
+
+      gsap.fromTo(
+        cards,
+        { y: 30, autoAlpha: 0 },
+        {
+          y: 0,
+          autoAlpha: 1,
+          duration: 0.7,
+          stagger: 0.12,
+          ease: "power3.out",
+          scrollTrigger: {
+            trigger: containerRef.current,
+            start: "top 85%",
+            toggleActions: "play none none none",
+          },
+        }
+      );
+    },
+    { scope: containerRef }
+  );
+
+  return (
+    <div ref={containerRef} className="flex flex-col gap-3">
+      {experiences.map((exp, i) => (
+        <ExperienceCard key={i} exp={exp} index={i} />
+      ))}
+    </div>
+  );
+}

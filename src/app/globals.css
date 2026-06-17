@@ -1,26 +1,340 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+/* ========================================
+   THREE-THEME SYSTEM
+   ======================================== */
+
+/* Dark Theme - Technology Vibe */
+:root,
+[data-theme="dark"] {
+  --bg-primary: #000000;
+  --bg-secondary: #0a0a0a;
+  --bg-tertiary: #111111;
+  --bg-card: #0a0a0a;
+  --bg-card-hover: #121214;
+  --bg-accent: #1a1a2e;
+
+  --text-primary: #fafafa;
+  --text-secondary: #a1a1aa;
+  --text-tertiary: #71717a;
+  --text-muted: #52525b;
+
+  --border-primary: rgba(255, 255, 255, 0.15);
+  --border-secondary: rgba(255, 255, 255, 0.08);
+  --border-accent: rgba(255, 255, 255, 0.05);
+
+  --accent-primary: #6366f1;
+  --accent-secondary: #818cf8;
+  --accent-glow: rgba(99, 102, 241, 0.15);
+
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.4);
+  --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.5);
+
+  --gradient-hero: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #0a0a0a 100%);
+  --gradient-card: linear-gradient(135deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0.01) 100%);
+
+  --grid-line: rgba(255, 255, 255, 0.25);
+  --grid-dot: rgba(255, 255, 255, 0.4);
+
+  color-scheme: dark;
 }
 
+/* Light Theme - Warm Paper Vibe */
+[data-theme="light"] {
+  --bg-primary: #faf8f5;
+  --bg-secondary: #f5f0eb;
+  --bg-tertiary: #ede8e3;
+  --bg-card: #ffffff;
+  --bg-card-hover: #faf8f5;
+  --bg-accent: #f0ebe5;
+
+  --text-primary: #1a1a1a;
+  --text-secondary: #525252;
+  --text-tertiary: #737373;
+  --text-muted: #a3a3a3;
+
+  --border-primary: rgba(0, 0, 0, 0.12);
+  --border-secondary: rgba(0, 0, 0, 0.06);
+  --border-accent: rgba(0, 0, 0, 0.03);
+
+  --accent-primary: #d97706;
+  --accent-secondary: #f59e0b;
+  --accent-glow: rgba(217, 119, 6, 0.1);
+
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08);
+  --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.1);
+
+  --gradient-hero: linear-gradient(135deg, #faf8f5 0%, #f0ebe5 50%, #faf8f5 100%);
+  --gradient-card: linear-gradient(135deg, rgba(0,0,0,0.01) 0%, rgba(0,0,0,0.03) 100%);
+
+  --grid-line: rgba(0, 0, 0, 0.28);
+  --grid-dot: rgba(0, 0, 0, 0.42);
+
+  color-scheme: light;
+}
+
+/* Sea Glass Mint Theme - Fresh, Airy, Coastal */
+[data-theme="mint"] {
+  --bg-primary: #F2FBF7;
+  --bg-secondary: #E6F7F2;
+  --bg-tertiary: #D4F1E8;
+  --bg-card: #ffffff;
+  --bg-card-hover: #F2FBF7;
+  --bg-accent: #E6F7F2;
+
+  --text-primary: #0E5F4D;
+  --text-secondary: #1a7a63;
+  --text-tertiary: #2AAE8A;
+  --text-muted: #7BE7C5;
+
+  --border-primary: rgba(14, 95, 77, 0.2);
+  --border-secondary: rgba(42, 174, 138, 0.12);
+  --border-accent: rgba(123, 231, 197, 0.15);
+
+  --accent-primary: #0E5F4D;
+  --accent-secondary: #2AAE8A;
+  --accent-glow: rgba(42, 174, 138, 0.15);
+
+  --shadow-sm: 0 1px 2px rgba(14, 95, 77, 0.06);
+  --shadow-md: 0 4px 12px rgba(14, 95, 77, 0.1);
+  --shadow-lg: 0 8px 32px rgba(14, 95, 77, 0.12);
+
+  --gradient-hero: linear-gradient(135deg, #F2FBF7 0%, #E6F7F2 50%, #D4F1E8 100%);
+  --gradient-card: linear-gradient(135deg, rgba(14,95,77,0.02) 0%, rgba(42,174,138,0.04) 100%);
+
+  --grid-line: rgba(14, 95, 77, 0.25);
+  --grid-dot: rgba(42, 174, 138, 0.4);
+
+  color-scheme: light;
+}
+
+/* ========================================
+   BASE STYLES
+   ======================================== */
+
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
+  --color-background: var(--bg-primary);
+  --color-foreground: var(--text-primary);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--border-primary) transparent;
+}
+
+*::-webkit-scrollbar {
+  width: 6px;
+}
+
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: var(--border-primary);
+  border-radius: 3px;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: var(--font-sans), system-ui, -apple-system, sans-serif;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Selection colors per theme */
+::selection {
+  background: var(--accent-primary);
+  color: white;
+}
+
+[data-theme="light"] ::selection {
+  background: rgba(217, 119, 6, 0.2);
+  color: #1a1a1a;
+}
+
+[data-theme="mint"] ::selection {
+  background: rgba(42, 174, 138, 0.2);
+  color: #0E5F4D;
+}
+
+/* ========================================
+   UTILITY CLASSES
+   ======================================== */
+
+.text-gradient {
+  background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.glass-effect {
+  background: var(--bg-card);
+  backdrop-filter: blur(12px);
+  border: 1px solid var(--border-secondary);
+}
+
+.grid-line {
+  border-color: var(--grid-line);
+}
+
+.grid-dot {
+  background-color: var(--grid-dot);
+}
+
+/* Subtle noise texture overlay */
+.noise-overlay::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  opacity: 0.015;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Glow effect for dark theme */
+[data-theme="dark"] .glow-effect {
+  box-shadow: 0 0 20px var(--accent-glow), 0 0 60px rgba(99, 102, 241, 0.05);
+}
+
+/* Warm shadow for light theme */
+[data-theme="light"] .warm-shadow {
+  box-shadow: 0 4px 20px rgba(217, 119, 6, 0.06), 0 1px 3px rgba(0, 0, 0, 0.04);
+}
+
+/* Mint glow for mint theme */
+[data-theme="mint"] .mint-glow {
+  box-shadow: 0 0 20px rgba(42, 174, 138, 0.12), 0 0 60px rgba(42, 174, 138, 0.06);
+}
+
+/* ========================================
+   ANIMATIONS
+   ======================================== */
+
+@keyframes float {
+  0%, 100% {
+    transform: translate(0, 0) scale(1);
+  }
+  33% {
+    transform: translate(10px, -10px) scale(1.05);
+  }
+  66% {
+    transform: translate(-5px, 5px) scale(0.95);
+  }
+}
+
+@keyframes float-delayed {
+  0%, 100% {
+    transform: translate(0, 0) scale(1);
+  }
+  33% {
+    transform: translate(-10px, 10px) scale(0.95);
+  }
+  66% {
+    transform: translate(5px, -5px) scale(1.05);
+  }
+}
+
+@keyframes pulse-glow {
+  0%, 100% {
+    opacity: 0.3;
+  }
+  50% {
+    opacity: 0.6;
+  }
+}
+
+@keyframes slide-in-left {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slide-in-right {
+  from {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-float {
+  animation: float 8s ease-in-out infinite;
+}
+
+.animate-float-delayed {
+  animation: float-delayed 10s ease-in-out infinite;
+  animation-delay: -3s;
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 3s ease-in-out infinite;
+}
+
+.animate-slide-in-left {
+  animation: slide-in-left 0.6s ease-out forwards;
+}
+
+.animate-slide-in-right {
+  animation: slide-in-right 0.6s ease-out forwards;
+}
+
+.animate-fade-in-up {
+  animation: fade-in-up 0.6s ease-out forwards;
+}
+
+/* Respect reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+  .animate-float,
+  .animate-float-delayed,
+  .animate-pulse-glow,
+  .animate-slide-in-left,
+  .animate-slide-in-right,
+  .animate-fade-in-up {
+    animation: none !important;
+  }
 }

@@ -1,65 +1,188 @@
-import Image from "next/image";
+"use client";
+
+import { userData } from "@/data/user-data";
+import { GridLines } from "@/components/layout/grid-lines";
+import { TopNavbar } from "@/components/layout/top-navbar";
+import { RightNavbar } from "@/components/layout/right-navbar";
+import { Banner } from "@/components/sections/banner";
+import { ProfileHeader } from "@/components/sections/profile-header";
+import { SocialLinks } from "@/components/sections/social-links";
+import { SectionDivider } from "@/components/layout/section-divider";
+import { ExperienceList } from "@/components/sections/experience-list";
+import { ProjectsGrid } from "@/components/sections/projects-grid";
+import { GithubGraph } from "@/components/sections/github-graph";
+// import { OpenSourceContributions } from "@/components/sections/open-source-contributions";
+import { SkillsGrid } from "@/components/sections/skills-grid";
+// import { BlogList } from "@/components/sections/blog-list";
+import { FooterBackground } from "@/components/sections/footer-background";
+import { Calendar, Mail } from "lucide-react";
+import Link from "next/link";
 
 export default function Home() {
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+    <div
+      className="min-h-[100dvh] w-full relative overflow-x-hidden transition-colors duration-300 bg-[var(--bg-primary)] text-[var(--text-primary)]"
+    >
+      {/* Navigation */}
+      <TopNavbar />
+      <RightNavbar />
+
+      {/* Blueprint grid lines */}
+      <GridLines />
+
+      {/* Banner */}
+      <Banner />
+
+      {/* Profile Header */}
+      <ProfileHeader />
+
+      {/* Main Content */}
+      <div className="ml-0 mr-0 md:ml-[30%] md:mr-[30%] pt-[calc(22vh+112px)] pb-0 px-4 flex flex-col z-10 relative min-h-[100dvh]">
+        {/* Bio */}
+        <p
+          className="text-[14px] sm:text-[15px] leading-relaxed mt-4"
+          style={{ color: "var(--text-secondary)" }}
+        >
+          {userData.bio}
+        </p>
+
+        {/* Highlights */}
+        <ul
+          className="text-[14px] sm:text-[15px] leading-relaxed mt-4 pl-4"
+          style={{ color: "var(--text-secondary)" }}
+        >
+          {userData.highlights.map((h, i) => (
+            <li key={i} className="flex gap-1.5">
+              <span>•</span>
+              <span>{h}</span>
+            </li>
+          ))}
+        </ul>
+
+        {/* Action Buttons - Button-in-Button pattern (high-end visual design) */}
+        <div className="flex flex-wrap items-center gap-3 mt-5">
+          {/* Primary CTA with nested icon circle */}
+          <Link
+            href={`mailto:${userData.email}`}
+            className="group flex items-center gap-2 pl-4 pr-1.5 py-1.5 rounded-full text-[12px] font-medium transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] hover:scale-[1.03] active:scale-[0.98]"
+            style={{
+              background: "var(--accent-primary)",
+              color: "white",
+            }}
           >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+            <Calendar className="w-3.5 h-3.5" />
+            Book an intro call
+            {/* Button-in-Button: nested icon circle */}
+            <span
+              className="w-7 h-7 rounded-full flex items-center justify-center transition-all duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-[1px]"
+              style={{
+                background: "rgba(255,255,255,0.2)",
+              }}
+            >
+              <svg
+                viewBox="0 0 24 24"
+                className="w-3 h-3"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2.5"
+              >
+                <line x1="7" y1="17" x2="17" y2="7"></line>
+                <polyline points="7 7 17 7 17 17"></polyline>
+              </svg>
+            </span>
+          </Link>
+          {/* Secondary CTA */}
+          <Link
+            href={`mailto:${userData.email}`}
+            className="group flex items-center gap-2 pl-4 pr-1.5 py-1.5 rounded-full text-[12px] font-medium transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] border hover:scale-[1.03] active:scale-[0.98]"
+            style={{
+              background: "var(--bg-card)",
+              borderColor: "var(--border-accent)",
+              color: "var(--text-tertiary)",
+            }}
           >
-            Documentation
-          </a>
+            <Mail className="w-3.5 h-3.5 opacity-70 group-hover:opacity-100 transition-opacity duration-300" />
+            Send an email
+            {/* Button-in-Button: nested icon circle */}
+            <span
+              className="w-7 h-7 rounded-full flex items-center justify-center transition-all duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-[1px]"
+              style={{
+                background: "var(--bg-secondary)",
+              }}
+            >
+              <svg
+                viewBox="0 0 24 24"
+                className="w-3 h-3"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2.5"
+              >
+                <line x1="7" y1="17" x2="17" y2="7"></line>
+                <polyline points="7 7 17 7 17 17"></polyline>
+              </svg>
+            </span>
+          </Link>
         </div>
-      </main>
+
+        {/* Socials */}
+        <SocialLinks />
+
+        {/* Experiences */}
+        <SectionDivider title="Experiences" id="experience" viewAllHref="/experience">
+          <ExperienceList />
+        </SectionDivider>
+
+        {/* Projects */}
+        <SectionDivider title="Projects" id="projects" viewAllHref="/projects">
+          <div className="relative pt-6 pb-12 px-4">
+            <ProjectsGrid />
+          </div>
+        </SectionDivider>
+
+        {/* GitHub Graph */}
+        <GithubGraph />
+
+        {/* Open Source Contributions - temporarily hidden */}
+        {/* <div id="opensource" className="scroll-mt-24">
+          <OpenSourceContributions />
+        </div> */}
+
+        {/* Skills */}
+        <SectionDivider title="Skills & Technologies" id="skills">
+          <SkillsGrid />
+        </SectionDivider>
+
+        {/* Blogs - temporarily hidden */}
+        {/* <SectionDivider title="Blogs" id="blogs" viewAllHref="#" viewAllLabel="View on Medium">
+          <BlogList />
+        </SectionDivider> */}
+
+        {/* Quote */}
+        <div className="mt-12 flex flex-col items-center justify-center relative py-12">
+          <div className="max-w-[480px] w-full flex flex-col items-center">
+            <h3
+              className="text-[16px] font-medium text-center leading-relaxed mb-6 italic"
+              style={{ color: "var(--text-tertiary)" }}
+            >
+              &quot;Do so much work that it would be unreasonable
+              <br className="hidden md:block" /> for you to not be successful.&quot;
+            </h3>
+            <div
+              className="flex items-center gap-3 text-[10px] font-medium tracking-[0.2em] uppercase"
+              style={{ color: "var(--text-muted)" }}
+            >
+              <div className="w-4 h-[1px]" style={{ background: "var(--border-secondary)" }} />
+              ALEX HORMOZI
+              <div className="w-4 h-[1px]" style={{ background: "var(--border-secondary)" }} />
+            </div>
+          </div>
+        </div>
+
+        {/* Footer */}
+        <div className="flex-grow w-[calc(100%+32px)] -mx-4 h-[300px] relative mt-4">
+          <FooterBackground />
+        </div>
+      </div>
     </div>
   );
 }
