@@ -13,6 +13,16 @@ const eslintConfig = defineConfig([
     "build/**",
     "next-env.d.ts",
   ]),
+  // Custom rules for hydration safety
+  {
+    rules: {
+      // Warn about potential hydration issues
+      "react/no-danger": "warn",
+      "react/no-find-dom-node": "error",
+      // Ensure suppressHydrationWarning is used intentionally
+      "react/no-unknown-property": "error",
+    },
+  },
 ]);
 
 export default eslintConfig;

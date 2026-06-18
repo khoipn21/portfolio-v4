@@ -2,8 +2,6 @@
 
 import { useRef } from "react";
 import { userData } from "@/data/user-data";
-import { ThemeToggle } from "@/components/theme-toggle";
-import { CommandMenu } from "@/components/layout/command-menu";
 import Image from "next/image";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -69,11 +67,11 @@ export function ProfileHeader() {
   return (
     <div
       ref={containerRef}
-      className="absolute left-0 right-0 md:left-[30%] md:right-[30%] top-[22vh] h-[112px] flex items-center px-4 z-50"
+      className="absolute left-0 right-0 md:left-[15%] md:right-[15%] lg:left-[30%] lg:right-[30%] top-[22vh] flex items-start px-4 z-50 pt-6"
     >
-      <div className="flex w-full items-center justify-between">
-        <div className="flex items-center gap-4 sm:gap-5">
-          {/* Avatar with pixel art style and Double-Bezel frame */}
+      <div className="flex w-full items-start justify-between">
+        {/* Avatar + Name - stacked on mobile/tablet, side-by-side on desktop */}
+        <div className="flex flex-col items-start gap-2 lg:flex-row lg:items-center lg:gap-5">          {/* Avatar with pixel art style and Double-Bezel frame */}
           <div
             className="relative p-[3px] rounded-[12px] sm:rounded-[14px] border-[1.5px] shrink-0 transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)]"
             style={{ borderColor: "var(--border-primary)" }}
@@ -98,10 +96,10 @@ export function ProfileHeader() {
             </div>
           </div>
 
-          <div className="flex flex-col justify-center">
+          <div className="flex flex-col items-start">
             <h1
               ref={nameRef}
-              className="text-[20px] sm:text-[24px] font-bold tracking-tight leading-none mb-0.5 overflow-hidden"
+              className="text-[20px] sm:text-[24px] font-bold tracking-tight leading-none mb-0.5 overflow-hidden whitespace-nowrap"
               style={{
                 color: "var(--text-primary)",
               }}
@@ -109,17 +107,12 @@ export function ProfileHeader() {
               {userData.name}
             </h1>
             <p
-              className="text-[13px] sm:text-[14px]"
+              className="text-[13px] sm:text-[14px] max-w-none"
               style={{ color: "var(--text-tertiary)" }}
             >
               {userData.headline}
             </p>
           </div>
-        </div>
-
-        <div className="flex items-start justify-end gap-2 sm:gap-3 h-20 sm:h-24 py-1">
-          <CommandMenu />
-          <ThemeToggle />
         </div>
       </div>
     </div>

@@ -122,21 +122,14 @@
 }
 
 * {
-  scrollbar-width: thin;
-  scrollbar-color: var(--border-primary) transparent;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
 }
 
 *::-webkit-scrollbar {
-  width: 6px;
-}
-
-*::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-*::-webkit-scrollbar-thumb {
-  background-color: var(--border-primary);
-  border-radius: 3px;
+  width: 0;
+  height: 0;
+  display: none;
 }
 
 html {
@@ -337,4 +330,9 @@ body {
   .animate-fade-in-up {
     animation: none !important;
   }
+}
+
+/* Skill icon dark mode inversion - only applies when data-theme is dark */
+[data-theme="dark"] .skill-icon-invert {
+  filter: invert(1);
 }

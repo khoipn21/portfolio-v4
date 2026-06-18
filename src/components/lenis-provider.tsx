@@ -3,6 +3,7 @@
 import { useEffect, type ReactNode } from "react";
 import { ReactLenis, useLenis } from "lenis/react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { usePathname } from "next/navigation";
 
 interface LenisProviderProps {
   children: ReactNode;
@@ -10,9 +11,23 @@ interface LenisProviderProps {
 
 /**
  * Inner component that pipes Lenis scroll events to GSAP ScrollTrigger.
- * Separated so useLenis() has access to the Lenis context.
+ * Resets scroll position on route change.
  */
 function LenisBridge() {
+  const pathname = usePathname();
+  const lenis = useLenis();
+
+  // Reset scroll position on route change
+  useEffect(() => {
+    if (lenis) {
+      lenis.scrollTo(0, { immediate: true });
+      lenis.resize();
+      requestAnimationFrame(() => {
+        ScrollTrigger.refresh(true);
+      });
+    }
+  }, [pathname, lenis]);
+
   useLenis(() => {
     ScrollTrigger.update();
   });
@@ -22,24 +37,33 @@ function LenisBridge() {
 
 /**
  * Wraps the app with Lenis smooth scroll.
- * - autoRaf: true — Lenis handles its own RAF loop (no ticker bridge needed)
- * - ScrollTrigger.update piped from lenis scroll events via useLenis
- * - lagSmoothing adjusted on mount for responsive scroll-linked animations
+ * Uses key to force reinitialize on route changes.
  */
 export function LenisProvider({ children }: LenisProviderProps) {
-  // Disable GSAP's lag smoothing once on mount
+  const pathname = usePathname();
+
   useEffect(() => {
-    ScrollTrigger.refresh();
+    ScrollTrigger.config({
+      limitCallbacks: true,
+      ignoreMobileResize: true,
+    });
+
+    return () => {
+      ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
+    };
   }, []);
 
   return (
     <ReactLenis
+      key={pathname}
       root
       options={{
         autoRaf: true,
-        lerp: 0.08,
+        lerp: 0.1,
         smoothWheel: true,
         syncTouch: false,
+        touchMultiplier: 1.5,
+        infinite: false,
       }}
     >
       <LenisBridge />

@@ -21,9 +21,7 @@ import Link from "next/link";
 
 export default function Home() {
   return (
-    <div
-      className="min-h-[100dvh] w-full relative overflow-x-hidden transition-colors duration-300 bg-[var(--bg-primary)] text-[var(--text-primary)]"
-    >
+    <div className="min-h-[100dvh] w-full relative overflow-x-hidden transition-colors duration-300 bg-[var(--bg-primary)] text-[var(--text-primary)]">
       {/* Scroll Progress */}
       <ScrollProgress />
 
@@ -41,7 +39,7 @@ export default function Home() {
       <ProfileHeader />
 
       {/* Main Content */}
-      <div className="ml-0 mr-0 md:ml-[30%] md:mr-[30%] pt-[calc(22vh+112px)] pb-0 px-4 flex flex-col z-10 relative min-h-[100dvh]">
+      <div className="ml-0 mr-0 md:ml-[15%] md:mr-[15%] lg:ml-[30%] lg:mr-[30%] pt-[calc(22vh+160px)] lg:pt-[calc(22vh+112px)] pb-0 px-4 flex flex-col z-10 relative min-h-[100dvh]">
         {/* Bio */}
         <p
           className="text-[14px] sm:text-[15px] leading-relaxed mt-4"
@@ -132,13 +130,19 @@ export default function Home() {
         <SocialLinks />
 
         {/* Experiences */}
-        <SectionDivider title="Experiences" id="experience" viewAllHref="/experience">
-          <ExperienceList />
+        <SectionDivider
+          title="Experiences"
+          id="experience"
+          viewAllHref="/experience"
+        >
+          <div className="relative pt-6">
+            <ExperienceList />
+          </div>
         </SectionDivider>
 
         {/* Projects - Staggered Grid */}
         <SectionDivider title="Projects" id="projects" viewAllHref="/projects">
-          <div className="relative pt-6 pb-12">
+          <div className="relative pt-6">
             <ProjectsGrid />
           </div>
         </SectionDivider>
@@ -169,15 +173,22 @@ export default function Home() {
               style={{ color: "var(--text-tertiary)" }}
             >
               &quot;Do so much work that it would be unreasonable
-              <br className="hidden md:block" /> for you to not be successful.&quot;
+              <br className="hidden md:block" /> for you to not be
+              successful.&quot;
             </h3>
             <div
               className="flex items-center gap-3 text-[10px] font-medium tracking-[0.2em] uppercase"
               style={{ color: "var(--text-muted)" }}
             >
-              <div className="w-4 h-[1px]" style={{ background: "var(--border-secondary)" }} />
+              <div
+                className="w-4 h-[1px]"
+                style={{ background: "var(--border-secondary)" }}
+              />
               ALEX HORMOZI
-              <div className="w-4 h-[1px]" style={{ background: "var(--border-secondary)" }} />
+              <div
+                className="w-4 h-[1px]"
+                style={{ background: "var(--border-secondary)" }}
+              />
             </div>
           </div>
         </div>

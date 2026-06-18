@@ -1,24 +1,35 @@
 "use client";
 
 import { useEffect, useState, useCallback } from "react";
+import { createPortal } from "react-dom";
 import { Search, Command } from "lucide-react";
 import { useLenis } from "lenis/react";
 
 export function CommandMenu() {
   const [open, setOpen] = useState(false);
+  const [mounted, setMounted] = useState(false);
   const lenis = useLenis();
 
+  /* eslint-disable react-hooks/set-state-in-effect */
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+  /* eslint-enable react-hooks/set-state-in-effect */
+
   const handleKeyDown = useCallback((e: KeyboardEvent) => {
-    if ((e.metaKey || e.ctrlKey) && e.key === "k") {
+    if ((e.metaKey || e.ctrlKey) && (e.key === "k" || e.key === "K" || e.code === "KeyK")) {
       e.preventDefault();
+      e.stopPropagation();
       setOpen((prev) => !prev);
     }
     if (e.key === "Escape") setOpen(false);
   }, []);
 
   useEffect(() => {
-    document.addEventListener("keydown", handleKeyDown);
-    return () => document.removeEventListener("keydown", handleKeyDown);
+    // capture phase so we intercept before the browser's own Ctrl/Cmd+K binding
+    window.addEventListener("keydown", handleKeyDown, { capture: true });
+    return () =>
+      window.removeEventListener("keydown", handleKeyDown, { capture: true });
   }, [handleKeyDown]);
 
   const scrollToSection = useCallback(
@@ -60,51 +71,60 @@ export function CommandMenu() {
         </kbd>
       </button>
 
-      {/* Command palette overlay */}
-      {open && (
-        <div className="fixed inset-0 z-[200] flex items-start justify-center pt-[20vh]" onClick={() => setOpen(false)} data-lenis-prevent>
-          <div className="absolute inset-0 bg-black/40 backdrop-blur-sm" />
-          <div
-            className="relative w-full max-w-md mx-4 rounded-xl border overflow-hidden"
-            style={{
-              background: "var(--bg-card)",
-              borderColor: "var(--border-secondary)",
-              boxShadow: "var(--shadow-lg)",
-            }}
-            onClick={(e) => e.stopPropagation()}
-          >
-            <div className="flex items-center gap-3 px-4 py-3 border-b" style={{ borderColor: "var(--border-accent)" }}>
-              <Search className="w-4 h-4" style={{ color: "var(--text-muted)" }} />
-              <input
-                autoFocus
-                placeholder="Type a command..."
-                className="flex-1 bg-transparent text-sm outline-none placeholder:text-[var(--text-muted)]"
-                style={{ color: "var(--text-primary)" }}
-              />
+      {/* Command palette overlay - portaled to body so it escapes the nav's
+          transformed stacking context and covers the full viewport */}
+      {open && mounted &&
+        createPortal(
+          <div className="fixed inset-0 z-[300] flex items-start justify-center pt-[20vh]" onClick={() => setOpen(false)} data-lenis-prevent>
+            <div
+              className="absolute inset-0 backdrop-blur-xl"
+              style={{
+                background:
+                  "color-mix(in srgb, var(--bg-primary) 80%, transparent)",
+              }}
+            />
+            <div
+              className="relative w-full max-w-md mx-4 rounded-xl border overflow-hidden"
+              style={{
+                background: "var(--bg-card)",
+                borderColor: "var(--border-secondary)",
+                boxShadow: "var(--shadow-lg)",
+              }}
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="flex items-center gap-3 px-4 py-3 border-b" style={{ borderColor: "var(--border-accent)" }}>
+                <Search className="w-4 h-4" style={{ color: "var(--text-muted)" }} />
+                <input
+                  autoFocus
+                  placeholder="Type a command..."
+                  className="flex-1 bg-transparent text-sm outline-none placeholder:text-[var(--text-muted)]"
+                  style={{ color: "var(--text-primary)" }}
+                />
+              </div>
+              <div className="py-2 max-h-64 overflow-y-auto">
+                {commands.map((cmd, i) => (
+                  <button
+                    key={i}
+                    onClick={() => { cmd.action(); setOpen(false); }}
+                    className="w-full text-left px-4 py-2.5 text-sm transition-colors duration-150 flex items-center gap-3"
+                    style={{ color: "var(--text-secondary)" }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.background = "var(--bg-secondary)";
+                      e.currentTarget.style.color = "var(--text-primary)";
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.background = "transparent";
+                      e.currentTarget.style.color = "var(--text-secondary)";
+                    }}
+                  >
+                    {cmd.label}
+                  </button>
+                ))}
+              </div>
             </div>
-            <div className="py-2 max-h-64 overflow-y-auto">
-              {commands.map((cmd, i) => (
-                <button
-                  key={i}
-                  onClick={() => { cmd.action(); setOpen(false); }}
-                  className="w-full text-left px-4 py-2.5 text-sm transition-colors duration-150 flex items-center gap-3"
-                  style={{ color: "var(--text-secondary)" }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.background = "var(--bg-secondary)";
-                    e.currentTarget.style.color = "var(--text-primary)";
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.background = "transparent";
-                    e.currentTarget.style.color = "var(--text-secondary)";
-                  }}
-                >
-                  {cmd.label}
-                </button>
-              ))}
-            </div>
-          </div>
-        </div>
-      )}
+          </div>,
+          document.body
+        )}
     </>
   );
 }

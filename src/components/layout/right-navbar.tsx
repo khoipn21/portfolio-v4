@@ -1,9 +1,21 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useLenis } from "lenis/react";
 
 export function RightNavbar() {
   const [activeSection, setActiveSection] = useState<string | null>(null);
+  const lenis = useLenis();
+
+  const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, id: string) => {
+    e.preventDefault();
+    const el = document.getElementById(id);
+    if (el && lenis) {
+      lenis.scrollTo(el, { offset: -80, duration: 1.2 });
+    } else if (el) {
+      el.scrollIntoView({ behavior: "smooth" });
+    }
+  };
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -60,6 +72,7 @@ export function RightNavbar() {
           <a
             key={link.name}
             href={link.href}
+            onClick={(e) => handleNavClick(e, link.id)}
             className="flex items-center gap-3 group relative"
           >
             <span

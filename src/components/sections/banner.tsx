@@ -72,7 +72,7 @@ export function Banner() {
 
   return (
     <div
-      className="absolute left-0 right-0 md:left-[30%] md:right-[30%] top-0 h-[22vh] -z-0 pointer-events-auto overflow-hidden"
+      className="absolute left-0 right-0 md:left-[15%] md:right-[15%] lg:left-[30%] lg:right-[30%] top-0 h-[22vh] -z-0 pointer-events-auto overflow-hidden"
       style={{
         background: "var(--gradient-hero)",
         boxShadow: "var(--shadow-md)",
