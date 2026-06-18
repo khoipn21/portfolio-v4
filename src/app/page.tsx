@@ -39,7 +39,7 @@ export default function Home() {
       <ProfileHeader />
 
       {/* Main Content */}
-      <div className="ml-0 mr-0 md:ml-[15%] md:mr-[15%] lg:ml-[30%] lg:mr-[30%] pt-[calc(22vh+160px)] lg:pt-[calc(22vh+112px)] pb-0 px-4 flex flex-col z-10 relative min-h-[100dvh]">
+      <main className="ml-0 mr-0 md:ml-[15%] md:mr-[15%] lg:ml-[30%] lg:mr-[30%] pt-[calc(22vh+160px)] lg:pt-[calc(22vh+112px)] pb-0 px-4 flex flex-col z-10 relative min-h-[100dvh]">
         {/* Bio */}
         <p
           className="text-[14px] sm:text-[15px] leading-relaxed mt-4"
@@ -87,6 +87,7 @@ export default function Home() {
                 fill="none"
                 stroke="currentColor"
                 strokeWidth="2.5"
+                aria-hidden="true"
               >
                 <line x1="7" y1="17" x2="17" y2="7"></line>
                 <polyline points="7 7 17 7 17 17"></polyline>
@@ -118,6 +119,7 @@ export default function Home() {
                 fill="none"
                 stroke="currentColor"
                 strokeWidth="2.5"
+                aria-hidden="true"
               >
                 <line x1="7" y1="17" x2="17" y2="7"></line>
                 <polyline points="7 7 17 7 17 17"></polyline>
@@ -197,7 +199,7 @@ export default function Home() {
         <div className="flex-grow w-[calc(100%+32px)] -mx-4 h-[300px] relative mt-4">
           <FooterBackground />
         </div>
-      </div>
+      </main>
     </div>
   );
 }

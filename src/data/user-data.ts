@@ -9,7 +9,7 @@ export const userData = {
   github: "https://github.com/khoipn21",
   githubUsername: "khoipn21",
   linkedin: "https://linkedin.com/in/khoipn21",
-  portfolio: "https://portfolio.khoipn.id.vn",
+  portfolio: "https://portfolio.khoipn.com",
   bio: "Software engineer focused on React, Next.js, React Native, and TypeScript. I love building, breaking, and shipping things that make a difference.",
   highlights: [
     "Full-stack developer passionate about clean UI and robust backends.",

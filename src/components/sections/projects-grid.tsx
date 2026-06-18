@@ -215,7 +215,7 @@ export function ProjectsGrid() {
                           type="button"
                           className="transition-all duration-300 hover:scale-110"
                           style={{ color: "var(--text-muted)" }}
-                          title="View on GitHub"
+                          aria-label={`View ${project.title} on GitHub`}
                           onClick={(e) => {
                             e.preventDefault();
                             e.stopPropagation();
@@ -234,7 +234,7 @@ export function ProjectsGrid() {
                           type="button"
                           className="transition-all duration-300 hover:scale-110"
                           style={{ color: "var(--text-muted)" }}
-                          title="View live"
+                          aria-label={`View ${project.title} live demo`}
                           onClick={(e) => {
                             e.preventDefault();
                             e.stopPropagation();

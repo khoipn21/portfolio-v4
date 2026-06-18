@@ -1,7 +1,7 @@
 import type { MetadataRoute } from "next";
 import { projects } from "@/data/user-data";
 
-const SITE_URL = "https://portfolio.khoipn.id.vn";
+const SITE_URL = "https://portfolio.khoipn.com";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const now = new Date();

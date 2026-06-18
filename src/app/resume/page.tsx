@@ -22,18 +22,21 @@ export default function ResumePage() {
             <ArrowLeft className="w-3.5 h-3.5" />
             Back to home
           </Link>
-          <button
+          <a
+            href="https://cdn.khoipn.com/resume/KhoiPham_Resume.pdf"
+            download
+            target="_blank"
+            rel="noopener noreferrer"
             className="flex items-center gap-1.5 px-3 py-1.5 rounded-md text-[12px] font-medium border transition-colors duration-200"
             style={{
               background: "var(--bg-card)",
               borderColor: "var(--border-accent)",
               color: "var(--text-secondary)",
             }}
-            onClick={() => window.print()}
           >
             <Download className="w-3.5 h-3.5" />
             Download PDF
-          </button>
+          </a>
         </div>
 
         {/* Resume content */}
@@ -73,7 +76,7 @@ export default function ResumePage() {
               <span>•</span>
               <a href={userData.portfolio} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1 hover:underline">
                 <Globe className="w-3 h-3" />
-                portfolio.khoipn.id.vn
+                portfolio.khoipn.com
               </a>
             </div>
           </div>

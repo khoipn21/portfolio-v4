@@ -86,11 +86,12 @@ export function ProfileHeader() {
               {/* Pixel art avatar */}
               <Image
                 src="/images/pixel-avatar.gif"
-                alt="Pixel Art Avatar"
+                alt="Pixel art avatar of Pham Ngoc Khoi"
                 width={96}
                 height={96}
                 className="h-full w-full object-cover"
                 style={{ imageRendering: "pixelated" }}
+                priority
                 unoptimized
               />
             </div>

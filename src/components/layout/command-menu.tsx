@@ -55,6 +55,7 @@ export function CommandMenu() {
     <>
       <button
         onClick={() => setOpen(true)}
+        aria-label="Open command menu (Ctrl+K)"
         className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-md text-[11px] transition-colors duration-200 border"
         style={{
           color: "var(--text-tertiary)",

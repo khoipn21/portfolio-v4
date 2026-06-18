@@ -57,11 +57,13 @@ export function SkillsGrid() {
                 // eslint-disable-next-line @next/next/no-img-element
                 <img
                   src={iconUrl}
-                  alt={skill.name}
+                  alt=""
+                  role="presentation"
                   width={14}
                   height={14}
                   className={`h-3.5 w-3.5 opacity-80${needsInversion ? " skill-icon-invert" : ""}`}
                   loading="lazy"
+                  decoding="async"
                   onError={() => handleIconError(skill.icon)}
                 />
               ) : (

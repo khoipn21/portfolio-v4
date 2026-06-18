@@ -38,7 +38,7 @@ export default function ContactPage() {
     {
       icon: <Globe className="w-5 h-5" />,
       label: "Portfolio",
-      value: "portfolio.khoipn.id.vn",
+      value: "portfolio.khoipn.com",
       href: userData.portfolio,
     },
   ];

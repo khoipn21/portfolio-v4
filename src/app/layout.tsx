@@ -16,7 +16,7 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-const SITE_URL = "https://portfolio.khoipn.id.vn";
+const SITE_URL = "https://portfolio.khoipn.com";
 const TITLE = "Pham Ngoc Khoi — Full-Stack Developer";
 const DESCRIPTION =
   "Full-stack developer focused on React, Next.js, React Native, TypeScript, and Go. Building scalable e-commerce, proptech, and ed-tech products.";

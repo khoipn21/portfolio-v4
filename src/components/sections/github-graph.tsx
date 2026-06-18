@@ -58,10 +58,11 @@ export function GithubGraph() {
         >
           <Image
             src={`https://github-readme-stats.vercel.app/api?username=${userData.githubUsername}&show_icons=true&theme=transparent&hide_border=true&count_private=true`}
-            alt="GitHub Stats"
+            alt="GitHub contribution statistics for Pham Ngoc Khoi"
             width={600}
             height={200}
             className="w-full max-w-md"
+            sizes="(max-width: 768px) 100vw, 600px"
             loading="lazy"
             unoptimized
           />

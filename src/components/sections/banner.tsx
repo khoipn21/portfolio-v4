@@ -13,15 +13,15 @@ import gsap from "gsap";
  */
 const bannerConfig = {
   dark: {
-    video: "/videos/dark-loop.mp4",
+    video: "https://cdn.khoipn.com/videos/dark-loop.mp4",
     opacity: 0.35,
   },
   light: {
-    video: "/videos/light-loop.mp4",
+    video: "https://cdn.khoipn.com/videos/light-loop.mp4",
     opacity: 0.45,
   },
   mint: {
-    video: "/videos/mint-loop.mp4",
+    video: "https://cdn.khoipn.com/videos/mint-loop.mp4",
     opacity: 0.4,
   },
 } as const;
@@ -77,7 +77,13 @@ export function Banner() {
         background: "var(--gradient-hero)",
         boxShadow: "var(--shadow-md)",
       }}
+      role="banner"
     >
+      {/* Preload the video for current theme */}
+      {mounted && (
+        <link rel="preload" href={config.video} as="video" type="video/mp4" />
+      )}
+
       {/* Theme-specific looping video banner - hidden until ready */}
       {mounted && (
         <video
@@ -87,6 +93,7 @@ export function Banner() {
           loop
           muted
           playsInline
+          preload="auto"
           className="absolute inset-0 w-full h-full object-cover transition-opacity duration-500 ease-in-out"
           style={{ opacity: videoReady ? config.opacity : 0 }}
           onCanPlay={() => setVideoReady(true)}
