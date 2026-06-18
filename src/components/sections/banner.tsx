@@ -13,15 +13,15 @@ import gsap from "gsap";
  */
 const bannerConfig = {
   dark: {
-    video: "https://cdn.khoipn.com/videos/dark-loop.mp4",
+    video: "/videos/dark-loop.mp4",
     opacity: 0.35,
   },
   light: {
-    video: "https://cdn.khoipn.com/videos/light-loop.mp4",
+    video: "/videos/light-loop.mp4",
     opacity: 0.45,
   },
   mint: {
-    video: "https://cdn.khoipn.com/videos/mint-loop.mp4",
+    video: "/videos/mint-loop.mp4",
     opacity: 0.4,
   },
 } as const;
