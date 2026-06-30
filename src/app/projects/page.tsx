@@ -8,6 +8,7 @@ import Image from 'next/image';
 import { useRef, useEffect, useState } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { prefersReducedMotion } from '@/lib/text-split';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -16,21 +17,23 @@ export default function ProjectsPage() {
   const [imageErrors, setImageErrors] = useState<Record<string, boolean>>({});
 
   useEffect(() => {
+    if (prefersReducedMotion() || !gridRef.current) return;
+
     const ctx = gsap.context(() => {
       const cards = gridRef.current?.querySelectorAll('.project-card');
       if (cards) {
         gsap.fromTo(
           cards,
-          { opacity: 0, y: 30 },
+          { opacity: 0, y: 40 },
           {
             opacity: 1,
             y: 0,
-            stagger: 0.1,
-            duration: 0.6,
-            ease: 'power2.out',
+            stagger: 0.08,
+            duration: 0.7,
+            ease: 'power3.out',
             scrollTrigger: {
               trigger: gridRef.current,
-              start: 'top 90%',
+              start: 'top 88%',
               toggleActions: 'play none none none',
             },
           }
@@ -46,33 +49,31 @@ export default function ProjectsPage() {
   };
 
   return (
-    <div
-      className="relative min-h-[100dvh] w-full overflow-x-hidden transition-colors duration-300"
-      style={{ background: 'var(--bg-primary)', color: 'var(--text-primary)' }}
-    >
-      <div className="mx-auto max-w-3xl px-4 py-12">
+    <div className="relative min-h-[100dvh] w-full overflow-x-hidden bg-[var(--bg-primary)] text-[var(--text-primary)]">
+      <div className="cinema-container py-12">
         {/* Back link */}
         <Link
           href="/"
-          className="mb-8 inline-flex items-center gap-1.5 text-[13px] font-medium transition-colors duration-200"
-          style={{ color: 'var(--text-tertiary)' }}
+          className="mb-10 inline-flex items-center gap-2 text-[12px] font-medium tracking-[0.15em] uppercase transition-colors duration-200"
+          style={{ color: 'var(--text-muted)' }}
         >
           <ArrowLeft className="h-3.5 w-3.5" />
-          Back to home
+          Home
         </Link>
 
-        <h1
-          className="mb-2 text-[28px] font-bold tracking-tight"
-          style={{ color: 'var(--text-primary)' }}
-        >
-          Projects
+        {/* Chapter header */}
+        <p className="act-label mb-6">
+          <span className="act-num">ACT III</span> &nbsp;BUILDS
+        </p>
+        <h1 className="display-xl" style={{ color: 'var(--text-primary)' }}>
+          All projects.
         </h1>
-        <p className="mb-8 text-[14px]" style={{ color: 'var(--text-tertiary)' }}>
-          A collection of my work across different domains and technologies.
+        <p className="lead mt-5">
+          A collection of work across e-commerce, proptech, ed-tech, and developer tools.
         </p>
 
         {/* Projects Grid */}
-        <div ref={gridRef} className="grid grid-cols-1 gap-6 md:grid-cols-2">
+        <div ref={gridRef} className="mt-14 grid grid-cols-1 gap-6 md:grid-cols-2">
           {projects.map((project) => {
             const hasImage = project.image && !imageErrors[project.slug];
             const isMurmur = project.slug === 'murmur-chatapp';
@@ -81,15 +82,15 @@ export default function ProjectsPage() {
               <Link
                 key={project.slug}
                 href={`/projects/${project.slug}`}
-                className="project-card group block overflow-hidden rounded-xl border transition-all duration-300 hover:scale-[1.01]"
+                className="project-card group block overflow-hidden rounded-[1.25rem] border transition-all duration-500 hover:scale-[1.01]"
                 style={{
                   background: 'var(--bg-card)',
-                  borderColor: 'var(--border-accent)',
-                  boxShadow: 'var(--shadow-sm)',
+                  borderColor: 'var(--border-secondary)',
+                  boxShadow: 'var(--shadow-md)',
                 }}
               >
                 {/* Image Section */}
-                <div className="relative h-44 overflow-hidden">
+                <div className="relative h-48 overflow-hidden">
                   {isMurmur ? (
                     <div className="absolute inset-0 bg-gradient-to-br from-[#1a1a2e] via-[#16213e] to-[#0f3460]">
                       <div className="absolute inset-0 opacity-10">
@@ -145,13 +146,20 @@ export default function ProjectsPage() {
                       </span>
                     </div>
                   )}
+                  {/* Gradient fade at bottom of image */}
+                  <div
+                    className="absolute inset-x-0 bottom-0 h-16"
+                    style={{
+                      background: `linear-gradient(to top, var(--bg-card), transparent)`,
+                    }}
+                  />
                 </div>
 
                 {/* Content */}
-                <div className="p-5">
-                  <div className="mb-2 flex items-start justify-between gap-2">
+                <div className="p-6">
+                  <div className="mb-3 flex items-start justify-between gap-2">
                     <h2
-                      className="text-[17px] font-semibold"
+                      className="text-[18px] font-semibold tracking-tight"
                       style={{ color: 'var(--text-primary)' }}
                     >
                       {project.title}
@@ -160,8 +168,8 @@ export default function ProjectsPage() {
                       {project.github && (
                         <button
                           type="button"
-                          className="transition-colors duration-200"
-                          style={{ color: 'var(--text-muted)' }}
+                          className="opacity-60 transition-opacity duration-200 hover:opacity-100"
+                          style={{ color: 'var(--text-tertiary)' }}
                           onClick={(e) => {
                             e.preventDefault();
                             e.stopPropagation();
@@ -175,18 +183,18 @@ export default function ProjectsPage() {
                   </div>
 
                   <p
-                    className="mb-4 text-[13px] leading-relaxed"
+                    className="mb-5 text-[13px] leading-relaxed"
                     style={{ color: 'var(--text-secondary)' }}
                   >
                     {project.description}
                   </p>
 
                   {/* Highlights */}
-                  <ul className="mb-4 space-y-1.5">
+                  <ul className="mb-5 space-y-2">
                     {project.highlights.slice(0, 2).map((h, j) => (
                       <li
                         key={j}
-                        className="flex gap-1.5 text-[12px] leading-snug"
+                        className="flex gap-2 text-[12px] leading-snug"
                         style={{ color: 'var(--text-tertiary)' }}
                       >
                         <ChevronRight
@@ -203,9 +211,9 @@ export default function ProjectsPage() {
                     {project.tech.slice(0, 4).map((t) => (
                       <span
                         key={t}
-                        className="rounded-full border px-2 py-0.5 text-[10px] font-medium"
+                        className="rounded-full px-2.5 py-1 text-[10px] font-medium"
                         style={{
-                          borderColor: 'var(--border-accent)',
+                          border: '1px solid var(--border-accent)',
                           color: 'var(--text-tertiary)',
                           background: 'var(--bg-secondary)',
                         }}

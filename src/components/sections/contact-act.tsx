@@ -198,11 +198,11 @@ export function ContactAct() {
       <div className="cinema-container relative z-10 mt-20 flex flex-col items-center gap-1.5">
         <div className="mb-4 h-[1px] w-full" style={{ background: 'var(--border-secondary)' }} />
         <p className="text-[12px]" style={{ color: 'var(--text-muted)' }}>
-          Built with Next.js, Tailwind CSS, GSAP &amp; Lenis
-        </p>
-        <p className="text-[11px]" style={{ color: 'var(--text-muted)' }}>
           © {new Date().getFullYear()} {userData.name}
         </p>
+        {/* <p className="text-[11px]" style={{ color: 'var(--text-muted)' }}>
+
+        </p> */}
       </div>
     </section>
   );

@@ -8,6 +8,7 @@ import { ExperienceStack } from '@/components/sections/experience-stack';
 import { ProjectsFilmstrip } from '@/components/sections/projects-filmstrip';
 import { ToolbeltAct } from '@/components/sections/toolbelt-act';
 import { ContactAct } from '@/components/sections/contact-act';
+import { FooterBackground } from '@/components/sections/footer-background';
 
 /**
  * Home — a 5-act cinematic scroll story (Lenis + GSAP ScrollTrigger, no 3D).
@@ -35,6 +36,10 @@ export default function Home() {
         <ToolbeltAct />
         {/* ACT V — Transmission */}
         <ContactAct />
+
+        <div className="relative -mx-4 mt-4 h-[300px] w-[calc(100%+32px)] flex-grow">
+          <FooterBackground />
+        </div>
       </main>
     </div>
   );
