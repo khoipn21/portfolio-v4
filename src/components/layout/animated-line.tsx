@@ -1,9 +1,9 @@
-"use client";
+'use client';
 
-import { useRef, type ReactNode } from "react";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { useGSAP } from "@gsap/react";
+import { useRef, type ReactNode } from 'react';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { useGSAP } from '@gsap/react';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -24,12 +24,10 @@ export function AnimatedLine({ children, className }: AnimatedLineProps) {
 
   useGSAP(
     () => {
-      const prefersReduced = window.matchMedia(
-        "(prefers-reduced-motion: reduce)"
-      ).matches;
+      const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
       if (prefersReduced || !ref.current) return;
 
-      const line = ref.current.querySelector(".animated-line-inner");
+      const line = ref.current.querySelector('.animated-line-inner');
       if (!line) return;
 
       gsap.fromTo(
@@ -38,11 +36,11 @@ export function AnimatedLine({ children, className }: AnimatedLineProps) {
         {
           scaleX: 1,
           duration: 1.2,
-          ease: "power2.out",
+          ease: 'power2.out',
           scrollTrigger: {
             trigger: ref.current,
-            start: "top 92%",
-            toggleActions: "play none none none",
+            start: 'top 92%',
+            toggleActions: 'play none none none',
           },
         }
       );
@@ -52,7 +50,7 @@ export function AnimatedLine({ children, className }: AnimatedLineProps) {
 
   return (
     <div ref={ref} className={className}>
-      <div className="animated-line-inner" style={{ transformOrigin: "left center" }}>
+      <div className="animated-line-inner" style={{ transformOrigin: 'left center' }}>
         {children}
       </div>
     </div>

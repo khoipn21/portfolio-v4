@@ -1,8 +1,8 @@
-"use client";
+'use client';
 
-import { useRef, useEffect } from "react";
-import { useScrollVelocity } from "@/hooks/use-scroll-velocity";
-import gsap from "gsap";
+import { useRef, useEffect } from 'react';
+import { useScrollVelocity } from '@/hooks/use-scroll-velocity';
+import gsap from 'gsap';
 
 /**
  * Thin accent-colored progress bar at the top of the viewport.
@@ -19,9 +19,7 @@ export function ScrollProgress() {
   useEffect(() => {
     if (!barRef.current) return;
 
-    const prefersReduced = window.matchMedia(
-      "(prefers-reduced-motion: reduce)"
-    ).matches;
+    const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
     if (prefersReduced) {
       gsap.set(barRef.current, { scaleX: 1 });
@@ -29,9 +27,9 @@ export function ScrollProgress() {
     }
 
     // Create a reusable tween that gets updated, not recreated
-    scaleToRef.current = gsap.quickTo(barRef.current, "scaleX", {
+    scaleToRef.current = gsap.quickTo(barRef.current, 'scaleX', {
       duration: 0.3,
-      ease: "power2.out",
+      ease: 'power2.out',
     });
   }, []);
 
@@ -43,10 +41,10 @@ export function ScrollProgress() {
   return (
     <div
       ref={barRef}
-      className="fixed top-0 left-0 w-full h-[2px] z-[200] pointer-events-none origin-left"
+      className="pointer-events-none fixed top-0 left-0 z-[200] h-[2px] w-full origin-left"
       style={{
-        background: "var(--accent-primary)",
-        transform: "scaleX(0)",
+        background: 'var(--accent-primary)',
+        transform: 'scaleX(0)',
       }}
     />
   );

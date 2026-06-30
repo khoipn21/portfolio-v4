@@ -13,15 +13,15 @@ Personal portfolio website for Pham Ngoc Khoi.
 
 ## Pages (8)
 
-| Route | Description |
-|-------|-------------|
-| `/` | Main page with all sections |
-| `/experience` | Full work experience + education |
-| `/projects` | All projects grid |
-| `/projects/[slug]` | Individual project detail |
-| `/pull-requests` | Open source PR history |
-| `/resume` | Printable resume |
-| `/contact` | Contact information |
+| Route              | Description                      |
+| ------------------ | -------------------------------- |
+| `/`                | Main page with all sections      |
+| `/experience`      | Full work experience + education |
+| `/projects`        | All projects grid                |
+| `/projects/[slug]` | Individual project detail        |
+| `/pull-requests`   | Open source PR history           |
+| `/resume`          | Printable resume                 |
+| `/contact`         | Contact information              |
 
 ## Main Page Sections (matching reference portfolio)
 

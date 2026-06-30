@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 /**
  * Fading grid filler at the bottom of the page.
@@ -6,27 +6,27 @@
  */
 export function FooterBackground() {
   return (
-    <div className="relative w-full h-full overflow-hidden">
+    <div className="relative h-full w-full overflow-hidden">
       {/* Top line */}
       <div
-        className="absolute top-0 left-[-100vw] right-[-100vw] h-0 border-t pointer-events-none z-10"
+        className="pointer-events-none absolute top-0 right-[-100vw] left-[-100vw] z-10 h-0 border-t"
         style={{
-          borderColor: "var(--grid-line)",
+          borderColor: 'var(--grid-line)',
           maskImage:
-            "repeating-linear-gradient(to right, black 0, black 1px, transparent 1px, transparent 6px)",
+            'repeating-linear-gradient(to right, black 0, black 1px, transparent 1px, transparent 6px)',
           WebkitMaskImage:
-            "repeating-linear-gradient(to right, black 0, black 1px, transparent 1px, transparent 6px)",
+            'repeating-linear-gradient(to right, black 0, black 1px, transparent 1px, transparent 6px)',
         }}
       />
-      <div className="absolute top-0 left-0 w-[2px] h-[2px] grid-dot -translate-x-1/2 -translate-y-1/2 pointer-events-none z-20" />
-      <div className="absolute top-0 right-0 w-[2px] h-[2px] grid-dot translate-x-1/2 -translate-y-1/2 pointer-events-none z-20" />
+      <div className="grid-dot pointer-events-none absolute top-0 left-0 z-20 h-[2px] w-[2px] -translate-x-1/2 -translate-y-1/2" />
+      <div className="grid-dot pointer-events-none absolute top-0 right-0 z-20 h-[2px] w-[2px] translate-x-1/2 -translate-y-1/2" />
 
       {/* Grid pattern */}
       <div
         className="absolute inset-0 opacity-[0.03]"
         style={{
           backgroundImage: `radial-gradient(circle at 1px 1px, var(--text-primary) 1px, transparent 0)`,
-          backgroundSize: "24px 24px",
+          backgroundSize: '24px 24px',
         }}
       />
 
@@ -39,11 +39,11 @@ export function FooterBackground() {
       />
 
       {/* Footer text */}
-      <div className="absolute bottom-8 left-0 right-0 flex flex-col items-center gap-2">
-        <p className="text-[12px]" style={{ color: "var(--text-muted)" }}>
+      <div className="absolute right-0 bottom-8 left-0 flex flex-col items-center gap-2">
+        <p className="text-[12px]" style={{ color: 'var(--text-muted)' }}>
           Built with Next.js, Tailwind CSS & GSAP
         </p>
-        <p className="text-[11px]" style={{ color: "var(--text-muted)" }}>
+        <p className="text-[11px]" style={{ color: 'var(--text-muted)' }}>
           © {new Date().getFullYear()} Pham Ngoc Khoi
         </p>
       </div>

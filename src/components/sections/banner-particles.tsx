@@ -1,8 +1,8 @@
-"use client";
+'use client';
 
-import { useEffect, useRef } from "react";
-import { useTheme } from "next-themes";
-import { useLenis } from "lenis/react";
+import { useEffect, useRef } from 'react';
+import { useTheme } from 'next-themes';
+import { useLenis } from 'lenis/react';
 
 interface Particle {
   x: number;
@@ -34,10 +34,10 @@ export function BannerParticles() {
     if (!canvas) return;
 
     // Check reduced motion preference
-    const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (prefersReduced) return;
 
-    const ctx = canvas.getContext("2d");
+    const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
     const resize = () => {
@@ -46,16 +46,16 @@ export function BannerParticles() {
       ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
     };
     resize();
-    window.addEventListener("resize", resize);
+    window.addEventListener('resize', resize);
 
     const w = () => canvas.offsetWidth;
     const h = () => canvas.offsetHeight;
 
     // Theme-aware particle colors
     const getParticleColor = () => {
-      if (theme === "light") return "rgba(217, 119, 6,";
-      if (theme === "mint") return "rgba(42, 174, 138,";
-      return "rgba(99, 102, 241,";
+      if (theme === 'light') return 'rgba(217, 119, 6,';
+      if (theme === 'mint') return 'rgba(42, 174, 138,';
+      return 'rgba(99, 102, 241,';
     };
 
     // Create particles
@@ -118,14 +118,11 @@ export function BannerParticles() {
 
     return () => {
       cancelAnimationFrame(animRef.current);
-      window.removeEventListener("resize", resize);
+      window.removeEventListener('resize', resize);
     };
   }, [theme]);
 
   return (
-    <canvas
-      ref={canvasRef}
-      className="absolute inset-0 w-full h-full pointer-events-none z-[1]"
-    />
+    <canvas ref={canvasRef} className="pointer-events-none absolute inset-0 z-[1] h-full w-full" />
   );
 }

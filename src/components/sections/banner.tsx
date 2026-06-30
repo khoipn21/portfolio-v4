@@ -1,11 +1,11 @@
-"use client";
+'use client';
 
-import { BannerParticles } from "./banner-particles";
-import { CurrentTime } from "./current-time";
-import { useEffect, useState, useRef } from "react";
-import { useTheme } from "next-themes";
-import { useLenis } from "lenis/react";
-import gsap from "gsap";
+import { BannerParticles } from './banner-particles';
+import { CurrentTime } from './current-time';
+import { useEffect, useState, useRef } from 'react';
+import { useTheme } from 'next-themes';
+import { useLenis } from 'lenis/react';
+import gsap from 'gsap';
 
 /**
  * Banner config per theme.
@@ -13,15 +13,15 @@ import gsap from "gsap";
  */
 const bannerConfig = {
   dark: {
-    video: "/videos/dark-loop.mp4",
+    video: '/videos/dark-loop.mp4',
     opacity: 0.35,
   },
   light: {
-    video: "/videos/light-loop.mp4",
+    video: '/videos/light-loop.mp4',
     opacity: 0.45,
   },
   mint: {
-    video: "/videos/mint-loop.mp4",
+    video: '/videos/mint-loop.mp4',
     opacity: 0.4,
   },
 } as const;
@@ -53,9 +53,7 @@ export function Banner() {
   useLenis((lenis: { scroll: number; velocity: number }) => {
     if (!orb1Ref.current || !orb2Ref.current) return;
 
-    const prefersReduced = window.matchMedia(
-      "(prefers-reduced-motion: reduce)"
-    ).matches;
+    const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (prefersReduced) return;
 
     // Orb 1: moves slower than scroll (parallax depth)
@@ -67,22 +65,20 @@ export function Banner() {
   });
 
   // Get current theme config, fallback to dark
-  const currentTheme = (theme as keyof typeof bannerConfig) || "dark";
+  const currentTheme = (theme as keyof typeof bannerConfig) || 'dark';
   const config = bannerConfig[currentTheme] || bannerConfig.dark;
 
   return (
     <div
-      className="absolute left-0 right-0 md:left-[15%] md:right-[15%] lg:left-[30%] lg:right-[30%] top-0 h-[22vh] -z-0 pointer-events-auto overflow-hidden"
+      className="pointer-events-auto absolute top-0 right-0 left-0 -z-0 h-[22vh] overflow-hidden md:right-[15%] md:left-[15%] lg:right-[30%] lg:left-[30%]"
       style={{
-        background: "var(--gradient-hero)",
-        boxShadow: "var(--shadow-md)",
+        background: 'var(--gradient-hero)',
+        boxShadow: 'var(--shadow-md)',
       }}
       role="banner"
     >
       {/* Preload the video for current theme */}
-      {mounted && (
-        <link rel="preload" href={config.video} as="video" type="video/mp4" />
-      )}
+      {mounted && <link rel="preload" href={config.video} as="video" type="video/mp4" />}
 
       {/* Theme-specific looping video banner - hidden until ready */}
       {mounted && (
@@ -94,7 +90,7 @@ export function Banner() {
           muted
           playsInline
           preload="auto"
-          className="absolute inset-0 w-full h-full object-cover transition-opacity duration-500 ease-in-out"
+          className="absolute inset-0 h-full w-full object-cover transition-opacity duration-500 ease-in-out"
           style={{ opacity: videoReady ? config.opacity : 0 }}
           onCanPlay={() => setVideoReady(true)}
         >
@@ -107,22 +103,22 @@ export function Banner() {
         <>
           <div
             ref={orb1Ref}
-            className="absolute w-[300px] h-[300px] rounded-full blur-[80px] animate-float"
+            className="animate-float absolute h-[300px] w-[300px] rounded-full blur-[80px]"
             style={{
-              background: "var(--accent-primary)",
+              background: 'var(--accent-primary)',
               opacity: 0.08,
-              top: "-50%",
-              left: "-10%",
+              top: '-50%',
+              left: '-10%',
             }}
           />
           <div
             ref={orb2Ref}
-            className="absolute w-[200px] h-[200px] rounded-full blur-[60px] animate-float-delayed"
+            className="animate-float-delayed absolute h-[200px] w-[200px] rounded-full blur-[60px]"
             style={{
-              background: "var(--accent-secondary)",
+              background: 'var(--accent-secondary)',
               opacity: 0.06,
-              bottom: "-30%",
-              right: "10%",
+              bottom: '-30%',
+              right: '10%',
             }}
           />
         </>
@@ -133,7 +129,7 @@ export function Banner() {
         className="absolute inset-0 opacity-[0.04]"
         style={{
           backgroundImage: `radial-gradient(circle at 1px 1px, var(--text-primary) 1px, transparent 0)`,
-          backgroundSize: "24px 24px",
+          backgroundSize: '24px 24px',
         }}
       />
 
@@ -152,48 +148,48 @@ export function Banner() {
 
       {/* Gradient overlays for smooth transition */}
       <div
-        className="absolute inset-x-0 bottom-0 h-20 pointer-events-none z-[5]"
+        className="pointer-events-none absolute inset-x-0 bottom-0 z-[5] h-20"
         style={{
           background: `linear-gradient(to top, var(--bg-primary) 0%, transparent 100%)`,
           opacity: 0.95,
         }}
       />
       <div
-        className="absolute left-0 top-0 bottom-0 w-16 pointer-events-none z-20"
+        className="pointer-events-none absolute top-0 bottom-0 left-0 z-20 w-16"
         style={{
           background: `linear-gradient(to right, color-mix(in srgb, var(--bg-primary) 95%, transparent), transparent)`,
         }}
       />
       <div
-        className="absolute right-0 top-0 bottom-0 w-16 pointer-events-none z-20"
+        className="pointer-events-none absolute top-0 right-0 bottom-0 z-20 w-16"
         style={{
           background: `linear-gradient(to left, color-mix(in srgb, var(--bg-primary) 95%, transparent), transparent)`,
         }}
       />
 
       {/* Corner decorations */}
-      <div className="absolute top-4 left-4 z-10 pointer-events-none">
+      <div className="pointer-events-none absolute top-4 left-4 z-10">
         <div
-          className="w-8 h-[1px]"
-          style={{ background: "var(--accent-primary)", opacity: 0.4 }}
+          className="h-[1px] w-8"
+          style={{ background: 'var(--accent-primary)', opacity: 0.4 }}
         />
         <div
-          className="w-[1px] h-8"
-          style={{ background: "var(--accent-primary)", opacity: 0.4 }}
+          className="h-8 w-[1px]"
+          style={{ background: 'var(--accent-primary)', opacity: 0.4 }}
         />
       </div>
-      <div className="absolute top-4 right-4 z-10 pointer-events-none">
+      <div className="pointer-events-none absolute top-4 right-4 z-10">
         <div
-          className="w-8 h-[1px] ml-auto"
-          style={{ background: "var(--accent-primary)", opacity: 0.4 }}
+          className="ml-auto h-[1px] w-8"
+          style={{ background: 'var(--accent-primary)', opacity: 0.4 }}
         />
         <div
-          className="w-[1px] h-8 ml-auto"
-          style={{ background: "var(--accent-primary)", opacity: 0.4 }}
+          className="ml-auto h-8 w-[1px]"
+          style={{ background: 'var(--accent-primary)', opacity: 0.4 }}
         />
       </div>
 
-      <div className="absolute bottom-3 right-2 z-10 pointer-events-auto">
+      <div className="pointer-events-auto absolute right-2 bottom-3 z-10">
         <CurrentTime />
       </div>
     </div>

@@ -1,4 +1,4 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 
 /* ========================================
    THREE-THEME SYSTEM
@@ -6,12 +6,12 @@
 
 /* Dark Theme - Technology Vibe */
 :root,
-[data-theme="dark"] {
-  --bg-primary: #000000;
-  --bg-secondary: #0a0a0a;
-  --bg-tertiary: #111111;
-  --bg-card: #0a0a0a;
-  --bg-card-hover: #121214;
+[data-theme='dark'] {
+  --bg-primary: #08080b;
+  --bg-secondary: #0d0d12;
+  --bg-tertiary: #15151b;
+  --bg-card: #0d0d12;
+  --bg-card-hover: #16161d;
   --bg-accent: #1a1a2e;
 
   --text-primary: #fafafa;
@@ -32,16 +32,26 @@
   --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.5);
 
   --gradient-hero: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #0a0a0a 100%);
-  --gradient-card: linear-gradient(135deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0.01) 100%);
+  --gradient-card: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.03) 0%,
+    rgba(255, 255, 255, 0.01) 100%
+  );
 
   --grid-line: rgba(255, 255, 255, 0.25);
   --grid-dot: rgba(255, 255, 255, 0.4);
+
+  --gh-level-0: rgba(255, 255, 255, 0.05);
+  --gh-level-1: #0e4429;
+  --gh-level-2: #006d32;
+  --gh-level-3: #26a641;
+  --gh-level-4: #39d353;
 
   color-scheme: dark;
 }
 
 /* Light Theme - Warm Paper Vibe */
-[data-theme="light"] {
+[data-theme='light'] {
   --bg-primary: #faf8f5;
   --bg-secondary: #f5f0eb;
   --bg-tertiary: #ede8e3;
@@ -67,24 +77,30 @@
   --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.1);
 
   --gradient-hero: linear-gradient(135deg, #faf8f5 0%, #f0ebe5 50%, #faf8f5 100%);
-  --gradient-card: linear-gradient(135deg, rgba(0,0,0,0.01) 0%, rgba(0,0,0,0.03) 100%);
+  --gradient-card: linear-gradient(135deg, rgba(0, 0, 0, 0.01) 0%, rgba(0, 0, 0, 0.03) 100%);
 
   --grid-line: rgba(0, 0, 0, 0.28);
   --grid-dot: rgba(0, 0, 0, 0.42);
+
+  --gh-level-0: #ebedf0;
+  --gh-level-1: #9be9a8;
+  --gh-level-2: #40c463;
+  --gh-level-3: #30a14e;
+  --gh-level-4: #216e39;
 
   color-scheme: light;
 }
 
 /* Sea Glass Mint Theme - Fresh, Airy, Coastal */
-[data-theme="mint"] {
-  --bg-primary: #F2FBF7;
-  --bg-secondary: #E6F7F2;
-  --bg-tertiary: #D4F1E8;
+[data-theme='mint'] {
+  --bg-primary: #f2fbf7;
+  --bg-secondary: #e6f7f2;
+  --bg-tertiary: #d4f1e8;
   --bg-card: #ffffff;
-  --bg-card-hover: #F2FBF7;
-  --bg-accent: #E6F7F2;
+  --bg-card-hover: #f2fbf7;
+  --bg-accent: #e6f7f2;
 
-  --text-primary: #0E5F4D;
+  --text-primary: #0e5f4d;
   --text-secondary: #1a7a63;
   --text-tertiary: #1a7a63;
   --text-muted: #1a7a63;
@@ -93,19 +109,29 @@
   --border-secondary: rgba(42, 174, 138, 0.12);
   --border-accent: rgba(123, 231, 197, 0.15);
 
-  --accent-primary: #0E5F4D;
-  --accent-secondary: #2AAE8A;
+  --accent-primary: #0e5f4d;
+  --accent-secondary: #2aae8a;
   --accent-glow: rgba(42, 174, 138, 0.15);
 
   --shadow-sm: 0 1px 2px rgba(14, 95, 77, 0.06);
   --shadow-md: 0 4px 12px rgba(14, 95, 77, 0.1);
   --shadow-lg: 0 8px 32px rgba(14, 95, 77, 0.12);
 
-  --gradient-hero: linear-gradient(135deg, #F2FBF7 0%, #E6F7F2 50%, #D4F1E8 100%);
-  --gradient-card: linear-gradient(135deg, rgba(14,95,77,0.02) 0%, rgba(42,174,138,0.04) 100%);
+  --gradient-hero: linear-gradient(135deg, #f2fbf7 0%, #e6f7f2 50%, #d4f1e8 100%);
+  --gradient-card: linear-gradient(
+    135deg,
+    rgba(14, 95, 77, 0.02) 0%,
+    rgba(42, 174, 138, 0.04) 100%
+  );
 
   --grid-line: rgba(14, 95, 77, 0.25);
   --grid-dot: rgba(42, 174, 138, 0.4);
+
+  --gh-level-0: #e0f5ef;
+  --gh-level-1: #7be7c5;
+  --gh-level-2: #2aae8a;
+  --gh-level-3: #0e5f4d;
+  --gh-level-4: #054036;
 
   color-scheme: light;
 }
@@ -154,8 +180,14 @@ html {
 body {
   background: var(--bg-primary);
   color: var(--text-primary);
-  font-family: var(--font-sans), system-ui, -apple-system, sans-serif;
-  transition: background-color 0.3s ease, color 0.3s ease;
+  font-family:
+    var(--font-sans),
+    system-ui,
+    -apple-system,
+    sans-serif;
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease;
 }
 
 /* Selection colors per theme */
@@ -164,14 +196,14 @@ body {
   color: white;
 }
 
-[data-theme="light"] ::selection {
+[data-theme='light'] ::selection {
   background: rgba(217, 119, 6, 0.2);
   color: #1a1a1a;
 }
 
-[data-theme="mint"] ::selection {
+[data-theme='mint'] ::selection {
   background: rgba(42, 174, 138, 0.2);
-  color: #0E5F4D;
+  color: #0e5f4d;
 }
 
 /* ========================================
@@ -195,8 +227,225 @@ body {
   border-color: var(--grid-line);
 }
 
-.grid-dot {
-  background-color: var(--grid-dot);
+/* GitHub heatmap — theme-aware cell colors via --gh-level-* vars */
+:root {
+  --gh-cell-size: 11px;
+  --gh-cell-gap: 3px;
+}
+@media (max-width: 640px) {
+  :root {
+    --gh-cell-size: 9px;
+    --gh-cell-gap: 2px;
+  }
+}
+.gh-cell {
+  border-radius: 2px;
+  transition: transform 0.15s ease;
+}
+.gh-cell[data-level='0'] {
+  background: var(--gh-level-0);
+}
+.gh-cell[data-level='1'] {
+  background: var(--gh-level-1);
+}
+.gh-cell[data-level='2'] {
+  background: var(--gh-level-2);
+}
+.gh-cell[data-level='3'] {
+  background: var(--gh-level-3);
+}
+.gh-cell[data-level='4'] {
+  background: var(--gh-level-4);
+}
+
+/* ========================================
+   CINEMATIC DESIGN SYSTEM — 5-Act storytelling
+   Clean cinematic base + CRT only on hero/finale.
+   ======================================== */
+
+/* Full-width staging container — generous, never edge-to-edge on wide screens */
+.cinema-container {
+  width: 100%;
+  max-width: 1440px;
+  margin-inline: auto;
+  padding-inline: 1.5rem;
+}
+@media (min-width: 768px) {
+  .cinema-container {
+    padding-inline: 3rem;
+  }
+}
+@media (min-width: 1280px) {
+  .cinema-container {
+    padding-inline: 5rem;
+  }
+}
+
+/* Display type scale — heavy, tight, intentional (Podium-style presence) */
+.display-xxl {
+  font-size: clamp(2.75rem, 9vw, 7rem);
+  font-weight: 700;
+  line-height: 0.95;
+  letter-spacing: -0.04em;
+  text-wrap: balance;
+}
+.display-xl {
+  font-size: clamp(2.25rem, 6vw, 4.5rem);
+  font-weight: 700;
+  line-height: 0.98;
+  letter-spacing: -0.035em;
+  text-wrap: balance;
+}
+.display-lg {
+  font-size: clamp(1.75rem, 4.5vw, 3.25rem);
+  font-weight: 600;
+  line-height: 1.02;
+  letter-spacing: -0.03em;
+  text-wrap: balance;
+}
+.display-md {
+  font-size: clamp(1.35rem, 3vw, 2rem);
+  font-weight: 600;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+}
+
+/* ACT chapter label — mono, tracked, restrained */
+.act-label {
+  font-family: var(--font-mono), monospace;
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+.act-label .act-num {
+  color: var(--accent-primary);
+}
+
+/* Eyebrow / kicker for scene intros */
+.eyebrow {
+  font-family: var(--font-mono), monospace;
+  font-size: 0.72rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--text-tertiary);
+}
+
+/* Lead paragraph — generous measure + line-height */
+.lead {
+  font-size: clamp(1.05rem, 1.6vw, 1.35rem);
+  line-height: 1.55;
+  max-width: 60ch;
+  color: var(--text-secondary);
+  text-wrap: pretty;
+}
+
+/* Mask wrapper for scrubbed text reveals */
+.reveal-mask {
+  overflow: hidden;
+  display: block;
+}
+
+/* CRT overlay — scanlines + vignette (hero & finale; grain replaced by video bg) */
+.crt-overlay--hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.13) 0px,
+    rgba(0, 0, 0, 0.13) 1px,
+    transparent 1px,
+    transparent 3px
+  );
+  mix-blend-mode: multiply;
+  opacity: 0.35;
+}
+.crt-overlay--finale::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.16) 0px,
+    rgba(0, 0, 0, 0.16) 1px,
+    transparent 1px,
+    transparent 4px
+  );
+  mix-blend-mode: multiply;
+  opacity: 0.45;
+}
+
+/* Vignette only — grain replaced by looping video backgrounds (hero & finale) */
+.crt-overlay {
+  z-index: 2;
+}
+.crt-overlay--hero::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at center, transparent 55%, rgba(0, 0, 0, 0.6) 100%);
+  opacity: 0.7;
+  pointer-events: none;
+}
+.crt-overlay--finale::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at center, transparent 45%, rgba(0, 0, 0, 0.75) 100%);
+  opacity: 0.8;
+  pointer-events: none;
+}
+
+/* Theme-aware: lighter CRT on light/mint so text stays readable */
+[data-theme='light'] .crt-overlay--hero::before,
+[data-theme='mint'] .crt-overlay--hero::before {
+  opacity: 0.22;
+}
+[data-theme='light'] .crt-overlay--finale::before,
+[data-theme='mint'] .crt-overlay--finale::before {
+  opacity: 0.28;
+}
+[data-theme='light'] .crt-overlay--hero::after,
+[data-theme='mint'] .crt-overlay--hero::after,
+[data-theme='light'] .crt-overlay--finale::after,
+[data-theme='mint'] .crt-overlay--finale::after {
+  opacity: 0.3;
+}
+
+/* Command palette — CSS keyframe entry (transform + opacity only, no jank) */
+@keyframes cmd-overlay-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes cmd-panel-in {
+  from {
+    opacity: 0;
+    transform: translateY(12px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+.cmd-overlay {
+  animation: cmd-overlay-in 0.18s ease-out forwards;
+}
+.cmd-panel {
+  animation: cmd-panel-in 0.22s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  will-change: transform, opacity;
+}
+@media (prefers-reduced-motion: reduce) {
+  .cmd-overlay,
+  .cmd-panel {
+    animation: none !important;
+  }
 }
 
 /* Subtle noise texture overlay */
@@ -211,18 +460,24 @@ body {
 }
 
 /* Glow effect for dark theme */
-[data-theme="dark"] .glow-effect {
-  box-shadow: 0 0 20px var(--accent-glow), 0 0 60px rgba(99, 102, 241, 0.05);
+[data-theme='dark'] .glow-effect {
+  box-shadow:
+    0 0 20px var(--accent-glow),
+    0 0 60px rgba(99, 102, 241, 0.05);
 }
 
 /* Warm shadow for light theme */
-[data-theme="light"] .warm-shadow {
-  box-shadow: 0 4px 20px rgba(217, 119, 6, 0.06), 0 1px 3px rgba(0, 0, 0, 0.04);
+[data-theme='light'] .warm-shadow {
+  box-shadow:
+    0 4px 20px rgba(217, 119, 6, 0.06),
+    0 1px 3px rgba(0, 0, 0, 0.04);
 }
 
 /* Mint glow for mint theme */
-[data-theme="mint"] .mint-glow {
-  box-shadow: 0 0 20px rgba(42, 174, 138, 0.12), 0 0 60px rgba(42, 174, 138, 0.06);
+[data-theme='mint'] .mint-glow {
+  box-shadow:
+    0 0 20px rgba(42, 174, 138, 0.12),
+    0 0 60px rgba(42, 174, 138, 0.06);
 }
 
 /* ========================================
@@ -230,7 +485,8 @@ body {
    ======================================== */
 
 @keyframes float {
-  0%, 100% {
+  0%,
+  100% {
     transform: translate(0, 0) scale(1);
   }
   33% {
@@ -242,7 +498,8 @@ body {
 }
 
 @keyframes float-delayed {
-  0%, 100% {
+  0%,
+  100% {
     transform: translate(0, 0) scale(1);
   }
   33% {
@@ -254,7 +511,8 @@ body {
 }
 
 @keyframes pulse-glow {
-  0%, 100% {
+  0%,
+  100% {
     opacity: 0.3;
   }
   50% {
@@ -333,6 +591,6 @@ body {
 }
 
 /* Skill icon dark mode inversion - only applies when data-theme is dark */
-[data-theme="dark"] .skill-icon-invert {
+[data-theme='dark'] .skill-icon-invert {
   filter: invert(1);
 }

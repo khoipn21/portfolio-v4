@@ -1,15 +1,15 @@
-"use client";
+'use client';
 
-import { useTheme } from "next-themes";
-import { useEffect, useState, useRef } from "react";
-import { Moon, Sun, Leaf } from "lucide-react";
-import { useGSAP } from "@gsap/react";
-import gsap from "gsap";
+import { useTheme } from 'next-themes';
+import { useEffect, useState, useRef } from 'react';
+import { Moon, Sun, Leaf } from 'lucide-react';
+import { useGSAP } from '@gsap/react';
+import gsap from 'gsap';
 
 const themes = [
-  { id: "dark", label: "Dark", icon: Moon },
-  { id: "light", label: "Light", icon: Sun },
-  { id: "mint", label: "Mint", icon: Leaf },
+  { id: 'dark', label: 'Dark', icon: Moon },
+  { id: 'light', label: 'Light', icon: Sun },
+  { id: 'mint', label: 'Mint', icon: Leaf },
 ] as const;
 
 /**
@@ -43,7 +43,7 @@ export function CompactThemeToggle({ className }: { className?: string }) {
           autoAlpha: 1,
           scale: 1,
           duration: 0.4,
-          ease: "back.out(1.7)",
+          ease: 'back.out(1.7)',
         }
       );
     },
@@ -58,10 +58,10 @@ export function CompactThemeToggle({ className }: { className?: string }) {
   if (!mounted) {
     return (
       <div
-        className={`w-8 h-8 rounded-full border ${className ?? ""}`}
+        className={`h-8 w-8 rounded-full border ${className ?? ''}`}
         style={{
-          borderColor: "var(--border-secondary)",
-          background: "var(--bg-secondary)",
+          borderColor: 'var(--border-secondary)',
+          background: 'var(--bg-secondary)',
         }}
       />
     );
@@ -72,17 +72,17 @@ export function CompactThemeToggle({ className }: { className?: string }) {
   return (
     <button
       onClick={handleClick}
-      className={`w-8 h-8 rounded-full border flex items-center justify-center transition-colors duration-200 ${className ?? ""}`}
+      className={`flex h-8 w-8 items-center justify-center rounded-full border transition-colors duration-200 ${className ?? ''}`}
       style={{
-        borderColor: "var(--border-secondary)",
-        background: "var(--bg-secondary)",
-        color: "var(--accent-primary)",
+        borderColor: 'var(--border-secondary)',
+        background: 'var(--bg-secondary)',
+        color: 'var(--accent-primary)',
       }}
       aria-label={`Theme: ${themes[activeIndex].label}. Tap to switch.`}
       title={`Theme: ${themes[activeIndex].label}`}
     >
       <span ref={iconRef} className="flex items-center justify-center">
-        <ActiveIcon className="w-3.5 h-3.5" />
+        <ActiveIcon className="h-3.5 w-3.5" />
       </span>
     </button>
   );

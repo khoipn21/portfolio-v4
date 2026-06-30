@@ -1,7 +1,7 @@
-"use client";
+'use client';
 
-import { useState, useRef, useEffect } from "react";
-import { useLenis } from "lenis/react";
+import { useState, useRef, useEffect } from 'react';
+import { useLenis } from 'lenis/react';
 
 interface ScrollState {
   velocity: number;
@@ -29,28 +29,21 @@ export function useScrollVelocity(): ScrollState {
   const stateRef = useRef<ScrollState>(defaultState);
   const rafRef = useRef<number>(0);
 
-  useLenis(
-    (lenis: {
-      velocity: number;
-      direction: number;
-      progress: number;
-      scroll: number;
-    }) => {
-      // Update ref immediately (cheap, no re-render)
-      stateRef.current = {
-        velocity: lenis.velocity,
-        direction: lenis.direction as 1 | -1,
-        progress: lenis.progress,
-        scroll: lenis.scroll,
-      };
+  useLenis((lenis: { velocity: number; direction: number; progress: number; scroll: number }) => {
+    // Update ref immediately (cheap, no re-render)
+    stateRef.current = {
+      velocity: lenis.velocity,
+      direction: lenis.direction as 1 | -1,
+      progress: lenis.progress,
+      scroll: lenis.scroll,
+    };
 
-      // Batch state update to next frame (prevents infinite loop)
-      cancelAnimationFrame(rafRef.current);
-      rafRef.current = requestAnimationFrame(() => {
-        setState(stateRef.current);
-      });
-    }
-  );
+    // Batch state update to next frame (prevents infinite loop)
+    cancelAnimationFrame(rafRef.current);
+    rafRef.current = requestAnimationFrame(() => {
+      setState(stateRef.current);
+    });
+  });
 
   // Cleanup RAF on unmount
   useEffect(() => {

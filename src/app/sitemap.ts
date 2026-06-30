@@ -1,29 +1,29 @@
-import type { MetadataRoute } from "next";
-import { projects } from "@/data/user-data";
+import type { MetadataRoute } from 'next';
+import { projects } from '@/data/user-data';
 
-const SITE_URL = "https://portfolio.khoipn.com";
+const SITE_URL = 'https://portfolio.khoipn.com';
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const now = new Date();
 
   const staticRoutes = [
-    "",
-    "/projects",
-    "/experience",
-    "/pull-requests",
-    "/resume",
-    "/contact",
+    '',
+    '/projects',
+    '/experience',
+    '/pull-requests',
+    '/resume',
+    '/contact',
   ].map((path) => ({
     url: `${SITE_URL}${path}`,
     lastModified: now,
-    changeFrequency: "monthly" as const,
-    priority: path === "" ? 1 : 0.8,
+    changeFrequency: 'monthly' as const,
+    priority: path === '' ? 1 : 0.8,
   }));
 
   const projectRoutes = projects.map((project) => ({
     url: `${SITE_URL}/projects/${project.slug}`,
     lastModified: now,
-    changeFrequency: "monthly" as const,
+    changeFrequency: 'monthly' as const,
     priority: 0.6,
   }));
 

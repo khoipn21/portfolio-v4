@@ -1,12 +1,12 @@
-"use client";
+'use client';
 
-import { useEffect, useState, useRef } from "react";
-import { CommandMenu } from "@/components/layout/command-menu";
-import { ThemeToggle } from "@/components/theme-toggle";
-import { CompactThemeToggle } from "@/components/compact-theme-toggle";
-import { useScrollVelocity } from "@/hooks/use-scroll-velocity";
-import { useLenis } from "lenis/react";
-import gsap from "gsap";
+import { useEffect, useState, useRef } from 'react';
+import { CommandMenu } from '@/components/layout/command-menu';
+import { ThemeToggle } from '@/components/theme-toggle';
+import { CompactThemeToggle } from '@/components/compact-theme-toggle';
+import { useScrollVelocity } from '@/hooks/use-scroll-velocity';
+import { useLenis } from 'lenis/react';
+import gsap from 'gsap';
 
 export function TopNavbar() {
   const { scroll, direction } = useScrollVelocity();
@@ -24,7 +24,7 @@ export function TopNavbar() {
     if (el && lenis) {
       lenis.scrollTo(el, { offset: -80, duration: 1.2 });
     } else if (el) {
-      el.scrollIntoView({ behavior: "smooth" });
+      el.scrollIntoView({ behavior: 'smooth' });
     }
   };
 
@@ -33,9 +33,7 @@ export function TopNavbar() {
   useEffect(() => {
     if (!innerRef.current) return;
 
-    const prefersReduced = window.matchMedia(
-      "(prefers-reduced-motion: reduce)"
-    ).matches;
+    const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
     // Hide on scroll-down past 200px, show on scroll-up
     if (scroll > 200 && direction === 1 && !hiddenRef.current) {
@@ -47,7 +45,7 @@ export function TopNavbar() {
           y: -100,
           opacity: 0,
           duration: 0.4,
-          ease: "power2.inOut",
+          ease: 'power2.inOut',
         });
       }
     } else if (direction === -1 && hiddenRef.current) {
@@ -59,7 +57,7 @@ export function TopNavbar() {
           y: 0,
           opacity: 1,
           duration: 0.4,
-          ease: "power2.out",
+          ease: 'power2.out',
         });
       }
     }
@@ -75,10 +73,10 @@ export function TopNavbar() {
           }
         });
       },
-      { rootMargin: "-20% 0px -60% 0px", threshold: 0.1 }
+      { rootMargin: '-20% 0px -60% 0px', threshold: 0.1 }
     );
 
-    const sections = ["experience", "projects", "opensource", "skills", "blogs"];
+    const sections = ['act-2', 'act-3', 'act-4'];
     sections.forEach((id) => {
       const el = document.getElementById(id);
       if (el) observer.observe(el);
@@ -88,28 +86,25 @@ export function TopNavbar() {
   }, []);
 
   const links = [
-    { name: "Experience", href: "#experience", id: "experience" },
-    { name: "Projects", href: "#projects", id: "projects" },
-    { name: "Skills", href: "#skills", id: "skills" },
+    { name: 'Work', href: '#act-2', id: 'act-2' },
+    { name: 'Builds', href: '#act-3', id: 'act-3' },
+    { name: 'Toolbelt', href: '#act-4', id: 'act-4' },
   ];
 
   return (
-    <nav
-      ref={navRef}
-      className="fixed top-2 left-1/2 -translate-x-1/2 z-[100] pointer-events-auto"
-    >
+    <nav ref={navRef} className="pointer-events-auto fixed top-2 left-1/2 z-[100] -translate-x-1/2">
       <div
         ref={innerRef}
-        className="flex items-center gap-3 sm:gap-5 px-4 sm:px-5 py-2.5 rounded-full transition-all duration-300"
+        className="flex items-center gap-3 rounded-full px-4 py-2.5 transition-all duration-300 sm:gap-5 sm:px-5"
         style={{
           background: scrolled
-            ? "color-mix(in srgb, var(--bg-primary) 80%, transparent)"
-            : "transparent",
-          backdropFilter: scrolled ? "blur(12px)" : "none",
-          boxShadow: scrolled ? "var(--shadow-md)" : "none",
-          borderColor: scrolled ? "var(--border-secondary)" : "transparent",
-          borderWidth: "1px",
-          borderStyle: "solid",
+            ? 'color-mix(in srgb, var(--bg-primary) 80%, transparent)'
+            : 'transparent',
+          backdropFilter: scrolled ? 'blur(12px)' : 'none',
+          boxShadow: scrolled ? 'var(--shadow-md)' : 'none',
+          borderColor: scrolled ? 'var(--border-secondary)' : 'transparent',
+          borderWidth: '1px',
+          borderStyle: 'solid',
         }}
       >
         {links.map((link) => {
@@ -121,9 +116,7 @@ export function TopNavbar() {
               onClick={(e) => handleNavClick(e, link.id)}
               className="text-[12px] font-medium tracking-[0.05em] transition-colors duration-500"
               style={{
-                color: isActive
-                  ? "var(--text-primary)"
-                  : "var(--text-tertiary)",
+                color: isActive ? 'var(--text-primary)' : 'var(--text-tertiary)',
               }}
             >
               {link.name}
@@ -131,10 +124,7 @@ export function TopNavbar() {
           );
         })}
 
-        <div
-          className="w-[1px] h-3.5 mx-0.5"
-          style={{ background: "var(--border-secondary)" }}
-        />
+        <div className="mx-0.5 h-3.5 w-[1px]" style={{ background: 'var(--border-secondary)' }} />
 
         {/* Full 3-pill switcher on desktop, single-icon cycle on mobile */}
         <div className="hidden lg:block">
@@ -144,10 +134,7 @@ export function TopNavbar() {
           <CompactThemeToggle />
         </div>
 
-        <div
-          className="w-[1px] h-3.5 mx-0.5"
-          style={{ background: "var(--border-secondary)" }}
-        />
+        <div className="mx-0.5 h-3.5 w-[1px]" style={{ background: 'var(--border-secondary)' }} />
 
         <CommandMenu />
       </div>

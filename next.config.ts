@@ -1,46 +1,46 @@
-import type { NextConfig } from "next";
+import type { NextConfig } from 'next';
 
 const nextConfig: NextConfig = {
   images: {
     remotePatterns: [
       {
-        protocol: "https",
-        hostname: "github.com",
+        protocol: 'https',
+        hostname: 'github.com',
       },
       {
-        protocol: "https",
-        hostname: "githubusercontent.com",
+        protocol: 'https',
+        hostname: 'githubusercontent.com',
       },
       {
-        protocol: "https",
-        hostname: "cdn.simpleicons.org",
+        protocol: 'https',
+        hostname: 'cdn.simpleicons.org',
       },
       {
-        protocol: "https",
-        hostname: "api.iconify.design",
+        protocol: 'https',
+        hostname: 'api.iconify.design',
       },
     ],
-    formats: ["image/avif", "image/webp"],
+    formats: ['image/avif', 'image/webp'],
     qualities: [75, 80, 90],
     minimumCacheTTL: 60 * 60 * 24 * 30, // 30 days
   },
   async headers() {
     return [
       {
-        source: "/images/:path*",
+        source: '/images/:path*',
         headers: [
           {
-            key: "Cache-Control",
-            value: "public, max-age=31536000, immutable",
+            key: 'Cache-Control',
+            value: 'public, max-age=31536000, immutable',
           },
         ],
       },
       {
-        source: "/_next/static/:path*",
+        source: '/_next/static/:path*',
         headers: [
           {
-            key: "Cache-Control",
-            value: "public, max-age=31536000, immutable",
+            key: 'Cache-Control',
+            value: 'public, max-age=31536000, immutable',
           },
         ],
       },

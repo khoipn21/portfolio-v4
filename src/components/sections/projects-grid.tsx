@@ -1,24 +1,24 @@
-"use client";
+'use client';
 
-import { useRef } from "react";
-import { projects } from "@/data/user-data";
-import { ExternalLink, ChevronRight, ArrowUpRight } from "lucide-react";
-import { SiGithub } from "react-icons/si";
-import Image from "next/image";
-import Link from "next/link";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { useGSAP } from "@gsap/react";
+import { useRef } from 'react';
+import { projects } from '@/data/user-data';
+import { ExternalLink, ChevronRight, ArrowUpRight } from 'lucide-react';
+import { SiGithub } from 'react-icons/si';
+import Image from 'next/image';
+import Link from 'next/link';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { useGSAP } from '@gsap/react';
 
 gsap.registerPlugin(ScrollTrigger);
 
 // All cards equal size
 const gridLayouts = [
-  { colSpan: "", rowSpan: "", height: "h-48" },
-  { colSpan: "", rowSpan: "", height: "h-48" },
-  { colSpan: "", rowSpan: "", height: "h-48" },
-  { colSpan: "", rowSpan: "", height: "h-48" },
-  { colSpan: "", rowSpan: "", height: "h-48" },
+  { colSpan: '', rowSpan: '', height: 'h-48' },
+  { colSpan: '', rowSpan: '', height: 'h-48' },
+  { colSpan: '', rowSpan: '', height: 'h-48' },
+  { colSpan: '', rowSpan: '', height: 'h-48' },
+  { colSpan: '', rowSpan: '', height: 'h-48' },
 ];
 
 export function ProjectsGrid() {
@@ -26,12 +26,10 @@ export function ProjectsGrid() {
 
   useGSAP(
     () => {
-      const prefersReduced = window.matchMedia(
-        "(prefers-reduced-motion: reduce)",
-      ).matches;
+      const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
       if (prefersReduced || !gridRef.current) return;
 
-      const cards = gridRef.current.querySelectorAll(".project-card");
+      const cards = gridRef.current.querySelectorAll('.project-card');
       if (!cards.length) return;
 
       // Staggered entrance animation - cards appear from different directions
@@ -56,24 +54,21 @@ export function ProjectsGrid() {
             rotation: 0,
             duration: 0.8,
             delay,
-            ease: "power3.out",
+            ease: 'power3.out',
             scrollTrigger: {
               trigger: card,
-              start: "top 90%",
-              toggleActions: "play none none none",
+              start: 'top 90%',
+              toggleActions: 'play none none none',
             },
-          },
+          }
         );
       });
     },
-    { scope: gridRef },
+    { scope: gridRef }
   );
 
   return (
-    <div
-      ref={gridRef}
-      className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-5 auto-rows-auto"
-    >
+    <div ref={gridRef} className="grid auto-rows-auto grid-cols-1 gap-4 md:grid-cols-2 md:gap-5">
       {projects.map((project, i) => {
         const layout = gridLayouts[i % gridLayouts.length];
         const isFeatured = i === 0;
@@ -86,26 +81,26 @@ export function ProjectsGrid() {
             {/* Double-Bezel: Outer Shell */}
             <Link
               href={`/projects/${project.slug}`}
-              className="block rounded-[1.25rem] p-[2px] h-full transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] group-hover:shadow-lg"
+              className="block h-full rounded-[1.25rem] p-[2px] transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] group-hover:shadow-lg"
               style={{
-                background: "var(--border-accent)",
-                boxShadow: "var(--shadow-sm)",
+                background: 'var(--border-accent)',
+                boxShadow: 'var(--shadow-sm)',
               }}
             >
               {/* Double-Bezel: Inner Core */}
               <div
-                className="rounded-[calc(1.25rem-2px)] overflow-hidden h-full flex flex-col transition-all duration-500 group-hover:-translate-y-1"
+                className="flex h-full flex-col overflow-hidden rounded-[calc(1.25rem-2px)] transition-all duration-500 group-hover:-translate-y-1"
                 style={{
-                  background: "var(--bg-card)",
-                  boxShadow: "inset 0 1px 1px rgba(255,255,255,0.05)",
+                  background: 'var(--bg-card)',
+                  boxShadow: 'inset 0 1px 1px rgba(255,255,255,0.05)',
                 }}
               >
                 {/* Project image area */}
                 <div
                   className={`relative overflow-hidden ${layout.height}`}
-                  style={{ background: "var(--gradient-hero)" }}
+                  style={{ background: 'var(--gradient-hero)' }}
                 >
-                  {project.slug === "murmur-chatapp" ? (
+                  {project.slug === 'murmur-chatapp' ? (
                     /* Special banner for murmur chatapp */
                     <div className="absolute inset-0 bg-gradient-to-br from-[#1a1a2e] via-[#16213e] to-[#0f3460]">
                       <div className="absolute inset-0 opacity-10">
@@ -113,12 +108,12 @@ export function ProjectsGrid() {
                           className="absolute inset-0"
                           style={{
                             backgroundImage: `radial-gradient(circle at 2px 2px, rgba(255,255,255,0.3) 1px, transparent 0)`,
-                            backgroundSize: "30px 30px",
+                            backgroundSize: '30px 30px',
                           }}
                         />
                       </div>
                       <div className="absolute inset-0 flex flex-col items-center justify-center p-4">
-                        <div className="relative w-12 h-12 mb-3">
+                        <div className="relative mb-3 h-12 w-12">
                           <Image
                             src="/images/murmur-logo.png"
                             alt="Murmur Logo"
@@ -127,7 +122,7 @@ export function ProjectsGrid() {
                             sizes="48px"
                           />
                         </div>
-                        <span className="text-[11px] font-mono uppercase tracking-widest text-white/60">
+                        <span className="font-mono text-[11px] tracking-widest text-white/60 uppercase">
                           Real-time Chat
                         </span>
                       </div>
@@ -146,13 +141,13 @@ export function ProjectsGrid() {
                         className="absolute inset-0 opacity-[0.04]"
                         style={{
                           backgroundImage: `radial-gradient(circle at 1px 1px, var(--text-primary) 1px, transparent 0)`,
-                          backgroundSize: "20px 20px",
+                          backgroundSize: '20px 20px',
                         }}
                       />
                       <div className="absolute inset-0 flex items-center justify-center">
                         <span
-                          className="text-[11px] font-mono uppercase tracking-widest"
-                          style={{ color: "var(--text-muted)" }}
+                          className="font-mono text-[11px] tracking-widest uppercase"
+                          style={{ color: 'var(--text-muted)' }}
                         >
                           {project.title}
                         </span>
@@ -162,37 +157,32 @@ export function ProjectsGrid() {
 
                   {/* Hover overlay with accent glow */}
                   <div
-                    className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-all duration-500 flex items-center justify-center"
+                    className="absolute inset-0 flex items-center justify-center opacity-0 transition-all duration-500 group-hover:opacity-100"
                     style={{
-                      background:
-                        "color-mix(in srgb, var(--bg-primary) 85%, transparent)",
+                      background: 'color-mix(in srgb, var(--bg-primary) 85%, transparent)',
                     }}
                   >
                     <div
-                      className="flex items-center gap-2 px-4 py-2 rounded-full border backdrop-blur-sm"
+                      className="flex items-center gap-2 rounded-full border px-4 py-2 backdrop-blur-sm"
                       style={{
-                        borderColor: "var(--accent-primary)",
-                        background:
-                          "color-mix(in srgb, var(--accent-primary) 10%, transparent)",
-                        color: "var(--accent-primary)",
+                        borderColor: 'var(--accent-primary)',
+                        background: 'color-mix(in srgb, var(--accent-primary) 10%, transparent)',
+                        color: 'var(--accent-primary)',
                       }}
                     >
-                      <span className="text-[12px] font-medium">
-                        View Project
-                      </span>
-                      <ArrowUpRight className="w-4 h-4" />
+                      <span className="text-[12px] font-medium">View Project</span>
+                      <ArrowUpRight className="h-4 w-4" />
                     </div>
                   </div>
 
                   {/* Featured badge for first project */}
                   {isFeatured && (
                     <div
-                      className="absolute top-3 left-3 px-2.5 py-1 rounded-full text-[10px] font-semibold uppercase tracking-wider backdrop-blur-sm"
+                      className="absolute top-3 left-3 rounded-full px-2.5 py-1 text-[10px] font-semibold tracking-wider uppercase backdrop-blur-sm"
                       style={{
-                        background:
-                          "color-mix(in srgb, var(--accent-primary) 15%, transparent)",
-                        color: "var(--accent-primary)",
-                        border: "1px solid var(--accent-primary)",
+                        background: 'color-mix(in srgb, var(--accent-primary) 15%, transparent)',
+                        color: 'var(--accent-primary)',
+                        border: '1px solid var(--accent-primary)',
                       }}
                     >
                       Featured
@@ -201,88 +191,80 @@ export function ProjectsGrid() {
                 </div>
 
                 {/* Content */}
-                <div className="p-5 flex flex-col flex-1">
-                  <div className="flex items-start justify-between gap-2 mb-2">
+                <div className="flex flex-1 flex-col p-5">
+                  <div className="mb-2 flex items-start justify-between gap-2">
                     <h3
                       className="text-[15px] font-semibold transition-colors duration-300 group-hover:text-[var(--accent-primary)]"
-                      style={{ color: "var(--text-primary)" }}
+                      style={{ color: 'var(--text-primary)' }}
                     >
                       {project.title}
                     </h3>
-                    <div className="flex items-center gap-2 shrink-0">
+                    <div className="flex shrink-0 items-center gap-2">
                       {project.github && (
                         <button
                           type="button"
                           className="transition-all duration-300 hover:scale-110"
-                          style={{ color: "var(--text-muted)" }}
+                          style={{ color: 'var(--text-muted)' }}
                           aria-label={`View ${project.title} on GitHub`}
                           onClick={(e) => {
                             e.preventDefault();
                             e.stopPropagation();
-                            window.open(
-                              project.github,
-                              "_blank",
-                              "noopener,noreferrer",
-                            );
+                            window.open(project.github, '_blank', 'noopener,noreferrer');
                           }}
                         >
-                          <SiGithub className="w-4 h-4" />
+                          <SiGithub className="h-4 w-4" />
                         </button>
                       )}
                       {project.live && (
                         <button
                           type="button"
                           className="transition-all duration-300 hover:scale-110"
-                          style={{ color: "var(--text-muted)" }}
+                          style={{ color: 'var(--text-muted)' }}
                           aria-label={`View ${project.title} live demo`}
                           onClick={(e) => {
                             e.preventDefault();
                             e.stopPropagation();
-                            window.open(
-                              project.live,
-                              "_blank",
-                              "noopener,noreferrer",
-                            );
+                            window.open(project.live, '_blank', 'noopener,noreferrer');
                           }}
                         >
-                          <ExternalLink className="w-4 h-4" />
+                          <ExternalLink className="h-4 w-4" />
                         </button>
                       )}
                     </div>
                   </div>
 
                   <p
-                    className="text-[13px] leading-relaxed mb-3 line-clamp-2"
-                    style={{ color: "var(--text-secondary)" }}
+                    className="mb-3 line-clamp-2 text-[13px] leading-relaxed"
+                    style={{ color: 'var(--text-secondary)' }}
                   >
                     {project.description}
                   </p>
 
-                  <ul className="space-y-1 mb-3">
+                  <ul className="mb-3 space-y-1">
                     {project.highlights.slice(0, 2).map((h, j) => (
                       <li
                         key={j}
                         className="flex gap-1.5 text-[12px] leading-snug"
-                        style={{ color: "var(--text-tertiary)" }}
+                        style={{ color: 'var(--text-tertiary)' }}
                       >
                         <ChevronRight
-                          className="w-3 h-3 mt-0.5 shrink-0"
-                          style={{ color: "var(--accent-primary)" }}
+                          className="mt-0.5 h-3 w-3 shrink-0"
+                          style={{ color: 'var(--accent-primary)' }}
                         />
                         <span className="line-clamp-1">{h}</span>
                       </li>
                     ))}
                   </ul>
 
-                  <div className="flex flex-wrap gap-1.5 mt-auto">
+                  <div className="mt-auto flex flex-wrap gap-1.5">
                     {project.tech.slice(0, isFeatured ? 6 : 4).map((t) => (
                       <span
                         key={t}
-                        className="px-2 py-0.5 rounded-full text-[10px] font-medium border transition-all duration-300 hover:scale-105"
+                        className="rounded-full border px-2 py-0.5 text-[10px] font-medium transition-all duration-300 hover:scale-105"
                         style={{
-                          borderColor: "var(--border-accent)",
-                          color: "var(--text-tertiary)",
-                          background: "var(--bg-secondary)",
+                          borderColor: 'var(--border-accent)',
+                          color: 'var(--text-tertiary)',
+                          background: 'var(--bg-secondary)',
                         }}
                       >
                         {t}

@@ -1,98 +1,73 @@
-"use client";
+'use client';
 
-import { useEffect, useState } from "react";
-import { useLenis } from "lenis/react";
+import { useLenis } from 'lenis/react';
+import { useChapterActive } from '@/hooks/use-cinematic-gsap';
 
+const ACTS = [
+  { id: 'act-1', label: 'Opening' },
+  { id: 'act-2', label: 'The Work' },
+  { id: 'act-3', label: 'Builds' },
+  { id: 'act-4', label: 'Toolbelt' },
+  { id: 'act-5', label: 'Transmission' },
+] as const;
+
+const dottedLineMask =
+  'repeating-linear-gradient(to bottom, black 0, black 1px, transparent 1px, transparent 6px)';
+
+/**
+ * ACT chapter rail — five ticks for the five acts. Active tick follows
+ * scroll via useChapterActive (ScrollTrigger-based, robust with pinned
+ * scenes). Clicking a tick smooth-scrolls via Lenis.
+ */
 export function RightNavbar() {
-  const [activeSection, setActiveSection] = useState<string | null>(null);
+  const activeId = useChapterActive(ACTS.map((a) => a.id));
   const lenis = useLenis();
 
-  const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, id: string) => {
+  const handleClick = (e: React.MouseEvent<HTMLAnchorElement>, id: string) => {
     e.preventDefault();
     const el = document.getElementById(id);
     if (el && lenis) {
-      lenis.scrollTo(el, { offset: -80, duration: 1.2 });
+      lenis.scrollTo(el, { offset: 0, duration: 1.4 });
     } else if (el) {
-      el.scrollIntoView({ behavior: "smooth" });
+      el.scrollIntoView({ behavior: 'smooth' });
     }
   };
 
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            setActiveSection(entry.target.id);
-          }
-        });
-      },
-      { rootMargin: "-20% 0px -60% 0px", threshold: 0.1 },
-    );
-
-    const sections = [
-      "experience",
-      "projects",
-      // "opensource",
-      "skills",
-      // "blogs",
-    ];
-    sections.forEach((id) => {
-      const el = document.getElementById(id);
-      if (el) observer.observe(el);
-    });
-
-    return () => observer.disconnect();
-  }, []);
-
-  const links = [
-    { name: "Experience", href: "#experience", id: "experience" },
-    { name: "Projects", href: "#projects", id: "projects" },
-    // { name: "Open Source", href: "#opensource", id: "opensource" },
-    { name: "Skills", href: "#skills", id: "skills" },
-    // { name: "Blog", href: "#blogs", id: "blogs" },
-  ];
-
   return (
-    <div className="fixed right-4 top-1/2 -translate-y-1/2 z-50 hidden lg:flex flex-col items-end gap-3">
-      {/* Vertical line */}
+    <div className="fixed top-1/2 right-5 z-50 hidden -translate-y-1/2 flex-col items-end gap-4 lg:flex">
+      {/* Vertical dotted rail */}
       <div
-        className="absolute top-0 bottom-0 right-[5px] w-0 border-r pointer-events-none"
+        className="pointer-events-none absolute top-0 right-[5px] bottom-0 w-0 border-r"
         style={{
-          borderColor: "var(--border-accent)",
-          maskImage:
-            "repeating-linear-gradient(to bottom, black 0, black 1px, transparent 1px, transparent 6px)",
-          WebkitMaskImage:
-            "repeating-linear-gradient(to bottom, black 0, black 1px, transparent 1px, transparent 6px)",
+          borderColor: 'var(--border-accent)',
+          maskImage: dottedLineMask,
+          WebkitMaskImage: dottedLineMask,
         }}
       />
 
-      {links.map((link) => {
-        const isActive = activeSection === link.id;
+      {ACTS.map((act) => {
+        const isActive = activeId === act.id;
         return (
           <a
-            key={link.name}
-            href={link.href}
-            onClick={(e) => handleNavClick(e, link.id)}
-            className="flex items-center gap-3 group relative"
+            key={act.id}
+            href={`#${act.id}`}
+            onClick={(e) => handleClick(e, act.id)}
+            className="group relative flex items-center gap-3"
+            aria-label={act.label}
+            aria-current={isActive ? 'true' : undefined}
           >
             <span
-              className="text-[10px] font-medium tracking-[0.1em] uppercase transition-all duration-300 opacity-0 group-hover:opacity-100 translate-x-2 group-hover:translate-x-0"
-              style={{
-                color: isActive ? "var(--accent-primary)" : "var(--text-muted)",
-              }}
+              className="translate-x-2 text-[10px] font-medium tracking-[0.1em] uppercase opacity-0 transition-all duration-300 group-hover:translate-x-0 group-hover:opacity-100"
+              style={{ color: isActive ? 'var(--accent-primary)' : 'var(--text-muted)' }}
             >
-              {link.name}
+              {act.label}
             </span>
             <div
-              className="w-[10px] h-[10px] rounded-full border-2 transition-all duration-300 relative z-10"
+              className="relative z-10 h-[10px] w-[10px] rounded-full border-2 transition-all duration-300"
               style={{
-                borderColor: isActive
-                  ? "var(--accent-primary)"
-                  : "var(--border-primary)",
-                background: isActive
-                  ? "var(--accent-primary)"
-                  : "var(--bg-primary)",
-                boxShadow: isActive ? "0 0 8px var(--accent-glow)" : "none",
+                borderColor: isActive ? 'var(--accent-primary)' : 'var(--border-primary)',
+                background: isActive ? 'var(--accent-primary)' : 'var(--bg-primary)',
+                boxShadow: isActive ? '0 0 8px var(--accent-glow)' : 'none',
               }}
             />
           </a>
