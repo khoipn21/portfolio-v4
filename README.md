@@ -43,10 +43,10 @@ Unknown projects use a real 404 page with recovery links. Project routes have st
 
 ## Motion decisions
 
-The homepage keeps its opening typography-only, with a prominent CV-backed technology summary. A Codex-generated conceptual illustration supports the interface/system introduction and is labelled as illustration, not project evidence. Selected projects alternate details and imagery across a numbered central timeline; narrow screens use one column and a left-hand timeline. Scrolling remains continuous: no snapping or pinned gallery.
+The homepage keeps its opening typography-only, with a prominent CV-backed technology summary. A Codex-generated conceptual illustration supports the interface/system introduction and is labelled as illustration, not project evidence. Experience uses a chronological timeline with roles, dates, delivered workflows, and technologies. Selected projects use an alternating editorial showcase without a timeline. Both sections collapse to one column on mobile. Scrolling remains continuous: no snapping or pinned gallery.
 
 - `PortfolioMotion` uses scoped `useGSAP` and `gsap.matchMedia`. SplitText animates heading and project-title characters with staggered rotation and vertical lift inside line masks, re-splits after font/width changes, and preserves accessible names. Reduced motion restores unsplit, stationary content.
-- Project previews enter from alternating sides with a small translation, coordinated with numbered nodes using GSAP timelines. All previews remain visible without hover or JavaScript. The supporting illustration has a once-only vertical entrance.
+- Project images use alternating horizontal shutter reveals. Career delivery items enter with a staggered vertical translation beside timeline markers. Content remains available without hover or JavaScript. The supporting illustration has a once-only vertical entrance.
 - Lenis uses the GSAP ticker with lag smoothing disabled and a `0.085` interpolation factor. Wheel smoothing is independent of pointer type; touch gestures stay native (`syncTouch: false`). Anchor clicks use Lenis on non-coarse pointers and stay native on touch devices; keyboard/focus navigation cancels residual inertia.
 - Touch, keyboard, hash links, and browser history retain native behavior. No route-change `scrollTo(0)` overrides Next/browser restoration.
 - Media-query changes revert animations and destroy Lenis. Cleanup removes only listeners and instances owned by that component.
@@ -88,7 +88,7 @@ The suite exercises:
 
 Axe does not establish full accessibility compliance. The linked projects are not covered by this portfolio's test suite. No invented coverage percentage, performance score, or real-user metric is presented.
 
-Verification on September 10, 2026: production build and lint passed; all 14 Playwright checks passed (24.6 seconds). Desktop and 320px mobile views were inspected. A separate browser probe observed a character transform animate from a rotated 3D matrix to identity; toggling reduced motion removed all split-character wrappers while retaining the heading’s accessible name. The existing custom Cache-Control build warning remains.
+Verification on September 10, 2026 after the experience revision: production build and lint passed; all 14 Playwright checks passed. Desktop and mobile career layouts and the project showcase were visually inspected. A browser probe observed career items translate from 28px to their normal position; reduced-motion cleanup removed split-character wrappers and restored image visibility. The existing custom Cache-Control build warning remains.
 
 The résumé supports browser print/PDF. `/pull-requests` and the unused `/api/github-contributions` route remain removed. No fabricated activity records are retained.
 

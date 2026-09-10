@@ -92,7 +92,7 @@ export default function Home() {
               .filter((project) => project.featured)
               .map((project, index) => (
                 <article className="work-entry" key={project.slug}>
-                  <span className="work-node" aria-hidden="true">
+                  <span className="work-number" aria-hidden="true">
                     {String(index + 1).padStart(2, '0')}
                   </span>
                   <div className="work-entry-copy">
@@ -146,16 +146,29 @@ export default function Home() {
             <br />
             Made for people.
           </h2>
-          <div className="company-list">
+          <div className="career-timeline">
             {experiences.map((experience) => (
-              <Link href="/experience" key={experience.company}>
-                <h3>{experience.company}</h3>
-                <span>{experience.role}</span>
-                <span>{experience.period.replaceAll('—', '-').replaceAll('–', '-')}</span>
-                <ArrowUpRight aria-hidden="true" />
-              </Link>
+              <article className="career-entry" key={experience.company}>
+                <div className="career-heading">
+                  <p className="career-period">{experience.period}</p>
+                  <h3 data-panel-reveal>{experience.company}</h3>
+                  <p>{experience.role}</p>
+                </div>
+                <div className="career-delivery">
+                  <p className="career-label">What I delivered</p>
+                  <ul>
+                    {experience.description.map((item) => (
+                      <li key={item}>{item}</li>
+                    ))}
+                  </ul>
+                  <p className="career-tech">{experience.tech.join(' / ')}</p>
+                </div>
+              </article>
             ))}
           </div>
+          <Link className="text-link" href="/experience">
+            Experience & education <ArrowUpRight aria-hidden="true" />
+          </Link>
         </section>
 
         <section className="viewport-panel contact-panel" aria-labelledby="contact-heading">

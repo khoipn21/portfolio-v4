@@ -35,9 +35,9 @@ test('a reviewer can use the keyboard to reach work, source, résumé, and conta
     .getByRole('navigation', { name: 'Main navigation' })
     .getByRole('link', { name: 'Contact', exact: true })
     .click();
-  await expect(page.getByRole('link', { name: 'khoingoc456@gmail.com' })).toHaveAttribute(
+  await expect(page.getByRole('link', { name: 'contact@khoipn.com' })).toHaveAttribute(
     'href',
-    'mailto:khoingoc456@gmail.com'
+    'mailto:contact@khoipn.com'
   );
 });
 

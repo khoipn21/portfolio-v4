@@ -2,7 +2,7 @@ export const userData = {
   name: 'Pham Ngoc Khoi',
   headline: 'Software Engineer & Full-Stack Developer',
   location: 'Ho Chi Minh, Vietnam',
-  email: 'khoingoc456@gmail.com',
+  email: 'contact@khoipn.com',
   phone: '(+84) 832-211-203',
   github: 'https://github.com/khoipn21',
   githubUsername: 'khoipn21',
@@ -22,7 +22,7 @@ export interface Experience {
 export const experiences: Experience[] = [
   {
     company: 'WALA-ICT',
-    role: 'Frontend Developer',
+    role: 'Software / Fullstack Developer',
     period: 'May 2025 — Present',
     location: 'Ho Chi Minh, VN',
     current: true,
@@ -33,20 +33,6 @@ export const experiences: Experience[] = [
       'Integrated marketplace features such as Coupang/Naver/G-Market linkage, checkout flows, real-time inquiry chat, and mobile push notifications.',
     ],
     tech: ['React', 'Next.js', 'React Native', 'TypeScript', 'TailwindCSS'],
-  },
-  {
-    company: 'Freelance',
-    role: 'Fullstack Developer',
-    period: '2023 — Present',
-    location: 'Remote',
-    current: true,
-    description: [
-      'Delivered end-to-end web applications across recruitment, beauty-services, and fintech verticals for international clients.',
-      'Built a recruitment platform with Next.js and NestJS featuring job posting pipelines, candidate matching, and role-based access.',
-      'Developed a nail-salon booking system with appointment scheduling, service catalogs, staff calendars, and customer loyalty tracking.',
-      'Created an AI-powered tax-compliance chatbot for the Polish market with LLM APIs and a Go backend.',
-    ],
-    tech: ['Next.js', 'NestJS', 'Go', 'TypeScript', 'Docker'],
   },
   {
     company: 'LECOLE',
@@ -60,6 +46,19 @@ export const experiences: Experience[] = [
       'Supported deployment infrastructure with Docker, Nginx, Redis, and environment-based build setups.',
     ],
     tech: ['Next.js', 'TypeScript', 'Supabase', 'TailwindCSS', 'Redis'],
+  },
+  {
+    company: 'Freelance',
+    role: 'Fullstack Developer',
+    period: '2024',
+    location: 'Remote',
+    description: [
+      'Delivered recruitment, salon-management, and tax-compliance products for international clients.',
+      'Built a recruitment platform with Next.js and NestJS featuring job posting pipelines, candidate matching, and role-based access.',
+      'Developed a nail-salon booking system with appointment scheduling, service catalogs, staff calendars, and customer loyalty tracking.',
+      'Built a Polish-market WhatsApp tax assistant using Python, LLMs, RAG, and Langfuse, with source citations and tools for tax calculations and regulation lookup.',
+    ],
+    tech: ['Next.js', 'NestJS', 'Node.js', 'PostgreSQL', 'Python', 'RAG', 'Langfuse'],
   },
 ];
 

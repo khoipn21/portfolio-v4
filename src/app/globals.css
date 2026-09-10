@@ -472,15 +472,6 @@ body:has(.home-page) > .site-footer {
 .work-index {
   position: relative;
 }
-.work-index::before {
-  content: '';
-  position: absolute;
-  left: 50%;
-  top: 0;
-  bottom: 0;
-  width: 1px;
-  background: var(--border-primary);
-}
 .work-entry {
   position: relative;
   display: grid;
@@ -488,30 +479,14 @@ body:has(.home-page) > .site-footer {
   gap: 12%;
   align-items: center;
   padding-block: clamp(3rem, 7vw, 7rem);
+  border-top: 1px solid var(--border-primary);
 }
-.work-entry::before {
-  content: '';
+.work-number {
   position: absolute;
-  left: 44%;
-  right: 44%;
-  top: 50%;
-  height: 1px;
-  background: var(--border-primary);
-}
-.work-node {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  display: grid;
-  place-items: center;
-  width: 2.5rem;
-  height: 2.5rem;
-  border: 1px solid var(--border-primary);
-  border-radius: 50%;
-  background: var(--bg-primary);
+  top: 1rem;
+  left: 0;
+  color: var(--text-muted);
   font-size: var(--text-small);
-  z-index: 1;
 }
 .work-entry-copy {
   grid-column: 1;
@@ -663,28 +638,56 @@ body:has(.home-page) > .site-footer {
   font-size: var(--text-small);
   margin-top: var(--space-3);
 }
-.company-list a {
+.career-timeline {
+  position: relative;
+  border-left: 1px solid var(--border-primary);
+  margin-left: 0.5rem;
+}
+.career-entry {
+  position: relative;
   display: grid;
-  grid-template-columns: 1.5fr 1fr 1fr auto;
-  align-items: center;
-  gap: var(--space-6);
-  padding-block: var(--space-6);
-  border-top: 1px solid var(--border-primary);
+  grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.4fr);
+  gap: var(--space-12);
+  padding: 0 0 var(--space-24) var(--space-12);
 }
-.company-list h3 {
-  font-size: clamp(1.75rem, 3vw, 3rem);
+.career-entry::before {
+  content: '';
+  position: absolute;
+  left: -6px;
+  top: 0.45rem;
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  background: var(--text-primary);
+}
+.career-entry:last-child {
+  padding-bottom: 0;
+}
+.career-heading h3 {
+  font-size: clamp(2rem, 3.5vw, 4rem);
   font-weight: 400;
+  margin-block: var(--space-3);
 }
-.company-list span {
+.career-period,
+.career-label {
+  color: var(--text-muted);
+  font-size: var(--text-small);
+}
+.career-delivery ul {
+  list-style: none;
+  padding: 0;
+}
+.career-delivery li {
+  padding-block: var(--space-4);
+  border-bottom: 1px solid var(--border-secondary);
+  font-size: clamp(1rem, 1.3vw, 1.2rem);
+  line-height: 1.6;
+}
+.career-tech {
+  margin-top: var(--space-6);
   font-size: var(--text-small);
   color: var(--text-secondary);
-}
-.company-list svg {
-  width: 20px;
-  transition: transform 200ms var(--ease-out);
-}
-.company-list a:hover svg {
-  transform: translate(3px, -3px);
+  line-height: 1.8;
 }
 .contact-panel h2 {
   font-family: var(--font-display), serif;
@@ -867,31 +870,12 @@ body:has(.home-page) > .site-footer {
   .approach-opening {
     grid-template-columns: 1fr;
   }
-  .work-index {
-    padding-left: 2rem;
-  }
-  .work-index::before {
-    left: 0;
-  }
   .work-entry {
     display: flex;
     flex-direction: column;
     align-items: stretch;
     gap: var(--space-6);
     padding-block: var(--space-12);
-  }
-  .work-entry::before {
-    left: -2rem;
-    right: auto;
-    width: 1.5rem;
-    top: 4rem;
-  }
-  .work-node {
-    left: -2rem;
-    top: 4rem;
-    width: 1.75rem;
-    height: 1.75rem;
-    font-size: 0.65rem;
   }
   .work-all {
     margin-top: var(--space-8);
@@ -932,20 +916,10 @@ body:has(.home-page) > .site-footer {
   .project-illustration-note {
     font-size: 0.75rem;
   }
-  .company-list a {
-    grid-template-columns: 1fr auto;
-    gap: var(--space-2);
-  }
-  .company-list h3 {
-    grid-column: 1;
-    font-size: 2rem;
-  }
-  .company-list span {
-    grid-column: 1;
-  }
-  .company-list svg {
-    grid-column: 2;
-    grid-row: 1/4;
+  .career-entry {
+    grid-template-columns: 1fr;
+    gap: var(--space-6);
+    padding-left: var(--space-6);
   }
   .contact-bottom {
     align-items: start;
