@@ -6,14 +6,7 @@ const SITE_URL = 'https://portfolio.khoipn.com';
 export default function sitemap(): MetadataRoute.Sitemap {
   const now = new Date();
 
-  const staticRoutes = [
-    '',
-    '/projects',
-    '/experience',
-    '/pull-requests',
-    '/resume',
-    '/contact',
-  ].map((path) => ({
+  const staticRoutes = ['', '/projects', '/experience', '/resume', '/contact'].map((path) => ({
     url: `${SITE_URL}${path}`,
     lastModified: now,
     changeFrequency: 'monthly' as const,

@@ -1,76 +1,54 @@
 'use client';
 
 import { useEffect, type ReactNode } from 'react';
-import { ReactLenis, useLenis } from 'lenis/react';
+import { usePathname } from 'next/navigation';
+import Lenis from 'lenis';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { usePathname } from 'next/navigation';
 
 gsap.registerPlugin(ScrollTrigger);
 
-interface LenisProviderProps {
-  children: ReactNode;
-}
+// Lenis needs elapsed wall time, not GSAP's compensated animation clock.
+gsap.ticker.lagSmoothing(0);
 
-/**
- * Inner component that pipes Lenis scroll events to GSAP ScrollTrigger.
- * Resets scroll position on route change.
- */
-function LenisBridge() {
+export function LenisProvider({ children }: { children: ReactNode }) {
   const pathname = usePathname();
-  const lenis = useLenis();
-
-  // Reset scroll position on route change
   useEffect(() => {
-    if (lenis) {
-      lenis.scrollTo(0, { immediate: true });
-      lenis.resize();
-      requestAnimationFrame(() => {
-        ScrollTrigger.refresh(true);
-      });
-    }
-  }, [pathname, lenis]);
-
-  useLenis(() => {
-    ScrollTrigger.update();
-  });
-
-  return null;
-}
-
-/**
- * Wraps the app with Lenis smooth scroll.
- * Uses key to force reinitialize on route changes.
- */
-export function LenisProvider({ children }: LenisProviderProps) {
-  const pathname = usePathname();
-
-  useEffect(() => {
-    ScrollTrigger.config({
-      limitCallbacks: true,
-      ignoreMobileResize: true,
-    });
-
-    return () => {
-      ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
-    };
-  }, []);
-
-  return (
-    <ReactLenis
-      key={pathname}
-      root
-      options={{
-        autoRaf: true,
-        lerp: 0.1,
-        smoothWheel: true,
+    // Touch and reduced motion retain native scrolling.
+    const media = gsap.matchMedia();
+    media.add('(prefers-reduced-motion: no-preference)', () => {
+      const lenis = new Lenis({
+        autoRaf: false,
+        lerp: 0.085,
         syncTouch: false,
-        touchMultiplier: 1.5,
-        infinite: false,
-      }}
-    >
-      <LenisBridge />
-      {children}
-    </ReactLenis>
-  );
+        anchors: !window.matchMedia('(pointer: coarse)').matches,
+        stopInertiaOnNavigate: true,
+      });
+      const releaseKeyboard = (event: KeyboardEvent) => {
+        if (
+          ['Tab', 'Home', 'End', 'PageUp', 'PageDown', 'ArrowUp', 'ArrowDown', ' '].includes(
+            event.key
+          )
+        ) {
+          lenis.scrollTo(window.scrollY, { immediate: true });
+        }
+      };
+      window.addEventListener('keydown', releaseKeyboard);
+      const releaseFocus = () => lenis.scrollTo(window.scrollY, { immediate: true });
+      window.addEventListener('focusin', releaseFocus, true);
+      const update = (time: number) => lenis.raf(time * 1000);
+      lenis.on('scroll', ScrollTrigger.update);
+      gsap.ticker.add(update);
+      return () => {
+        window.removeEventListener('keydown', releaseKeyboard);
+        window.removeEventListener('focusin', releaseFocus, true);
+        gsap.ticker.remove(update);
+        lenis.off('scroll', ScrollTrigger.update);
+        lenis.destroy();
+      };
+    });
+    return () => media.revert();
+  }, [pathname]);
+
+  return children;
 }

@@ -1,305 +1,111 @@
-'use client';
-
-import { experiences, education, userData } from '@/data/user-data';
-import { ArrowLeft, Download, MapPin, Calendar, Mail, Phone, Globe } from 'lucide-react';
-import { SiGithub } from 'react-icons/si';
+import type { Metadata } from 'next';
 import Link from 'next/link';
-import { useRef, useEffect } from 'react';
-import { gsap } from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { prefersReducedMotion } from '@/lib/text-split';
+import { userData, experiences, education } from '@/data/user-data';
+import { PrintResumeButton } from '@/components/print-resume-button';
 
-gsap.registerPlugin(ScrollTrigger);
+export const metadata: Metadata = {
+  title: 'Résumé',
+  description:
+    'Experience, education, and technical skills of Pham Ngoc Khoi, Software Engineer & Full-Stack Developer.',
+  alternates: { canonical: '/resume' },
+};
 
 export default function ResumePage() {
-  const contentRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    if (prefersReducedMotion() || !contentRef.current) return;
-
-    const ctx = gsap.context(() => {
-      const sections = contentRef.current?.querySelectorAll('.resume-section');
-      if (sections) {
-        gsap.fromTo(
-          sections,
-          { opacity: 0, y: 24 },
-          {
-            opacity: 1,
-            y: 0,
-            stagger: 0.1,
-            duration: 0.6,
-            ease: 'power3.out',
-            scrollTrigger: {
-              trigger: contentRef.current,
-              start: 'top 85%',
-              toggleActions: 'play none none none',
-            },
-          }
-        );
-      }
-    }, contentRef);
-
-    return () => ctx.revert();
-  }, []);
-
   return (
-    <div className="relative min-h-[100dvh] w-full overflow-x-hidden bg-[var(--bg-primary)] text-[var(--text-primary)]">
-      <div className="cinema-container py-12">
-        {/* Top bar */}
-        <div className="mb-10 flex items-center justify-between">
-          <Link
-            href="/"
-            className="inline-flex items-center gap-2 text-[12px] font-medium tracking-[0.15em] uppercase transition-colors duration-200"
-            style={{ color: 'var(--text-muted)' }}
-          >
-            <ArrowLeft className="h-3.5 w-3.5" />
-            Home
-          </Link>
-          <a
-            href="https://cdn.khoipn.com/resume/KhoiPham_Resume.pdf"
-            download
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center gap-2 rounded-full px-4 py-2 text-[12px] font-medium transition-all duration-300 hover:scale-[1.03]"
-            style={{
-              background: 'var(--accent-primary)',
-              color: 'white',
-            }}
-          >
-            <Download className="h-3.5 w-3.5" />
-            Download PDF
+    <main id="main-content" tabIndex={-1} className="page-shell resume-page">
+      <header className="page-intro">
+        <h1 className="page-title">{userData.name}</h1>
+        <p className="lede">{userData.headline}</p>
+        <p className="muted mt-4">{userData.location}</p>
+        <div className="action-row">
+          <a className="text-link" href={`mailto:${userData.email}`}>
+            {userData.email}
           </a>
+          <a className="text-link" href={userData.github}>
+            github.com/{userData.githubUsername}
+          </a>
+          <PrintResumeButton />
         </div>
-
-        {/* Resume card */}
-        <div
-          className="rounded-[1.5rem] border p-8 sm:p-12"
-          style={{
-            background: 'var(--bg-card)',
-            borderColor: 'var(--border-secondary)',
-            boxShadow: 'var(--shadow-lg)',
-          }}
-        >
-          <div ref={contentRef}>
-            {/* Header */}
-            <div className="resume-section mb-10">
-              <p className="act-label mb-5">
-                <span className="act-num">ACT VI</span> &nbsp;DOSSIER
-              </p>
-              <h1 className="display-lg" style={{ color: 'var(--text-primary)' }}>
-                {userData.name}
-              </h1>
-              <p className="lead mt-3">{userData.headline}</p>
-
-              {/* Contact strip */}
-              <div
-                className="mt-6 flex flex-wrap items-center gap-x-4 gap-y-2 font-mono text-[12px]"
-                style={{ color: 'var(--text-muted)' }}
-              >
-                <a
-                  href={`mailto:${userData.email}`}
-                  className="flex items-center gap-1.5 transition-colors duration-200 hover:underline"
-                  style={{ color: 'var(--text-tertiary)' }}
-                >
-                  <Mail className="h-3 w-3" />
-                  {userData.email}
-                </a>
-                <span style={{ color: 'var(--border-primary)' }}>·</span>
-                <span className="flex items-center gap-1.5">
-                  <Phone className="h-3 w-3" />
-                  {userData.phone}
-                </span>
-                <span style={{ color: 'var(--border-primary)' }}>·</span>
-                <span className="flex items-center gap-1.5">
-                  <MapPin className="h-3 w-3" />
-                  {userData.location}
-                </span>
-                <span style={{ color: 'var(--border-primary)' }}>·</span>
-                <a
-                  href={userData.github}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center gap-1.5 transition-colors duration-200 hover:underline"
-                  style={{ color: 'var(--text-tertiary)' }}
-                >
-                  <SiGithub className="h-3 w-3" />
-                  {userData.githubUsername}
-                </a>
-                <span style={{ color: 'var(--border-primary)' }}>·</span>
-                <a
-                  href={userData.portfolio}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center gap-1.5 transition-colors duration-200 hover:underline"
-                  style={{ color: 'var(--text-tertiary)' }}
-                >
-                  <Globe className="h-3 w-3" />
-                  portfolio.khoipn.com
-                </a>
-              </div>
+        <p className="demo-note print-hidden">
+          Choose “Save as PDF” in your browser’s print dialog to download a copy.
+        </p>
+      </header>
+      <section className="section-block detail-grid" aria-labelledby="summary-heading">
+        <h2 id="summary-heading" className="section-title">
+          Profile
+        </h2>
+        <p className="prose">
+          Software engineer building web applications from interface to API. Experience across
+          e-commerce, proptech, and educational products, including responsive interfaces,
+          authentication, API integration, and real-time features.
+        </p>
+      </section>
+      <section className="section-block" aria-labelledby="experience-heading">
+        <h2 id="experience-heading" className="section-title mb-8">
+          Experience
+        </h2>
+        {experiences.map((experience) => (
+          <article className="experience-row" key={experience.company}>
+            <div>
+              <h3 className="text-xl font-semibold">{experience.company}</h3>
+              <p className="muted">{experience.period.replaceAll('—', '–')}</p>
+              <p className="muted">{experience.location}</p>
             </div>
-
-            {/* About */}
-            <section className="resume-section mb-10">
-              <h2
-                className="mb-3 text-[14px] font-semibold tracking-[0.1em] uppercase"
-                style={{ color: 'var(--accent-primary)' }}
-              >
-                About Me
-              </h2>
-              <p className="text-[14px] leading-relaxed" style={{ color: 'var(--text-secondary)' }}>
-                Software engineer focused on React, Next.js, React Native, and TypeScript for
-                e-commerce and proptech products. Strong in authentication, RBAC, API integration,
-                multilingual UX, real-time features, and portal-based web/mobile applications.
-              </p>
-            </section>
-
-            {/* Skills */}
-            <section className="resume-section mb-10">
-              <h2
-                className="mb-4 text-[14px] font-semibold tracking-[0.1em] uppercase"
-                style={{ color: 'var(--accent-primary)' }}
-              >
-                Technical Skills
-              </h2>
-              <div className="grid grid-cols-1 gap-4 text-[13px] sm:grid-cols-2">
-                <div>
-                  <span className="font-semibold" style={{ color: 'var(--text-primary)' }}>
-                    Frontend:{' '}
-                  </span>
-                  <span style={{ color: 'var(--text-secondary)' }}>
-                    HTML5, CSS, TypeScript, React, Next.js, React Native, TailwindCSS, Mantine,
-                    TanStack Router/Query, Zustand, Jotai
-                  </span>
-                </div>
-                <div>
-                  <span className="font-semibold" style={{ color: 'var(--text-primary)' }}>
-                    Backend:{' '}
-                  </span>
-                  <span style={{ color: 'var(--text-secondary)' }}>
-                    NodeJS (ExpressJS), Golang (Gin, Gorilla-WebSocket), REST API integration
-                  </span>
-                </div>
-                <div>
-                  <span className="font-semibold" style={{ color: 'var(--text-primary)' }}>
-                    Database:{' '}
-                  </span>
-                  <span style={{ color: 'var(--text-secondary)' }}>
-                    MySQL, PostgreSQL, MongoDB, Redis
-                  </span>
-                </div>
-                <div>
-                  <span className="font-semibold" style={{ color: 'var(--text-primary)' }}>
-                    Cloud & DevOps:{' '}
-                  </span>
-                  <span style={{ color: 'var(--text-secondary)' }}>
-                    AWS EC2, AWS S3, Docker, Nginx
-                  </span>
-                </div>
-              </div>
-            </section>
-
-            {/* Experience */}
-            <section className="resume-section mb-10">
-              <h2
-                className="mb-5 text-[14px] font-semibold tracking-[0.1em] uppercase"
-                style={{ color: 'var(--accent-primary)' }}
-              >
-                Work Experience
-              </h2>
-              <div className="space-y-7">
-                {experiences.map((exp, i) => (
-                  <div key={i}>
-                    <div className="mb-2 flex flex-col gap-1 sm:flex-row sm:items-start sm:justify-between">
-                      <div>
-                        <h3
-                          className="text-[15px] font-semibold"
-                          style={{ color: 'var(--text-primary)' }}
-                        >
-                          {exp.role}
-                        </h3>
-                        <p
-                          className="text-[14px] font-medium"
-                          style={{ color: 'var(--accent-primary)' }}
-                        >
-                          {exp.company}
-                        </p>
-                      </div>
-                      <div
-                        className="flex shrink-0 items-center gap-2 text-[12px]"
-                        style={{ color: 'var(--text-muted)' }}
-                      >
-                        <Calendar className="h-3 w-3" />
-                        {exp.period}
-                      </div>
-                    </div>
-                    <ul className="ml-4 space-y-1.5">
-                      {exp.description.map((desc, j) => (
-                        <li
-                          key={j}
-                          className="flex gap-2 text-[13px] leading-relaxed"
-                          style={{ color: 'var(--text-secondary)' }}
-                        >
-                          <span
-                            className="mt-1.5 h-1 w-1 shrink-0 rounded-full"
-                            style={{ background: 'var(--accent-primary)' }}
-                          />
-                          <span>{desc}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
+            <div className="prose">
+              <h3>{experience.role}</h3>
+              <ul>
+                {experience.description.map((description) => (
+                  <li key={description}>{description}</li>
                 ))}
-              </div>
-            </section>
-
-            {/* Education */}
-            <section className="resume-section">
-              <h2
-                className="mb-5 text-[14px] font-semibold tracking-[0.1em] uppercase"
-                style={{ color: 'var(--accent-primary)' }}
-              >
-                Education
-              </h2>
-              <div className="space-y-4">
-                {education.map((edu, i) => (
-                  <div
-                    key={i}
-                    className="flex flex-col gap-1 sm:flex-row sm:items-start sm:justify-between"
-                  >
-                    <div>
-                      <h3
-                        className="text-[15px] font-semibold"
-                        style={{ color: 'var(--text-primary)' }}
-                      >
-                        {edu.school}
-                      </h3>
-                      <p className="text-[13px]" style={{ color: 'var(--text-secondary)' }}>
-                        {edu.major}
-                        {edu.note && (
-                          <span
-                            className="ml-1 text-[12px]"
-                            style={{ color: 'var(--accent-primary)' }}
-                          >
-                            ({edu.note})
-                          </span>
-                        )}
-                      </p>
-                    </div>
-                    <div
-                      className="flex shrink-0 items-center gap-2 text-[12px]"
-                      style={{ color: 'var(--text-muted)' }}
-                    >
-                      <Calendar className="h-3 w-3" />
-                      {edu.period}
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </section>
+              </ul>
+            </div>
+          </article>
+        ))}
+      </section>
+      <section className="section-block detail-grid" aria-labelledby="skills-heading">
+        <h2 id="skills-heading" className="section-title">
+          Technical skills
+        </h2>
+        <dl className="prose">
+          <div>
+            <dt className="font-semibold">Frontend</dt>
+            <dd>
+              HTML, CSS, JavaScript, TypeScript, React, Next.js, React Native, Tailwind CSS,
+              TanStack Query
+            </dd>
           </div>
+          <div>
+            <dt className="font-semibold">Backend & data</dt>
+            <dd>Go, Node.js, Express, NestJS, WebSocket, PostgreSQL, MongoDB, Redis, Supabase</dd>
+          </div>
+          <div>
+            <dt className="font-semibold">Tools & delivery</dt>
+            <dd>Git, Linux, Docker, Nginx, AWS, GitHub Actions</dd>
+          </div>
+        </dl>
+      </section>
+      <section className="section-block detail-grid" aria-labelledby="education-heading">
+        <h2 id="education-heading" className="section-title">
+          Education
+        </h2>
+        <div className="prose">
+          {education.map((item) => (
+            <div key={item.school}>
+              <h3>{item.school}</h3>
+              <p>{item.major}</p>
+              <p>
+                {item.period.replaceAll('—', '–')}
+                {item.note && ` · ${item.note}`}
+              </p>
+            </div>
+          ))}
         </div>
+      </section>
+      <div className="section-block print-hidden">
+        <Link className="text-link" href="/projects">
+          Read project case studies
+        </Link>
       </div>
-    </div>
+    </main>
   );
 }

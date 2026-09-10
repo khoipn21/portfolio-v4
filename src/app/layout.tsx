@@ -1,25 +1,30 @@
 import type { Metadata } from 'next';
-import { Geist, Geist_Mono } from 'next/font/google';
-import Script from 'next/script';
+import { Cormorant_Garamond, Hanken_Grotesk } from 'next/font/google';
 import './globals.css';
 import { LenisProvider } from '@/components/lenis-provider';
 import { ThemeProvider } from '@/components/theme-provider';
 import { FaviconSwitcher } from '@/components/favicon-switcher';
+import { TopNavbar } from '@/components/layout/top-navbar';
+import { userData } from '@/data/user-data';
 
-const geistSans = Geist({
-  variable: '--font-geist-sans',
-  subsets: ['latin'],
+const displayFont = Cormorant_Garamond({
+  variable: '--font-display',
+  weight: ['400', '500'],
+  style: ['normal', 'italic'],
+  subsets: ['latin', 'vietnamese'],
+  display: 'swap',
 });
 
-const geistMono = Geist_Mono({
-  variable: '--font-geist-mono',
-  subsets: ['latin'],
+const bodyFont = Hanken_Grotesk({
+  variable: '--font-body',
+  subsets: ['latin', 'vietnamese'],
+  display: 'swap',
 });
 
 const SITE_URL = 'https://portfolio.khoipn.com';
-const TITLE = 'Pham Ngoc Khoi — Full-Stack Developer';
+const TITLE = 'Pham Ngoc Khoi | Software Engineer & Full-Stack Developer';
 const DESCRIPTION =
-  'Full-stack developer focused on React, Next.js, React Native, TypeScript, and Go. Building scalable e-commerce, proptech, and ed-tech products.';
+  'Software engineer building web applications from interface to API with React, Next.js, TypeScript, and Go. Explore projects, implementation decisions, experience, and source code.';
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
@@ -69,7 +74,7 @@ export const metadata: Metadata = {
         url: '/og-image.png',
         width: 1200,
         height: 630,
-        alt: 'Pham Ngoc Khoi — Full-Stack Developer',
+        alt: 'Pham Ngoc Khoi, Software Engineer & Full-Stack Developer',
       },
     ],
   },
@@ -91,16 +96,6 @@ export const metadata: Metadata = {
   },
 };
 
-// Theme initialization script to prevent FOUC
-const themeScript = `
-  (function() {
-    try {
-      var theme = localStorage.getItem('portfolio-theme') || 'dark';
-      document.documentElement.setAttribute('data-theme', theme);
-    } catch (e) {}
-  })();
-`;
-
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -110,20 +105,27 @@ export default function RootLayout({
     <html
       lang="en"
       suppressHydrationWarning
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      className={`${displayFont.variable} ${bodyFont.variable} h-full antialiased`}
     >
-      <head>
-        <Script
-          id="theme-init"
-          strategy="beforeInteractive"
-          dangerouslySetInnerHTML={{ __html: themeScript }}
-        />
-      </head>
-      <body className="flex min-h-full flex-col bg-[var(--bg-primary)] text-[var(--text-primary)] transition-colors duration-300">
+      <body>
         <LenisProvider>
           <ThemeProvider defaultTheme="dark" storageKey="portfolio-theme">
             <FaviconSwitcher />
-            {children}
+            <a className="skip-link" href="#main-content">
+              Skip to content
+            </a>
+            <TopNavbar />
+            <div className="site-content">{children}</div>
+            <footer className="site-footer page-shell">
+              <p>
+                © {new Date().getFullYear()} {userData.name}
+              </p>
+              <div className="footer-links">
+                <a href={userData.github}>GitHub</a>
+                <a href={userData.linkedin}>LinkedIn</a>
+                <a href={`mailto:${userData.email}`}>Email</a>
+              </div>
+            </footer>
           </ThemeProvider>
         </LenisProvider>
       </body>
