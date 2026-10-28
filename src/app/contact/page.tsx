@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
-import { ArrowUpRight } from 'lucide-react';
+import { ArrowRight, ArrowUpRight } from 'lucide-react';
+import { CopyEmailButton } from '@/components/copy-email-button';
 import Link from 'next/link';
 import { userData } from '@/data/user-data';
 
@@ -17,7 +18,7 @@ export default function ContactPage() {
         <h1 className="page-title">
           Let’s build
           <br />
-          something useful.
+          something <em>useful</em>.
         </h1>
         <p className="lede">
           Have a role or project in mind? Tell me a little about the team, the problem, and what you
@@ -26,7 +27,10 @@ export default function ContactPage() {
         <a className="contact-email" href={`mailto:${userData.email}`}>
           {userData.email} <ArrowUpRight aria-hidden="true" />
         </a>
-        <p className="demo-note">Opens your email app. You can also copy the address above.</p>
+        <div className="contact-actions">
+          <p className="demo-note">Opens your email app.</p>
+          <CopyEmailButton email={userData.email} />
+        </div>
       </header>
       <section className="section-block detail-grid" aria-labelledby="elsewhere-heading">
         <h2 id="elsewhere-heading" className="section-title">
@@ -62,10 +66,10 @@ export default function ContactPage() {
           </p>
           <div className="action-row">
             <Link className="text-link" href="/projects">
-              Explore projects <ArrowUpRight aria-hidden="true" />
+              Explore projects <ArrowRight aria-hidden="true" />
             </Link>
             <Link className="text-link" href="/resume">
-              View résumé <ArrowUpRight aria-hidden="true" />
+              View résumé <ArrowRight aria-hidden="true" />
             </Link>
           </div>
         </div>

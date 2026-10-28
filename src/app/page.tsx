@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import { ArrowDown, ArrowUpRight } from 'lucide-react';
+import { ArrowDown, ArrowRight, ArrowUpRight } from 'lucide-react';
 import { projects, userData, experiences } from '@/data/user-data';
 import { PortfolioMotion } from '@/components/portfolio-motion';
 
@@ -46,9 +46,9 @@ export default function Home() {
         >
           <div className="approach-opening">
             <h2 id="about-heading" data-panel-reveal>
-              Care for the interface.
+              Care for the <em>interface</em>.
               <br />
-              Think through the system.
+              Think through the <em>system</em>.
             </h2>
             <figure className="approach-illustration" data-approach-illustration>
               <Image
@@ -105,7 +105,7 @@ export default function Home() {
                         <span data-panel-reveal aria-hidden="true">
                           {project.title}
                         </span>
-                        <ArrowUpRight aria-hidden="true" />
+                        <ArrowRight aria-hidden="true" />
                       </Link>
                     </h3>
                     <div className="work-entry-meta">
@@ -136,7 +136,7 @@ export default function Home() {
               ))}
           </div>
           <Link className="text-link work-all" href="/projects">
-            All projects <ArrowUpRight aria-hidden="true" />
+            All projects <ArrowRight aria-hidden="true" />
           </Link>
         </section>
 
@@ -144,7 +144,7 @@ export default function Home() {
           <h2 id="experience-heading" data-panel-reveal>
             Built with teams.
             <br />
-            Made for people.
+            Made for <em>people</em>.
           </h2>
           <div className="career-timeline">
             {experiences.map((experience) => (
@@ -157,7 +157,7 @@ export default function Home() {
                 <div className="career-delivery">
                   <p className="career-label">What I delivered</p>
                   <ul>
-                    {experience.description.map((item) => (
+                    {experience.description.slice(0, 2).map((item) => (
                       <li key={item}>{item}</li>
                     ))}
                   </ul>
@@ -167,7 +167,7 @@ export default function Home() {
             ))}
           </div>
           <Link className="text-link" href="/experience">
-            Experience & education <ArrowUpRight aria-hidden="true" />
+            Full experience & education <ArrowRight aria-hidden="true" />
           </Link>
         </section>
 
@@ -175,7 +175,7 @@ export default function Home() {
           <h2 id="contact-heading" data-panel-reveal>
             Have something
             <br />
-            in mind?
+            in <em>mind</em>?
           </h2>
           <div className="contact-bottom">
             <a className="contact-email" href={`mailto:${userData.email}`}>
@@ -184,10 +184,10 @@ export default function Home() {
             </a>
             <div className="action-row">
               <Link className="text-link" href="/resume">
-                View résumé <ArrowUpRight aria-hidden="true" />
+                View résumé <ArrowRight aria-hidden="true" />
               </Link>
               <Link className="text-link" href="/projects">
-                All projects <ArrowUpRight aria-hidden="true" />
+                All projects <ArrowRight aria-hidden="true" />
               </Link>
               <a className="text-link" href={userData.github}>
                 GitHub <ArrowUpRight aria-hidden="true" />

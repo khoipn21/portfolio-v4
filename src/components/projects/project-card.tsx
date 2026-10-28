@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import { ArrowUpRight } from 'lucide-react';
+import { ArrowRight, ArrowUpRight } from 'lucide-react';
 import type { Project } from '@/data/user-data';
 
 export function ProjectCard({
@@ -41,7 +41,7 @@ export function ProjectCard({
         <Heading>
           <Link className="project-title" href={`/projects/${project.slug}`}>
             {project.title}
-            <ArrowUpRight aria-hidden="true" />
+            <ArrowRight aria-hidden="true" />
           </Link>
         </Heading>
         <p className="project-description">{project.description}</p>
@@ -56,7 +56,7 @@ export function ProjectCard({
             href={`/projects/${project.slug}`}
             aria-label={`Read ${project.title} case study`}
           >
-            Case study <ArrowUpRight aria-hidden="true" />
+            Case study <ArrowRight aria-hidden="true" />
           </Link>
           <a
             className="text-link"

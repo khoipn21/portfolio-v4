@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { experiences, education } from '@/data/user-data';
+import { ExperienceRow } from '@/components/experience-row';
 
 export const metadata: Metadata = {
   title: 'Experience',
@@ -16,7 +17,7 @@ export default function ExperiencePage() {
         <h1 className="page-title">
           Experience,
           <br />
-          across the stack.
+          across the <em>stack</em>.
         </h1>
         <p className="lede">
           Product teams and independent projects, from customer-facing interfaces to the APIs and
@@ -25,22 +26,7 @@ export default function ExperiencePage() {
       </header>
       <section className="section-block" aria-label="Work experience">
         {experiences.map((experience) => (
-          <article className="experience-row" key={experience.company}>
-            <div>
-              <h2 className="text-xl font-semibold">{experience.company}</h2>
-              <p className="muted">{experience.period.replaceAll('—', '–')}</p>
-              <p className="muted">{experience.location}</p>
-            </div>
-            <div className="prose">
-              <h3>{experience.role}</h3>
-              <ul>
-                {experience.description.map((description) => (
-                  <li key={description}>{description}</li>
-                ))}
-              </ul>
-              <p>{experience.tech.join(' · ')}</p>
-            </div>
-          </article>
+          <ExperienceRow key={experience.company} experience={experience} showTech />
         ))}
       </section>
       <section className="section-block detail-grid" aria-labelledby="education-heading">

@@ -95,7 +95,7 @@ export const projects: Project[] = [
     image: '/images/project-bookstore.png',
     category: 'Full-stack web application · E-commerce',
     featured: true,
-    imageCaption: 'Existing storefront preview. Capture provenance has not been verified.',
+    imageCaption: 'Storefront preview.',
     demoNote: 'Team project. Local setup documented; no public demo.',
     problem:
       'A bookstore needs a clear path from finding a book to managing a cart and reviewing an order.',
@@ -130,8 +130,8 @@ export const projects: Project[] = [
     image: '/images/project-murmur.png',
     category: 'Full-stack web application · Real-time',
     featured: true,
-    imageCaption: 'Project artwork, not an application screenshot.',
-    demoNote: 'Source review. No verified public demo.',
+    imageCaption: 'Illustrative artwork.',
+    demoNote: 'Source available; no public demo.',
     problem:
       'A chat application needs conversations to update without forcing people to refresh the page.',
     contribution:
@@ -166,7 +166,7 @@ export const projects: Project[] = [
     image: '/images/project-codexbar.png',
     category: 'Open-source desktop application',
     featured: true,
-    imageCaption: 'Project artwork, not an application screenshot.',
+    imageCaption: 'Illustrative artwork.',
     demoNote: 'Desktop source build. No published release yet.',
     problem:
       'CodexBar was built for macOS. Linux users needed a native way to inspect their AI coding-provider usage.',
@@ -202,7 +202,7 @@ export const projects: Project[] = [
     image: '/images/project-study.png',
     category: 'Learning platform · Backend architecture',
     featured: false,
-    imageCaption: 'Concept artwork. This repository contains APIs, not the pictured web interface.',
+    imageCaption: 'Concept artwork. The repository covers the APIs behind an interface like this.',
     demoNote: 'Backend project. Local setup documented; no public demo.',
     problem:
       'An online learning product needs authentication, course enrollment, and progress tracking to work together.',

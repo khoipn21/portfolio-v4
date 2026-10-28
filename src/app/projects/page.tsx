@@ -18,7 +18,7 @@ export default function ProjectsPage() {
           <h1 className="page-title">
             The work,
             <br />
-            with context.
+            with <em>context</em>.
           </h1>
           <p className="lede">
             A collection of web applications and developer tools. Each case study separates what is
