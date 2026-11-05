@@ -46,3 +46,7 @@ next-env.d.ts
 
 # generated HLS media, deployed to Cloudflare Pages by scripts/build-stream.sh
 /media/hls
+
+# npm is the package manager; a bun lockfile switches CI to bun
+bun.lock
+bun.lockb
