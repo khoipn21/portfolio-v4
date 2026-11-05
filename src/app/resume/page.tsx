@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { userData, experiences, education, awards, projects } from '@/data/user-data';
-import { PrintResumeButton } from '@/components/print-resume-button';
+import { DownloadSimple } from '@/components/icons';
 import { ExperienceRow } from '@/components/experience-row';
 
 export const metadata: Metadata = {
@@ -47,11 +47,10 @@ export default function ResumePage() {
           <a className="text-link" href={userData.github}>
             github.com/{userData.githubUsername}
           </a>
-          <PrintResumeButton />
+          <a className="button print-hidden" href="/cv.pdf" download="Pham-Ngoc-Khoi-CV.pdf">
+            <DownloadSimple aria-hidden="true" size={18} /> Download PDF
+          </a>
         </div>
-        <p className="demo-note print-hidden">
-          Choose “Save as PDF” in your browser’s print dialog to download a copy.
-        </p>
       </header>
       <section className="section-block detail-grid" aria-labelledby="summary-heading">
         <h2 id="summary-heading" className="section-title">

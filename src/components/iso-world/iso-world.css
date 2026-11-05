@@ -1,0 +1,129 @@
+/* The bench behind the home page: a drafting plane that dollies along the iso axis as the page scrolls. */
+.iso-world {
+  --iso-world-dolly: 0.35;
+  --iso-world-scale: 1;
+  --iso-world-plane: 0.08;
+  --iso-world-ghost: 0.1;
+  --iso-world-lit: 0.32;
+  --iso-world-route: 0.16;
+  --iso-world-ink: 0.3;
+  --iso-world-mono: ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+  pointer-events: none;
+  color: var(--text-primary);
+  opacity: 0;
+  transition: opacity 700ms var(--ease-out);
+}
+.iso-world.is-live {
+  opacity: 1;
+}
+.iso-world.is-static {
+  position: absolute;
+}
+:is([data-theme='light'], [data-theme='mint']) .iso-world {
+  --iso-world-plane: 0.1;
+  --iso-world-ghost: 0.12;
+  --iso-world-lit: 0.36;
+  --iso-world-route: 0.2;
+  --iso-world-ink: 0.36;
+}
+.iso-world-svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+.iso-world-plane {
+  opacity: var(--iso-world-plane);
+}
+.iso-world-grid-line {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1;
+}
+.iso-world-route {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1;
+  stroke-linecap: round;
+  stroke-dasharray: 1 7;
+  opacity: var(--iso-world-route);
+}
+.iso-world-station {
+  opacity: calc(
+    var(--iso-world-ghost) + (var(--iso-world-lit) - var(--iso-world-ghost)) * var(--focus, 0)
+  );
+}
+.iso-world-station path {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: calc(1px + 0.6px * var(--focus, 0));
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  vector-effect: non-scaling-stroke;
+}
+.iso-world-station .iso-world-dash {
+  stroke-dasharray: 3 6;
+}
+.iso-world-station circle {
+  fill: currentColor;
+}
+.iso-world-station text {
+  fill: currentColor;
+  font: 500 11px/1 var(--iso-world-mono);
+  letter-spacing: 0.18em;
+  opacity: var(--focus, 0);
+}
+.iso-world-index {
+  opacity: 0.55;
+}
+/* The plotter inks the route behind it; ahead it stays dotted. */
+.iso-world-ink {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  opacity: var(--iso-world-ink);
+}
+/* The plotter head rides the route in accent: a ground diamond, a pen, a cap. */
+.iso-world-plotter-ground,
+.iso-world-plotter-pen {
+  fill: none;
+  stroke: var(--accent);
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.iso-world-plotter-ground {
+  stroke-width: 1.25;
+  opacity: 0.85;
+}
+.iso-world-plotter-pen {
+  stroke-width: 1.5;
+}
+.iso-world-plotter-cap {
+  fill: var(--accent);
+}
+.iso-world.is-static .iso-world-station {
+  --focus: 0.5;
+}
+/* Narrow screens have no gutters, so stations drop to texture behind the text. */
+@media (max-width: 700px) {
+  .iso-world {
+    --iso-world-scale: 0.5;
+    --iso-world-ghost: 0.06;
+    --iso-world-lit: 0.16;
+  }
+  .iso-world-station text {
+    font-size: 10px;
+    letter-spacing: 0.14em;
+  }
+}
+@media print {
+  .iso-world {
+    display: none;
+  }
+}

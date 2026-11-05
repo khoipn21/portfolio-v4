@@ -437,6 +437,11 @@ html:has(.home-page) {
 body:has(.home-page) > .site-footer {
   display: none;
 }
+/* Own stacking context so the iso world can sit behind the panels without leaving the page. */
+.home-page {
+  position: relative;
+  isolation: isolate;
+}
 .viewport-panel {
   padding: clamp(2rem, 5dvh, 4rem) var(--page-gutter);
   display: flex;

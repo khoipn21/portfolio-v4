@@ -8,12 +8,16 @@ import { RequestLineFigure } from '@/components/figures/request-line/request-lin
 import { WorkShowcase } from '@/components/work-showcase/work-showcase';
 import { CareerGraph } from '@/components/career-graph/career-graph';
 import { Spotlight } from '@/components/spotlight';
+import { IsoWorld } from '@/components/iso-world/iso-world';
+import { StationRail } from '@/components/station-rail/station-rail';
 
 export default function Home() {
   return (
     <PortfolioMotion>
       <main id="main-content" tabIndex={-1} className="home-page">
-        <section className="viewport-panel home-hero" aria-labelledby="intro-heading">
+        <IsoWorld />
+        <StationRail />
+        <section id="intro" className="viewport-panel home-hero" aria-labelledby="intro-heading">
           <div className="hero-opening">
             <Spotlight
               className="hero-spotlight"
@@ -25,7 +29,12 @@ export default function Home() {
                 </p>
               }
             >
-              <h1 id="intro-heading" className="hero-name" aria-label="Pham Ngoc Khoi">
+              <h1
+                id="intro-heading"
+                className="hero-name"
+                aria-label="Pham Ngoc Khoi"
+                data-station="Intro"
+              >
                 <span data-panel-reveal aria-hidden="true">
                   Pham
                 </span>
@@ -70,7 +79,12 @@ export default function Home() {
                 </p>
               }
             >
-              <h2 id="about-heading" className="approach-heading" data-word-reveal>
+              <h2
+                id="about-heading"
+                className="approach-heading"
+                data-word-reveal
+                data-station="Approach"
+              >
                 Care for the <em>interface</em>.
                 <br />
                 Think through the <em>system</em>.
@@ -104,7 +118,7 @@ export default function Home() {
 
         <section id="how-i-build" className="build-panel" aria-labelledby="build-heading">
           <div className="build-head">
-            <h2 id="build-heading" data-panel-reveal>
+            <h2 id="build-heading" data-panel-reveal data-station="Process">
               How I build
             </h2>
             <p>
@@ -118,7 +132,7 @@ export default function Home() {
         </section>
 
         <section id="selected-work" className="work-selection" aria-labelledby="work-heading">
-          <h2 id="work-heading" data-panel-reveal>
+          <h2 id="work-heading" data-panel-reveal data-station="Work">
             Selected work
           </h2>
           <WorkShowcase projects={projects.filter((project) => project.featured)} />
@@ -136,7 +150,7 @@ export default function Home() {
           >
             <div className="award-copy">
               <header className="award-head">
-                <h2 id="award-heading" data-panel-reveal>
+                <h2 id="award-heading" data-panel-reveal data-station="Award">
                   Won <em>{`${award.title.toLowerCase()}.`}</em>
                 </h2>
                 <p className="award-event">
@@ -168,8 +182,12 @@ export default function Home() {
           </section>
         ))}
 
-        <section className="viewport-panel experience-panel" aria-labelledby="experience-heading">
-          <h2 id="experience-heading" data-panel-reveal>
+        <section
+          id="experience"
+          className="viewport-panel experience-panel"
+          aria-labelledby="experience-heading"
+        >
+          <h2 id="experience-heading" data-panel-reveal data-station="Experience">
             Built with teams.
             <br />
             Made for <em>people</em>.
@@ -180,7 +198,11 @@ export default function Home() {
           </Link>
         </section>
 
-        <section className="viewport-panel contact-panel" aria-labelledby="contact-heading">
+        <section
+          id="contact"
+          className="viewport-panel contact-panel"
+          aria-labelledby="contact-heading"
+        >
           <Spotlight
             radius={220}
             reveal={
@@ -191,7 +213,12 @@ export default function Home() {
               </p>
             }
           >
-            <h2 id="contact-heading" className="contact-heading" data-panel-reveal>
+            <h2
+              id="contact-heading"
+              className="contact-heading"
+              data-panel-reveal
+              data-station="Contact"
+            >
               Have something
               <br />
               in <em>mind</em>?

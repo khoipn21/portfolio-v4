@@ -26,7 +26,7 @@ const SCALE = 0.92;
 /** Scroll distance per project, in viewport heights. */
 const PER_PROJECT = 1.5;
 /** The point inside a project's segment where its stack is fully exploded. */
-const SETTLED = 0.62;
+export const SETTLED = 0.62;
 
 function labelOffset(index: number) {
   // Translating along the tilted normal moves a layer straight up or down on screen.
@@ -182,7 +182,12 @@ export function WorkShowcase({ projects }: { projects: Project[] }) {
     <div ref={root} className="showcase">
       <div className="showcase-stage">
         {projects.map((project, index) => (
-          <article className="showcase-item" key={project.slug}>
+          <article
+            className="showcase-item"
+            key={project.slug}
+            data-station={project.title}
+            data-station-kind="Project"
+          >
             <div className="showcase-copy">
               <p className="showcase-count" aria-hidden="true">
                 <span>{String(index + 1).padStart(2, '0')}</span> /{' '}

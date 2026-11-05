@@ -1,0 +1,153 @@
+/* Section shortcuts stacked above the sound toggle: a drafting rail with a
+   carriage that rides to the live section. Each glyph leans toward the pointer
+   and inks from outline to fill, while a callout slides in from the right. */
+.station-rail {
+  --station-rail-step: 44px;
+  --station-rail-mono: ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+  position: fixed;
+  right: var(--space-4);
+  bottom: calc(var(--space-6) + 8.75rem + var(--space-4));
+  z-index: var(--z-header);
+  width: var(--station-rail-step);
+}
+/* The track the carriage rides. */
+.station-rail::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  width: 1px;
+  background: var(--border-primary);
+}
+.station-rail ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+}
+.station-rail a {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: var(--station-rail-step);
+  height: var(--station-rail-step);
+  border-radius: 999px;
+  color: var(--text-muted);
+  transition: color 300ms var(--ease-out);
+}
+.station-rail a:hover,
+.station-rail a:focus-visible {
+  color: var(--text-primary);
+}
+.station-rail a[aria-current] {
+  color: var(--accent);
+}
+.station-rail-glyph {
+  position: relative;
+  display: block;
+  width: 20px;
+  height: 20px;
+  transform: translate(var(--mx, 0px), var(--my, 0px));
+  transition: transform 500ms var(--ease-out);
+}
+.station-rail a:active .station-rail-glyph {
+  transform: translate(var(--mx, 0px), var(--my, 0px)) scale(0.92);
+}
+.station-rail-glyph .icon {
+  position: absolute;
+  inset: 0;
+  transition: opacity 300ms var(--ease-out);
+}
+.station-rail-glyph .icon:last-child {
+  opacity: 0;
+}
+.station-rail a:hover .station-rail-glyph .icon:first-child,
+.station-rail a:focus-visible .station-rail-glyph .icon:first-child,
+.station-rail a[aria-current] .station-rail-glyph .icon:first-child {
+  opacity: 0;
+}
+.station-rail a:hover .station-rail-glyph .icon:last-child,
+.station-rail a:focus-visible .station-rail-glyph .icon:last-child,
+.station-rail a[aria-current] .station-rail-glyph .icon:last-child {
+  opacity: 1;
+}
+/* Callout: label plus a leader line that draws toward the glyph. */
+.station-rail-callout {
+  position: absolute;
+  top: 50%;
+  right: calc(100% + var(--space-2));
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font: 500 11px/1 var(--station-rail-mono);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  color: var(--text-primary);
+  opacity: 0;
+  transform: translate(8px, -50%);
+  transition:
+    opacity 300ms var(--ease-out),
+    transform 500ms var(--ease-out);
+  pointer-events: none;
+}
+.station-rail-callout::after {
+  content: '';
+  width: 16px;
+  height: 1px;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 500ms var(--ease-out);
+}
+.station-rail a:hover .station-rail-callout,
+.station-rail a:focus-visible .station-rail-callout {
+  opacity: 1;
+  transform: translate(0, -50%);
+}
+.station-rail a:hover .station-rail-callout::after,
+.station-rail a:focus-visible .station-rail-callout::after {
+  transform: scaleX(1);
+}
+/* Carriage: the iso plotter's ground diamond, parked on the live section. */
+.station-rail-marker {
+  position: absolute;
+  top: 0;
+  right: -4px;
+  width: 8px;
+  height: var(--station-rail-step);
+  display: grid;
+  place-items: center;
+  color: var(--accent);
+  transform: translateY(calc(var(--active, 0) * var(--station-rail-step)));
+  transition: transform 500ms var(--ease-out);
+  pointer-events: none;
+}
+.station-rail-marker svg {
+  width: 7px;
+  height: 7px;
+  fill: currentColor;
+}
+@media (prefers-reduced-motion: reduce) {
+  .station-rail-glyph,
+  .station-rail-callout {
+    transform: none;
+    transition: opacity 300ms var(--ease-out);
+  }
+  .station-rail a:hover .station-rail-callout,
+  .station-rail a:focus-visible .station-rail-callout {
+    transform: translate(0, -50%);
+  }
+  .station-rail-callout::after {
+    transform: none;
+  }
+  .station-rail-marker {
+    transition: none;
+  }
+}
+@media (max-width: 1000px), (pointer: coarse) {
+  .station-rail {
+    display: none;
+  }
+}
