@@ -61,27 +61,6 @@ export function PortfolioMotion({ children }: { children: ReactNode }) {
               },
             });
           });
-          root.querySelectorAll<HTMLElement>('.work-entry').forEach((entry, index) => {
-            const image = entry.querySelector('.work-preview img');
-            if (image)
-              gsap.from(image, {
-                clipPath: index % 2 ? 'inset(0 100% 0 0)' : 'inset(0 0 0 100%)',
-                duration: 1.2,
-                ease: 'power3.inOut',
-                clearProps: 'clipPath',
-                scrollTrigger: { trigger: entry, start: 'top 85%', once: true },
-              });
-          });
-          root.querySelectorAll<HTMLElement>('.career-entry').forEach((entry) => {
-            gsap.from(entry.querySelectorAll('.career-delivery li'), {
-              y: 28,
-              duration: 0.8,
-              stagger: 0.14,
-              ease: 'power3.out',
-              clearProps: 'transform',
-              scrollTrigger: { trigger: entry, start: 'top 85%', once: true },
-            });
-          });
           const awardVideo = root.querySelector<HTMLElement>('.award-preview');
           if (awardVideo) {
             gsap.from(awardVideo, {

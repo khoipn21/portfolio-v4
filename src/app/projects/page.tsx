@@ -6,7 +6,7 @@ import { PortfolioMotion } from '@/components/portfolio-motion';
 export const metadata: Metadata = {
   title: 'Projects',
   description:
-    'Web applications, real-time systems, and open-source desktop tools by Pham Ngoc Khoi. Read the code, decisions, and known limitations.',
+    'Web applications, real-time systems, Go microservices, and an AI assistant by Pham Ngoc Khoi. Read the code, decisions, and known limitations.',
   alternates: { canonical: '/projects' },
 };
 
@@ -21,8 +21,8 @@ export default function ProjectsPage() {
             with <em>context</em>.
           </h1>
           <p className="lede">
-            A collection of web applications and developer tools. Each case study separates what is
-            built from what still needs work.
+            Hackathon, side, and freelance projects: 3D and AI, real-time chat, microservices, and
+            commerce. Each case study separates what is built from what still needs work.
           </p>
         </header>
         <section aria-label="Project case studies" className="project-list">

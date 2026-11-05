@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import { userData, experiences, education, awards } from '@/data/user-data';
+import { userData, experiences, education, awards, projects } from '@/data/user-data';
 import { PrintResumeButton } from '@/components/print-resume-button';
 import { ExperienceRow } from '@/components/experience-row';
 
@@ -10,6 +10,25 @@ export const metadata: Metadata = {
     'Experience, education, and technical skills of Pham Ngoc Khoi, Software Engineer & Full-Stack Developer.',
   alternates: { canonical: '/resume' },
 };
+
+const skills: [string, string][] = [
+  ['Languages', 'TypeScript, JavaScript, Go, Python'],
+  [
+    'Frontend',
+    'React 19, Next.js (App Router), Vite, TanStack Query/Router/Table, Zustand, Jotai, React Hook Form, Zod/Yup, Tailwind v4, shadcn/ui, Mantine, Tiptap, i18next',
+  ],
+  [
+    'Mobile',
+    'React Native (CLI and Expo), Expo Router, React Navigation, MMKV, Notifee/FCM, social login SDKs (Google, Apple, Kakao, Naver, LINE, Facebook), signed Android/iOS builds',
+  ],
+  ['Backend', 'Node.js, NestJS, Go (Gin, gRPC), REST, WebSocket/STOMP, JWT, OAuth 2.0, RBAC'],
+  ['Data & infra', 'PostgreSQL, MongoDB, Redis, Docker, Nginx, PM2, GitLab CI, AWS EC2/S3, Sentry'],
+  [
+    'AI-assisted dev',
+    'Claude Code, Codex, Cursor; author of agent skills, hooks, and workflows used daily at work',
+  ],
+  ['Spoken', 'Vietnamese (native), English (C1, professional working proficiency)'],
+];
 
 export default function ResumePage() {
   return (
@@ -21,6 +40,9 @@ export default function ResumePage() {
         <div className="action-row">
           <a className="text-link" href={`mailto:${userData.email}`}>
             {userData.email}
+          </a>
+          <a className="text-link" href={`tel:${userData.phone.replace(/[^+\d]/g, '')}`}>
+            {userData.phone}
           </a>
           <a className="text-link" href={userData.github}>
             github.com/{userData.githubUsername}
@@ -36,9 +58,13 @@ export default function ResumePage() {
           Profile
         </h2>
         <p className="prose">
-          Software engineer building web applications from interface to API. Experience across
-          e-commerce, proptech, and educational products, including responsive interfaces,
-          authentication, API integration, and real-time features.
+          Full-stack engineer with 2+ years shipping production web and mobile products in
+          TypeScript (React, Next.js, React Native) and Go. Lead contributor on 7 of 8 repositories
+          across four products at WALA-ICT, owning features from Figma and requirements through API
+          integration, localization, code review, and QA. Strongest in end-to-end feature ownership,
+          real-time (WebSocket/STOMP) and OAuth flows, and the conventions and CI gates a team ships
+          on; comfortable in Go and Node backends (REST/gRPC, JWT/RBAC, PostgreSQL, Redis, AWS).
+          First place, Sea x OpenAI Codex Hackathon Vietnam 2026 (BioWeave).
         </p>
       </section>
       <section className="section-block" aria-labelledby="experience-heading">
@@ -49,26 +75,36 @@ export default function ResumePage() {
           <ExperienceRow key={experience.company} experience={experience} headingLevel="h3" />
         ))}
       </section>
+      <section className="section-block detail-grid" aria-labelledby="projects-heading">
+        <h2 id="projects-heading" className="section-title">
+          Projects
+        </h2>
+        <div className="prose">
+          {projects.map((project) => (
+            <div key={project.slug}>
+              <h3>
+                <Link href={`/projects/${project.slug}`}>{project.title}</Link>
+              </h3>
+              <p className="experience-meta">
+                {[project.category, project.period].filter(Boolean).join(' · ')}
+              </p>
+              <p>{project.description}</p>
+              <p className="experience-meta">{project.tech.join(' · ')}</p>
+            </div>
+          ))}
+        </div>
+      </section>
       <section className="section-block detail-grid" aria-labelledby="skills-heading">
         <h2 id="skills-heading" className="section-title">
           Technical skills
         </h2>
         <dl className="prose skill-groups">
-          <div>
-            <dt>Frontend</dt>
-            <dd>
-              HTML, CSS, JavaScript, TypeScript, React, Next.js, React Native, Tailwind CSS,
-              TanStack Query
-            </dd>
-          </div>
-          <div>
-            <dt>Backend & data</dt>
-            <dd>Go, Node.js, Express, NestJS, WebSocket, PostgreSQL, MongoDB, Redis, Supabase</dd>
-          </div>
-          <div>
-            <dt>Tools & delivery</dt>
-            <dd>Git, Linux, Docker, Nginx, AWS, GitHub Actions</dd>
-          </div>
+          {skills.map(([group, items]) => (
+            <div key={group}>
+              <dt>{group}</dt>
+              <dd>{items}</dd>
+            </div>
+          ))}
         </dl>
       </section>
       <section className="section-block detail-grid" aria-labelledby="awards-heading">

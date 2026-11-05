@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { experiences, education, awards } from '@/data/user-data';
-import { ExperienceRow } from '@/components/experience-row';
+import { CareerGraph } from '@/components/career-graph/career-graph';
 
 export const metadata: Metadata = {
   title: 'Experience',
@@ -25,9 +25,7 @@ export default function ExperiencePage() {
         </p>
       </header>
       <section className="section-block" aria-label="Work experience">
-        {experiences.map((experience) => (
-          <ExperienceRow key={experience.company} experience={experience} showTech />
-        ))}
+        <CareerGraph experiences={experiences} headingLevel="h2" />
       </section>
       <section className="section-block detail-grid" aria-labelledby="awards-heading">
         <h2 id="awards-heading" className="section-title">

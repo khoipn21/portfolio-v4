@@ -5,6 +5,7 @@ import { notFound } from 'next/navigation';
 import { Fragment, type ReactNode } from 'react';
 import { ArrowLeft, ArrowRight, ArrowUpRight } from '@/components/icons';
 import { projects } from '@/data/user-data';
+import { ProjectFigure, hasProjectFigure } from '@/components/figures/project-figure';
 
 type Props = { params: Promise<{ slug: string }> };
 
@@ -101,6 +102,11 @@ export default async function ProjectDetailPage({ params }: Props) {
               Source code <ArrowUpRight aria-hidden="true" />
             </a>
           )}
+          {project.repos?.map((repo) => (
+            <a key={repo.href} className="button-secondary" href={repo.href}>
+              {repo.label} <ArrowUpRight aria-hidden="true" />
+            </a>
+          ))}
           {project.demo && (
             <Link
               className={project.github ? 'button-secondary' : 'button'}
@@ -123,6 +129,12 @@ export default async function ProjectDetailPage({ params }: Props) {
           <dt>Stack</dt>
           <dd>{project.tech.join(' · ')}</dd>
         </div>
+        {project.period && (
+          <div>
+            <dt>When</dt>
+            <dd>{project.period}</dd>
+          </div>
+        )}
         <div>
           <dt>Evaluation</dt>
           <dd>
@@ -130,7 +142,9 @@ export default async function ProjectDetailPage({ params }: Props) {
               ? 'Live demo & source'
               : project.github
                 ? 'Source code; no public demo'
-                : 'Demo recording; private source'}
+                : project.demo
+                  ? 'Demo recording; private source'
+                  : 'Private source; no public demo'}
           </dd>
         </div>
       </dl>
@@ -148,6 +162,14 @@ export default async function ProjectDetailPage({ params }: Props) {
           </div>
           <figcaption>{project.imageCaption}</figcaption>
         </figure>
+      )}
+      {hasProjectFigure(project.slug) && (
+        <section className="case-group case-anatomy" aria-labelledby="how-it-works">
+          <h2 id="how-it-works" className="case-group-title">
+            How it works
+          </h2>
+          <ProjectFigure slug={project.slug} />
+        </section>
       )}
       {groups.map((group, groupIndex) => (
         <section key={group.title} className="case-group" aria-labelledby={`group-${groupIndex}`}>

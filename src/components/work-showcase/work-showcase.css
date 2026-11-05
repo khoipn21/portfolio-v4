@@ -1,0 +1,363 @@
+/* Selected work as exploded stacks. The static state below is the exploded
+   view; `.is-live` (wide screens, motion allowed) pins the stage and lets the
+   scroll timeline assemble and explode each stack in turn. */
+.showcase {
+  --stack-w: clamp(260px, 30vw, 520px);
+  --stack-gap: 150px;
+  --stack-tilt: 56deg;
+  --stack-turn: -40deg;
+  --stack-scale: 0.92;
+}
+
+.showcase-item {
+  display: grid;
+  grid-template-columns: minmax(0, 4fr) minmax(0, 6fr) minmax(0, 3fr);
+  align-items: center;
+  gap: var(--space-8);
+  padding-block: var(--space-16);
+  box-shadow: inset 0 1px var(--border-primary);
+}
+
+/* Copy */
+.showcase-copy {
+  display: grid;
+  gap: var(--space-4);
+  min-width: 0;
+}
+.showcase-count {
+  font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+  font-size: 0.75rem;
+  line-height: 1rem;
+  color: var(--text-muted);
+  font-variant-numeric: tabular-nums;
+}
+.showcase-count span {
+  color: var(--accent);
+}
+.showcase-name {
+  font-size: 3rem;
+  line-height: 1;
+  font-weight: 600;
+  letter-spacing: var(--tracking-display);
+  text-wrap: balance;
+  transition: color 300ms var(--ease-out);
+}
+.showcase-name svg {
+  display: inline-block;
+  width: 28px;
+  height: 28px;
+  margin-left: var(--space-3);
+  vertical-align: middle;
+  transition: transform 300ms var(--ease-out);
+}
+.showcase-name:hover {
+  color: var(--accent);
+}
+.showcase-name:hover svg {
+  transform: translate(4px, 0);
+}
+.showcase-name:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 4px;
+  border-radius: 4px;
+}
+.showcase-category {
+  color: var(--text-muted);
+  font-size: 0.75rem;
+  line-height: 1rem;
+  font-weight: 500;
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+}
+.showcase-description {
+  max-width: 42ch;
+  color: var(--text-secondary);
+  font-size: 1rem;
+  line-height: 1.5rem;
+  text-wrap: pretty;
+}
+.showcase-links {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--space-2) var(--space-4);
+}
+.showcase-note {
+  color: var(--text-muted);
+  font-size: 0.75rem;
+  line-height: 1rem;
+}
+
+/* Scene */
+.showcase-scene {
+  display: grid;
+  place-items: center;
+  min-width: 0;
+  height: calc(var(--stack-w) * 1.1);
+  perspective: 2400px;
+}
+.stack-tilt,
+.stack {
+  transform-style: preserve-3d;
+}
+.stack-tilt {
+  transform: rotateX(var(--stack-tilt)) scale(var(--stack-scale));
+}
+.stack {
+  position: relative;
+  width: var(--stack-w);
+  aspect-ratio: 8 / 5;
+  transform: rotateZ(var(--stack-turn));
+}
+.stack-layer {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  border-radius: 16px;
+  border: 1px solid var(--border-primary);
+  box-shadow: 0 24px 48px rgb(0 0 0 / 0.28);
+}
+.stack-layer-ui {
+  transform: translateZ(var(--stack-gap));
+  background: var(--bg-secondary);
+}
+.stack-layer-ui img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.stack-layer-api {
+  display: grid;
+  padding: var(--space-6);
+  background: var(--bg-secondary);
+  border-color: color-mix(in oklch, var(--accent) 45%, var(--border-primary));
+}
+.stack-layer-data {
+  display: grid;
+  padding: var(--space-6);
+  transform: translateZ(calc(var(--stack-gap) * -1));
+  background: var(--bg-primary);
+}
+.stack-mark {
+  position: absolute;
+  top: var(--space-3);
+  left: var(--space-3);
+  padding: 2px var(--space-2);
+  border-radius: 4px;
+  background: var(--bg-primary);
+  font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+  font-size: 0.75rem;
+  line-height: 1rem;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+.stack-routes {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-3);
+  align-self: end;
+  height: 66%;
+}
+.stack-routes i {
+  border: 1px solid var(--border-primary);
+  border-radius: 6px;
+}
+.stack-routes i:nth-child(5) {
+  border-color: var(--accent);
+  background: color-mix(in oklch, var(--accent) 18%, transparent);
+}
+.stack-rows {
+  display: grid;
+  align-self: end;
+  height: 66%;
+}
+.stack-rows i {
+  border: 1px solid transparent;
+  border-bottom-color: var(--border-primary);
+}
+.stack-rows i:first-child {
+  border-color: var(--border-primary);
+  border-radius: 6px 6px 0 0;
+}
+.stack-wire {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 2px;
+  height: calc(var(--stack-gap) * 2);
+  margin-top: calc(var(--stack-gap) * -1);
+  margin-left: -1px;
+  background: var(--accent);
+  transform: rotateX(90deg);
+}
+.stack-pulse {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 16px;
+  height: 16px;
+  margin: -8px 0 0 -8px;
+  border-radius: 999px;
+  background: var(--accent);
+  box-shadow: 0 0 0 6px color-mix(in oklch, var(--accent) 28%, transparent);
+  opacity: 0;
+}
+
+/* Layer labels */
+.showcase-layers {
+  position: relative;
+  align-self: stretch;
+  min-width: 0;
+}
+.showcase-layer {
+  --hit: 1;
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  display: grid;
+  gap: var(--space-1);
+  padding-left: var(--space-8);
+  transform: translateY(calc(-50% + var(--ly, 0px)));
+}
+.showcase-layer::before {
+  content: '';
+  position: absolute;
+  top: 8px;
+  left: 0;
+  width: 20px;
+  height: 1px;
+  background: color-mix(in oklch, var(--border-primary), var(--accent) calc(var(--hit) * 100%));
+}
+.showcase-layer dt {
+  font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+  font-size: 0.75rem;
+  line-height: 1rem;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: color-mix(in oklch, var(--text-muted), var(--accent) calc(var(--hit) * 100%));
+}
+.showcase-layer dd {
+  display: grid;
+  gap: var(--space-1);
+}
+.showcase-layer-tech {
+  color: var(--text-primary);
+  font-size: 1rem;
+  line-height: 1.5rem;
+  font-weight: 500;
+}
+.showcase-layer-note {
+  color: var(--text-secondary);
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  text-wrap: pretty;
+}
+
+/* Rail: only meaningful while pinned */
+.showcase-rail {
+  display: none;
+}
+
+/* Live: pinned stage, one project at a time */
+.showcase.is-live .showcase-stage {
+  position: relative;
+  height: 100svh;
+}
+.showcase.is-live .showcase-item {
+  position: absolute;
+  inset: 0;
+  padding-block: var(--space-24) var(--space-32);
+  box-shadow: none;
+  pointer-events: none;
+}
+.showcase.is-live .showcase-item.is-active {
+  pointer-events: auto;
+}
+.showcase.is-live .showcase-scene {
+  height: 100%;
+}
+.showcase.is-live .showcase-rail {
+  position: absolute;
+  right: 0;
+  bottom: var(--space-12);
+  left: 0;
+  display: grid;
+  gap: var(--space-3);
+}
+.showcase-rail ol {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-4);
+}
+.showcase-rail button {
+  display: inline-flex;
+  gap: var(--space-2);
+  padding: var(--space-1) 0;
+  color: var(--text-muted);
+  font-size: 0.75rem;
+  line-height: 1rem;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: color 300ms var(--ease-out);
+}
+.showcase-rail button span {
+  font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+  letter-spacing: 0;
+}
+.showcase-rail button:hover,
+.showcase-rail li.is-active button {
+  color: var(--text-primary);
+}
+.showcase-rail li.is-active button span {
+  color: var(--accent);
+}
+.showcase-rail-track {
+  position: relative;
+  height: 1px;
+  background: var(--border-primary);
+}
+.showcase-rail-fill {
+  position: absolute;
+  inset: 0;
+  background: var(--accent);
+  transform-origin: left center;
+  transform: scaleX(0);
+}
+
+/* Narrow screens: copy, the exploded stack, then its layers as a list */
+@media (max-width: 999px) {
+  .showcase {
+    --stack-w: min(64vw, 340px);
+    --stack-gap: 96px;
+  }
+  .showcase-item {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: var(--space-6);
+    padding-block: var(--space-12);
+  }
+  .showcase-name {
+    font-size: 2.25rem;
+    line-height: 2.5rem;
+  }
+  .showcase-scene {
+    height: calc(var(--stack-w) * 1.25);
+  }
+  .showcase-layers {
+    display: grid;
+    gap: var(--space-4);
+  }
+  .showcase-layer {
+    position: relative;
+    top: auto;
+    transform: none;
+  }
+}

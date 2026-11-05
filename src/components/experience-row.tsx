@@ -25,6 +25,19 @@ export function ExperienceRow({
           ))}
         </ul>
         {showTech && <p>{experience.tech.join(' · ')}</p>}
+        {experience.projects?.map((project) => (
+          <div key={project.branch}>
+            <h4>
+              {project.name} · {project.summary}
+            </h4>
+            <p className="experience-meta">{project.period.replaceAll('—', '–')}</p>
+            <ul>
+              {project.highlights.map((highlight) => (
+                <li key={highlight}>{highlight}</li>
+              ))}
+            </ul>
+          </div>
+        ))}
       </div>
     </article>
   );

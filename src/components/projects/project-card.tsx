@@ -14,7 +14,7 @@ export function ProjectCard({
 }) {
   const Heading = headingLevel;
   return (
-    <article className="project-item">
+    <article className={project.image ? 'project-item' : 'project-item is-text-only'}>
       {project.image && (
         <figure>
           <Link
@@ -37,7 +37,10 @@ export function ProjectCard({
         </figure>
       )}
       <div>
-        <span className="project-type">{project.category}</span>
+        <span className="project-type">
+          {project.category}
+          {project.period && ` · ${project.period}`}
+        </span>
         <Heading>
           <Link className="project-title" href={`/projects/${project.slug}`}>
             {project.title}
@@ -58,13 +61,25 @@ export function ProjectCard({
           >
             Case study <ArrowRight aria-hidden="true" />
           </Link>
-          <a
-            className="text-link"
-            href={project.github}
-            aria-label={`${project.title} source code`}
-          >
-            Source code <ArrowUpRight aria-hidden="true" />
-          </a>
+          {project.github && (
+            <a
+              className="text-link"
+              href={project.github}
+              aria-label={`${project.title} source code`}
+            >
+              Source code <ArrowUpRight aria-hidden="true" />
+            </a>
+          )}
+          {project.repos?.map((repo) => (
+            <a
+              key={repo.href}
+              className="text-link"
+              href={repo.href}
+              aria-label={`${project.title} ${repo.label.toLowerCase()}`}
+            >
+              {repo.label} <ArrowUpRight aria-hidden="true" />
+            </a>
+          ))}
           {project.live && (
             <a className="text-link" href={project.live}>
               Live demo <ArrowUpRight aria-hidden="true" />

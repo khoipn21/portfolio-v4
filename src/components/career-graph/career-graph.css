@@ -1,0 +1,315 @@
+/* Career as a git graph. Static markup reads fully lit; `.is-live` (motion
+   allowed) dims everything below the scroll playhead and lights each commit
+   as the playhead passes it. */
+.career-graph {
+  --mono: ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+  display: grid;
+  gap: var(--space-8);
+}
+.graph-command {
+  font-family: var(--mono);
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  color: var(--text-muted);
+}
+.graph-command span {
+  color: var(--accent);
+}
+
+.graph-body {
+  position: relative;
+}
+.graph-svg {
+  position: absolute;
+  inset: 0 auto auto 0;
+  overflow: visible;
+  pointer-events: none;
+  z-index: 1;
+}
+.graph-svg path {
+  fill: none;
+  stroke-width: 2;
+  stroke-linecap: round;
+}
+.graph-ghost path {
+  stroke: var(--border-primary);
+}
+.graph-lit .graph-main {
+  stroke: var(--accent);
+}
+[data-branch='1'] {
+  --branch: var(--branch-1);
+}
+[data-branch='2'] {
+  --branch: var(--branch-2);
+}
+[data-branch='3'] {
+  --branch: var(--branch-3);
+}
+[data-branch='4'] {
+  --branch: var(--branch-4);
+}
+.graph-lit .graph-branch {
+  stroke: var(--branch, var(--text-secondary));
+}
+.graph-tip {
+  stroke: var(--branch, var(--text-secondary));
+  stroke-dasharray: 2 6;
+}
+
+.graph-node {
+  fill: var(--bg-primary);
+  stroke: var(--border-primary);
+  stroke-width: 2;
+  transform-box: fill-box;
+  transform-origin: center;
+  transition:
+    fill 300ms var(--ease-out),
+    stroke 300ms var(--ease-out),
+    transform 500ms var(--ease-out);
+}
+.career-graph:not(.is-live) .graph-node,
+.graph-node.is-on {
+  stroke: var(--accent);
+}
+.career-graph:not(.is-live) .graph-node-job,
+.career-graph:not(.is-live) .graph-node-head,
+.graph-node-job.is-on,
+.graph-node-head.is-on {
+  fill: var(--accent);
+}
+.career-graph:not(.is-live) .graph-node-fork,
+.graph-node-fork.is-on {
+  stroke: var(--branch, var(--text-secondary));
+}
+.career-graph.is-live .graph-node:not(.is-on) {
+  transform: scale(0.6);
+}
+
+/* Rows */
+.graph-rows {
+  --lane: 28px;
+  --graph-w: calc(12px + 3 * var(--lane) + var(--space-8));
+  position: relative;
+  z-index: 2;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.graph-row {
+  display: grid;
+  grid-template-columns: 7.5rem minmax(0, 1fr);
+  column-gap: var(--space-8);
+  padding: 0 0 var(--space-16) var(--graph-w);
+}
+.graph-row-merge,
+.graph-row-head {
+  padding-bottom: var(--space-12);
+}
+.graph-row:last-child {
+  padding-bottom: 0;
+}
+.graph-meta {
+  display: grid;
+  align-content: start;
+  gap: var(--space-1);
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  line-height: 1.5rem;
+  font-variant-numeric: tabular-nums;
+}
+.graph-hash {
+  color: var(--accent);
+}
+.graph-when {
+  color: var(--text-muted);
+}
+.graph-message {
+  display: grid;
+  gap: var(--space-3);
+  max-width: 64ch;
+}
+/* Unreached commits dim through the muted token, not opacity, so text ahead
+   of the scan line still clears AA contrast. */
+.graph-row :is(.graph-message *, .graph-meta *) {
+  transition:
+    color 300ms var(--ease-out),
+    background-color 300ms var(--ease-out),
+    border-color 300ms var(--ease-out);
+}
+/* Kept in one rule with the colour so neither list overrides the other: the
+   rise has to ease, or the row jumps the full offset in one frame. */
+.graph-row .graph-message {
+  transition:
+    color 300ms var(--ease-out),
+    transform 600ms var(--ease-out);
+}
+.career-graph.is-live .graph-row:not(.is-on) :is(.graph-message, .graph-message *, .graph-meta *) {
+  color: var(--text-muted);
+}
+.career-graph.is-live .graph-row:not(.is-on) .graph-ref {
+  border-color: var(--border-primary);
+  background: transparent;
+}
+.career-graph.is-live .graph-row:not(.is-on) .graph-message {
+  transform: translateY(var(--space-6));
+}
+
+.graph-refs {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2) var(--space-3);
+  min-height: 1.5rem;
+}
+.graph-ref {
+  display: inline-block;
+  padding: 0 var(--space-2);
+  border: 1px solid var(--accent);
+  border-radius: 999px;
+  color: var(--accent);
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  line-height: 1.25rem;
+  white-space: nowrap;
+}
+.graph-ref-branch {
+  border-color: var(--branch, var(--border-primary));
+  color: var(--text-secondary);
+}
+.graph-ref-branch::before {
+  content: '';
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  margin-right: var(--space-2);
+  border-radius: 50%;
+  background: var(--branch, var(--text-secondary));
+  vertical-align: 1px;
+}
+.graph-ref-head {
+  background: var(--accent);
+  color: var(--bg-primary);
+}
+.graph-period {
+  color: var(--text-muted);
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+}
+.graph-title {
+  font-size: 3rem;
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: var(--tracking-display);
+}
+.graph-subtitle {
+  font-size: 1.875rem;
+  font-weight: 600;
+  line-height: 2.25rem;
+  letter-spacing: -0.02em;
+}
+.graph-role {
+  color: var(--text-secondary);
+  font-size: 1.125rem;
+  line-height: 1.75rem;
+}
+.graph-points {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.graph-points li {
+  padding-block: var(--space-3);
+  box-shadow: inset 0 -1px var(--border-primary);
+  font-size: 1rem;
+  line-height: 1.5rem;
+  text-wrap: pretty;
+}
+.graph-stack {
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  line-height: 1.25rem;
+  color: var(--text-muted);
+}
+.graph-merge {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2) var(--space-3);
+  min-height: 1.5rem;
+  font-family: var(--mono);
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  color: var(--text-secondary);
+}
+
+/* Playhead */
+.graph-scan {
+  display: none;
+}
+.career-graph.is-live .graph-scan {
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  z-index: 0;
+  display: flex;
+  justify-content: flex-end;
+  height: 0;
+  border-top: 1px dashed color-mix(in oklch, var(--accent) 30%, transparent);
+  will-change: transform;
+}
+.graph-scan-when {
+  transform: translateY(-50%);
+  padding: 0 var(--space-2);
+  border-radius: 4px;
+  background: var(--bg-primary);
+  color: var(--accent);
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  line-height: 1.25rem;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+@media (max-width: 760px) {
+  .graph-rows {
+    --lane: 16px;
+    --graph-w: calc(12px + 3 * var(--lane) + var(--space-4));
+  }
+  .graph-row {
+    grid-template-columns: minmax(0, 1fr);
+    row-gap: var(--space-2);
+    padding-bottom: var(--space-12);
+  }
+  .graph-meta {
+    display: flex;
+    gap: var(--space-3);
+  }
+  .career-graph.is-live .graph-scan {
+    right: auto;
+    width: 76px;
+  }
+  .graph-scan-when {
+    display: none;
+  }
+  .graph-title {
+    font-size: 2.25rem;
+    line-height: 2.5rem;
+  }
+  .graph-subtitle {
+    font-size: 1.5rem;
+    line-height: 2rem;
+  }
+}
+
+@media print {
+  .graph-svg,
+  .graph-scan,
+  .graph-command {
+    display: none;
+  }
+  .graph-row {
+    padding-left: 0;
+  }
+}

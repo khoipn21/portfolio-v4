@@ -1,4 +1,3 @@
-import Image from 'next/image';
 import Link from 'next/link';
 import { ArrowDown, ArrowRight, ArrowUpRight } from '@/components/icons';
 import { projects, userData, experiences, awards } from '@/data/user-data';
@@ -6,7 +5,8 @@ import { PortfolioMotion } from '@/components/portfolio-motion';
 import { AwardVideo } from '@/components/award-video';
 import { KeyBench } from '@/components/key-bench/key-bench';
 import { RequestLineFigure } from '@/components/figures/request-line/request-line-figure';
-import { ProjectFigure, hasProjectFigure } from '@/components/figures/project-figure';
+import { WorkShowcase } from '@/components/work-showcase/work-showcase';
+import { CareerGraph } from '@/components/career-graph/career-graph';
 import { Spotlight } from '@/components/spotlight';
 
 export default function Home() {
@@ -108,8 +108,8 @@ export default function Home() {
               How I build
             </h2>
             <p>
-              The stack I reach for, traced as one request. A Next.js screen asks a Go service,
-              Go checks Redis first, and only a miss goes on to Postgres and leaves a copy behind.
+              The stack I reach for, traced as one request. A Next.js screen asks a Go service, Go
+              checks Redis first, and only a miss goes on to Postgres and leaves a copy behind.
             </p>
           </div>
           <div className="build-figure">
@@ -121,72 +121,7 @@ export default function Home() {
           <h2 id="work-heading" data-panel-reveal>
             Selected work
           </h2>
-          <div className="work-index">
-            {projects
-              .filter((project) => project.featured)
-              .map((project, index) => (
-                <article className="work-entry" key={project.slug}>
-                  <span className="work-number" aria-hidden="true">
-                    {String(index + 1).padStart(2, '0')}
-                  </span>
-                  <div className="work-entry-copy">
-                    <h3>
-                      <Link
-                        className="work-name"
-                        href={`/projects/${project.slug}`}
-                        aria-label={`Read ${project.title} case study`}
-                      >
-                        <span data-panel-reveal aria-hidden="true">
-                          {project.title}
-                        </span>
-                        <ArrowRight aria-hidden="true" />
-                      </Link>
-                    </h3>
-                    <div className="work-entry-meta">
-                      <span className="work-tech">{project.tech.join(' / ')}</span>
-                      {project.github ? (
-                        <a
-                          className="text-link"
-                          href={project.github}
-                          aria-label={`${project.title} source code`}
-                        >
-                          Source <ArrowUpRight aria-hidden="true" />
-                        </a>
-                      ) : (
-                        project.demo && (
-                          <Link
-                            className="text-link"
-                            href={project.demo.href}
-                            aria-label={`${project.title}: ${project.demo.label.toLowerCase()}`}
-                          >
-                            {project.demo.label} <ArrowRight aria-hidden="true" />
-                          </Link>
-                        )
-                      )}
-                    </div>
-                    <p className="work-availability">{project.demoNote}</p>
-                  </div>
-                  {hasProjectFigure(project.slug) ? (
-                    <div className="work-preview work-figure">
-                      <ProjectFigure slug={project.slug} />
-                    </div>
-                  ) : (
-                    project.image && (
-                    <figure className="work-preview">
-                      <Image
-                        src={project.image}
-                        alt=""
-                        width={800}
-                        height={500}
-                        sizes="(max-width: 700px) 90vw, 42vw"
-                      />
-                      <figcaption>{project.imageCaption}</figcaption>
-                    </figure>
-                    )
-                  )}
-                </article>
-              ))}
-          </div>
+          <WorkShowcase projects={projects.filter((project) => project.featured)} />
           <Link className="text-link work-all" href="/projects">
             All projects <ArrowRight aria-hidden="true" />
           </Link>
@@ -239,26 +174,7 @@ export default function Home() {
             <br />
             Made for <em>people</em>.
           </h2>
-          <div className="career-timeline">
-            {experiences.map((experience) => (
-              <article className="career-entry" key={experience.company}>
-                <div className="career-heading">
-                  <p className="career-period">{experience.period}</p>
-                  <h3 data-panel-reveal>{experience.company}</h3>
-                  <p>{experience.role}</p>
-                </div>
-                <div className="career-delivery">
-                  <p className="career-label">What I delivered</p>
-                  <ul>
-                    {experience.description.slice(0, 2).map((item) => (
-                      <li key={item}>{item}</li>
-                    ))}
-                  </ul>
-                  <p className="career-tech">{experience.tech.join(' / ')}</p>
-                </div>
-              </article>
-            ))}
-          </div>
+          <CareerGraph experiences={experiences} detail="summary" />
           <Link className="text-link" href="/experience">
             Full experience & education <ArrowRight aria-hidden="true" />
           </Link>
