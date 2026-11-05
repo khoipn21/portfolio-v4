@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import { userData, experiences, education } from '@/data/user-data';
+import { userData, experiences, education, awards } from '@/data/user-data';
 import { PrintResumeButton } from '@/components/print-resume-button';
 import { ExperienceRow } from '@/components/experience-row';
 
@@ -70,6 +70,24 @@ export default function ResumePage() {
             <dd>Git, Linux, Docker, Nginx, AWS, GitHub Actions</dd>
           </div>
         </dl>
+      </section>
+      <section className="section-block detail-grid" aria-labelledby="awards-heading">
+        <h2 id="awards-heading" className="section-title">
+          Awards
+        </h2>
+        <div className="prose">
+          {awards.map((award) => (
+            <div key={award.event}>
+              <h3>
+                {award.title} · {award.event}
+              </h3>
+              <p>
+                {award.project} · {award.date}
+              </p>
+              <p>{award.description}</p>
+            </div>
+          ))}
+        </div>
       </section>
       <section className="section-block detail-grid" aria-labelledby="education-heading">
         <h2 id="education-heading" className="section-title">

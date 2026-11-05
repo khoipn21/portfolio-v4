@@ -61,6 +61,28 @@ export function PortfolioMotion({ children }: { children: ReactNode }) {
               scrollTrigger: { trigger: entry, start: 'top 85%', once: true },
             });
           });
+          const awardVideo = root.querySelector<HTMLElement>('.award-preview');
+          if (awardVideo) {
+            gsap.from(awardVideo, {
+              clipPath: 'inset(12% 6% 12% 6%)',
+              duration: 1.2,
+              ease: 'power3.inOut',
+              clearProps: 'clipPath',
+              scrollTrigger: { trigger: awardVideo, start: 'top 85%', once: true },
+            });
+          }
+          const awardFacts = root.querySelectorAll<HTMLElement>('.award-facts > div');
+          if (awardFacts.length) {
+            gsap.from(awardFacts, {
+              y: 32,
+              opacity: 0,
+              duration: 0.8,
+              stagger: 0.12,
+              ease: 'power3.out',
+              clearProps: 'transform,opacity',
+              scrollTrigger: { trigger: awardFacts[0], start: 'top 90%', once: true },
+            });
+          }
           const illustration = root.querySelector<HTMLElement>('[data-approach-illustration]');
           if (illustration) {
             gsap.from(illustration, {

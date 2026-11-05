@@ -67,8 +67,9 @@ export interface Project {
   title: string;
   description: string;
   tech: string[];
-  github: string;
+  github?: string;
   live?: string;
+  demo?: { href: string; label: string };
   image?: string;
   highlights: string[];
   category: string;
@@ -85,6 +86,50 @@ export interface Project {
 }
 
 export const projects: Project[] = [
+  {
+    slug: 'bioweave',
+    title: 'BioWeave',
+    description:
+      'A web platform for 3D biology models: AI writes a spec you can check, the browser builds the model, and the community verifies it. First place at the Sea x OpenAI Codex Hackathon Vietnam 2026.',
+    tech: [
+      'Next.js',
+      'Three.js',
+      'React Three Fiber',
+      'TypeScript',
+      'PostgreSQL',
+      'MinIO',
+      'Codex',
+    ],
+    demo: { href: '/#awards', label: 'Watch the demo' },
+    image: '/images/bioweave-deep-time-poster.webp',
+    category: 'Hackathon project · AI and 3D',
+    featured: true,
+    imageCaption: 'Still from the demo recording: the Deep Time view.',
+    demoNote: 'Team hackathon project. Private repository; demo video on the homepage.',
+    problem:
+      'AI-generated 3D models look convincing but often get the anatomy wrong: missing parts, wrong counts, invented proportions. Teachers and students cannot spot those errors, so model libraries fill up with content nobody can trust.',
+    contribution:
+      'Team project in a repository owned by Cao Quoc Viet. I owned the 3D side: the biology modelling skill and QA gates, 22 of the sample models, and the AI mesh pipeline in the Studio.',
+    decision:
+      'Made evidence a hard requirement. Every model part carries an ontology ID (Uberon, Cell Ontology, Gene Ontology, Plant Ontology) and every size and colour cites a source, so a reviewer can check a model instead of trusting it.',
+    challenge:
+      'AI agents tend to approve their own output. The QA pipeline runs automated checks and then a separate review pass, so the agent that builds a model never approves its own render.',
+    limitation:
+      'Built in a hackathon, so it is a demo rather than a product. The repository is private and there is no public deployment. AI mesh results land as Drafts and still need human review.',
+    nextStep:
+      'Deploy a public demo so teachers can try the review flow, and track which errors the automated checks miss.',
+    reviewSteps: [
+      'Watch the demo recording on the homepage.',
+      'Ask for repository access to review the 3D biology skill and its QA gates.',
+      'Trace an AI mesh run from the Studio prompt to a Draft in the library.',
+    ],
+    highlights: [
+      'Codex skill for 3D biology models: each part maps to an ontology ID, and each size and colour has a cited source.',
+      'Automated QA checks plus a separate review pass; the agent that builds a model never approves its own render.',
+      'AI mesh pipeline that researches a subject, draws a reference image and produces one 3D object in under two minutes, with one paid generation call per run. Results always land as Drafts.',
+      'Demo library of 94 model packages, including 76 generator-built models split into named, selectable parts.',
+    ],
+  },
   {
     slug: 'bookstore',
     title: 'E-commerce Bookstore',
@@ -157,42 +202,6 @@ export const projects: Project[] = [
     ],
   },
   {
-    slug: 'codexbar-linux',
-    title: 'CodexBar Linux Port',
-    description:
-      'A Linux-native tray and settings interface for monitoring AI coding-provider usage, built in Rust around the upstream CodexBar engine.',
-    tech: ['Rust', 'GTK4', 'libadwaita', 'Swift', 'GitHub Actions'],
-    github: 'https://github.com/khoipn21/CodexBar-Linux',
-    image: '/images/project-codexbar.png',
-    category: 'Open-source desktop application',
-    featured: true,
-    imageCaption: 'Illustrative artwork.',
-    demoNote: 'Desktop source build. No published release yet.',
-    problem:
-      'CodexBar was built for macOS. Linux users needed a native way to inspect their AI coding-provider usage.',
-    contribution:
-      'Built the Linux GUI and integration in Rust, GTK4, and libadwaita. The engine and original product design are from steipete/CodexBar, included as an MIT-licensed upstream submodule.',
-    decision:
-      'Kept the upstream Swift provider engine behind local HTTP endpoints while implementing the Linux interface in Rust. This separates provider integration from platform-specific UI.',
-    challenge:
-      'Adapting a macOS menu-bar experience to Linux required system-tray integration, GTK settings, autostart support, and Linux packaging.',
-    limitation:
-      'No release is published yet. Building requires Rust, Swift, and GTK dependencies. Tray support needs an AppIndicator host; provider usage requires local account sessions.',
-    nextStep:
-      'Improve the installation walkthrough and document desktop-environment compatibility with reproducible checks.',
-    reviewSteps: [
-      'Read the Linux installation instructions and upstream attribution.',
-      'Inspect the tray and settings implementation.',
-      'Review how the Linux client communicates with the provider engine.',
-    ],
-    highlights: [
-      'Integrated ksni StatusNotifierItem for system tray presence on GNOME with custom cairo-rendered usage icons.',
-      'Consumed upstream Swift engine via local HTTP endpoints for provider quotas, token breakdowns, and cost ledger.',
-      'Built libadwaita settings window with provider configuration, refresh cadence control, and launch-at-login autostart.',
-      'GitHub Actions runs Rust tests and builds .deb and tarball CI artifacts. These are not published releases.',
-    ],
-  },
-  {
     slug: 'study-platform',
     title: 'Study Platform',
     description:
@@ -227,6 +236,44 @@ export const projects: Project[] = [
       'Dedicated progress service and documented gRPC contracts for learning progress.',
       'API Gateway with rate limiting, circuit breaker pattern, and automatic retry mechanisms.',
     ],
+  },
+];
+
+export interface Award {
+  title: string;
+  event: string;
+  date: string;
+  project: string;
+  description: string;
+  summary: string;
+  facts: { value: string; label: string }[];
+  stream?: string;
+  teaser?: string;
+  poster?: string;
+  videoDuration?: string;
+  videoCaption?: string;
+}
+
+export const awards: Award[] = [
+  {
+    title: 'First Place',
+    event: 'Sea x OpenAI Codex Hackathon Vietnam 2026',
+    date: 'Oct 2026',
+    project: 'BioWeave',
+    description:
+      'Team project: a web platform for 3D biology models where AI writes a checkable spec, the browser builds the model, and the community verifies it. Owned the 3D pipeline: a Codex skill that maps every model part to an ontology ID with cited sizes and colours, automated QA with a separate review pass, and an AI mesh pipeline that lands each result as a Draft for review. Demoed a library of 94 model packages in the Top 5 final to judges from OpenAI, Sea and Shopee.',
+    summary:
+      'BioWeave is a web platform for 3D biology models: AI writes a checkable spec, the browser builds the model, and the community verifies it. I owned the 3D pipeline, from ontology-linked model parts to automated QA.',
+    facts: [
+      { value: '1st', label: 'of five finalists' },
+      { value: '94', label: 'model packages in the demo' },
+      { value: '7h', label: 'of on-site hacking' },
+    ],
+    stream: 'https://khoipn-media.pages.dev/bioweave/deep-time/v1/master.m3u8',
+    teaser: '/videos/bioweave-deep-time-teaser.mp4',
+    poster: '/images/bioweave-deep-time-poster.webp',
+    videoDuration: '1:00',
+    videoCaption: 'BioWeave Deep Time view, scrolling from the Precambrian to today.',
   },
 ];
 

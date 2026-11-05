@@ -1,6 +1,6 @@
 'use client';
 
-import { Check, Copy } from 'lucide-react';
+import { Check, Copy } from '@/components/icons';
 import { useEffect, useState, useSyncExternalStore } from 'react';
 
 const subscribe = () => () => {};

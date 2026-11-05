@@ -3,7 +3,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { notFound } from 'next/navigation';
 import { Fragment, type ReactNode } from 'react';
-import { ArrowLeft, ArrowRight, ArrowUpRight } from 'lucide-react';
+import { ArrowLeft, ArrowRight, ArrowUpRight } from '@/components/icons';
 import { projects } from '@/data/user-data';
 
 type Props = { params: Promise<{ slug: string }> };
@@ -75,9 +75,11 @@ export default async function ProjectDetailPage({ params }: Props) {
               ))}
             </ol>
             <p>Suggested starting points for a code review.</p>
-            <a className="text-link" href={project.github}>
-              Open repository <ArrowUpRight aria-hidden="true" size={18} />
-            </a>
+            {project.github && (
+              <a className="text-link" href={project.github}>
+                Open repository <ArrowUpRight aria-hidden="true" size={18} />
+              </a>
+            )}
           </Fragment>,
         ],
       ],
@@ -94,9 +96,19 @@ export default async function ProjectDetailPage({ params }: Props) {
         <h1 className="page-title">{project.title}</h1>
         <p className="lede">{project.description}</p>
         <div className="action-row">
-          <a className="button" href={project.github}>
-            Source code <ArrowUpRight aria-hidden="true" />
-          </a>
+          {project.github && (
+            <a className="button" href={project.github}>
+              Source code <ArrowUpRight aria-hidden="true" />
+            </a>
+          )}
+          {project.demo && (
+            <Link
+              className={project.github ? 'button-secondary' : 'button'}
+              href={project.demo.href}
+            >
+              {project.demo.label} <ArrowRight aria-hidden="true" />
+            </Link>
+          )}
           {project.live && (
             <a className="button-secondary" href={project.live}>
               Live demo <ArrowUpRight aria-hidden="true" />
@@ -113,7 +125,13 @@ export default async function ProjectDetailPage({ params }: Props) {
         </div>
         <div>
           <dt>Evaluation</dt>
-          <dd>{project.live ? 'Live demo & source' : 'Source code; no public demo'}</dd>
+          <dd>
+            {project.live
+              ? 'Live demo & source'
+              : project.github
+                ? 'Source code; no public demo'
+                : 'Demo recording; private source'}
+          </dd>
         </div>
       </dl>
       {project.image && (

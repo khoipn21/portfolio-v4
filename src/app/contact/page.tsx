@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { ArrowRight, ArrowUpRight } from 'lucide-react';
+import { ArrowRight, ArrowUpRight } from '@/components/icons';
 import { CopyEmailButton } from '@/components/copy-email-button';
 import Link from 'next/link';
 import { userData } from '@/data/user-data';

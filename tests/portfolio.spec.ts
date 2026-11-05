@@ -1,5 +1,19 @@
-import { expect, test } from '@playwright/test';
+import { expect, test, type Page } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
+
+const THEME_LABELS = { dark: 'Dark', light: 'Light', mint: 'Mint' } as const;
+
+async function setTheme(page: Page, theme: keyof typeof THEME_LABELS) {
+  const toggle = page.getByRole('button', { name: /^Color theme:/ });
+  const html = page.locator('html');
+  for (let i = 0; i < 3 && (await html.getAttribute('data-theme')) !== theme; i++) {
+    const before = await html.getAttribute('data-theme');
+    await toggle.click();
+    await expect(html).not.toHaveAttribute('data-theme', before ?? '');
+  }
+  await expect(html).toHaveAttribute('data-theme', theme);
+  await expect(toggle).toHaveAccessibleName(new RegExp(`^Color theme: ${THEME_LABELS[theme]}\\.`));
+}
 
 test.setTimeout(90_000);
 test('a reviewer can use the keyboard to reach work, source, résumé, and contact', async ({
@@ -43,12 +57,11 @@ test('a reviewer can use the keyboard to reach work, source, résumé, and conta
 
 test('theme preference survives navigation and reload', async ({ page }) => {
   await page.goto('/');
-  await page.getByRole('combobox', { name: 'Color theme' }).selectOption('dark');
-  await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark');
+  await setTheme(page, 'light');
   await page.getByRole('navigation').getByRole('link', { name: 'Projects', exact: true }).click();
   await page.reload();
-  await expect(page.getByRole('combobox', { name: 'Color theme' })).toHaveValue('dark');
-  await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark');
+  await expect(page.getByRole('button', { name: /^Color theme: Light/ })).toBeVisible();
+  await expect(page.locator('html')).toHaveAttribute('data-theme', 'light');
 });
 
 test('reduced motion keeps anchors, direct links, and history usable', async ({ page }) => {
@@ -95,7 +108,7 @@ test('primary pages remain usable between responsive breakpoints', async ({ page
 });
 
 test('primary pages have no automated WCAG A/AA violations across themes', async ({ page }) => {
-  for (const theme of ['light', 'dark', 'mint']) {
+  for (const theme of ['light', 'dark', 'mint'] as const) {
     for (const route of [
       '/',
       '/projects',
@@ -105,7 +118,7 @@ test('primary pages have no automated WCAG A/AA violations across themes', async
       '/experience',
     ]) {
       await page.goto(route);
-      await page.getByRole('combobox', { name: 'Color theme' }).selectOption(theme);
+      await setTheme(page, theme);
       const result = await new AxeBuilder({ page })
         .withTags(['wcag2a', 'wcag2aa', 'wcag21aa'])
         .analyze();

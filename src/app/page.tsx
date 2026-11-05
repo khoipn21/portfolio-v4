@@ -1,8 +1,10 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import { ArrowDown, ArrowRight, ArrowUpRight } from 'lucide-react';
-import { projects, userData, experiences } from '@/data/user-data';
+import { ArrowDown, ArrowRight, ArrowUpRight } from '@/components/icons';
+import { projects, userData, experiences, awards } from '@/data/user-data';
 import { PortfolioMotion } from '@/components/portfolio-motion';
+import { AwardVideo } from '@/components/award-video';
+import { KeyBench } from '@/components/key-bench/key-bench';
 
 export default function Home() {
   return (
@@ -50,16 +52,9 @@ export default function Home() {
               <br />
               Think through the <em>system</em>.
             </h2>
-            <figure className="approach-illustration" data-approach-illustration>
-              <Image
-                src="/images/interface-system.png"
-                alt=""
-                width={1536}
-                height={1024}
-                sizes="(max-width: 700px) 90vw, 40vw"
-              />
-              <figcaption>Interface / system — generated conceptual illustration.</figcaption>
-            </figure>
+            <div className="approach-illustration" data-approach-illustration>
+              <KeyBench />
+            </div>
           </div>
           <div className="approach-bottom">
             <p>
@@ -110,13 +105,25 @@ export default function Home() {
                     </h3>
                     <div className="work-entry-meta">
                       <span className="work-tech">{project.tech.join(' / ')}</span>
-                      <a
-                        className="text-link"
-                        href={project.github}
-                        aria-label={`${project.title} source code`}
-                      >
-                        Source <ArrowUpRight aria-hidden="true" />
-                      </a>
+                      {project.github ? (
+                        <a
+                          className="text-link"
+                          href={project.github}
+                          aria-label={`${project.title} source code`}
+                        >
+                          Source <ArrowUpRight aria-hidden="true" />
+                        </a>
+                      ) : (
+                        project.demo && (
+                          <Link
+                            className="text-link"
+                            href={project.demo.href}
+                            aria-label={`${project.title}: ${project.demo.label.toLowerCase()}`}
+                          >
+                            {project.demo.label} <ArrowRight aria-hidden="true" />
+                          </Link>
+                        )
+                      )}
                     </div>
                     <p className="work-availability">{project.demoNote}</p>
                   </div>
@@ -139,6 +146,47 @@ export default function Home() {
             All projects <ArrowRight aria-hidden="true" />
           </Link>
         </section>
+
+        {awards.slice(0, 1).map((award) => (
+          <section
+            key={award.event}
+            id="awards"
+            className="viewport-panel award-panel"
+            aria-labelledby="award-heading"
+          >
+            <div className="award-copy">
+              <header className="award-head">
+                <h2 id="award-heading" data-panel-reveal>
+                  Won <em>{`${award.title.toLowerCase()}.`}</em>
+                </h2>
+                <p className="award-event">
+                  {award.event}, with {award.project}. <span>{award.date}</span>
+                </p>
+              </header>
+              <p className="award-summary">{award.summary}</p>
+              <dl className="award-facts">
+                {award.facts.map((fact) => (
+                  <div key={fact.label}>
+                    <dt>{fact.label}</dt>
+                    <dd>{fact.value}</dd>
+                  </div>
+                ))}
+              </dl>
+            </div>
+            {award.stream && award.teaser && award.poster && (
+              <figure className="award-media">
+                <AwardVideo
+                  stream={award.stream}
+                  teaser={award.teaser}
+                  poster={award.poster}
+                  duration={award.videoDuration ?? ''}
+                  label={`${award.project} demo video`}
+                />
+                <figcaption>{award.videoCaption}</figcaption>
+              </figure>
+            )}
+          </section>
+        ))}
 
         <section className="viewport-panel experience-panel" aria-labelledby="experience-heading">
           <h2 id="experience-heading" data-panel-reveal>

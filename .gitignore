@@ -43,3 +43,6 @@ yarn-error.log*
 next-env.d.ts
 
 .wrangler
+
+# generated HLS media, deployed to Cloudflare Pages by scripts/build-stream.sh
+/media/hls
