@@ -1,0 +1,115 @@
+/* Maps the anatomy kit tokens onto the site palette. Put `iso portfolio-figure` on a figure's wrapper. */
+.iso.portfolio-figure {
+  --fig-bg: var(--bg-primary);
+  --fig-ink: var(--text-primary);
+  --anatomy-page: var(--fig-bg);
+  --anatomy-card: var(--fig-bg);
+  --anatomy-paper: var(--fig-bg);
+  --anatomy-text: var(--text-secondary);
+  --anatomy-strong: var(--text-primary);
+  --anatomy-muted: var(--text-muted);
+  --anatomy-face: color-mix(in oklch, var(--fig-bg), var(--fig-ink) 6%);
+  --anatomy-top: color-mix(in oklch, var(--fig-bg), var(--fig-ink) 8%);
+  --anatomy-shade-0: color-mix(in oklch, var(--fig-bg), black 28%);
+  --anatomy-shade-1: color-mix(in oklch, var(--fig-bg), black 19%);
+  --anatomy-shade-2: color-mix(in oklch, var(--fig-bg), black 11%);
+  --anatomy-shade-3: color-mix(in oklch, var(--fig-bg), black 4%);
+  --anatomy-lit-top: color-mix(in oklch, var(--fig-bg), var(--accent) 22%);
+  --anatomy-lit-shade: color-mix(in oklch, var(--fig-bg), var(--accent) 10%);
+  --anatomy-hi: color-mix(in oklch, var(--fig-ink), var(--fig-bg) 12%);
+  --anatomy-mid: color-mix(in oklch, var(--fig-ink), var(--fig-bg) 52%);
+  --anatomy-lo: color-mix(in oklch, var(--fig-ink), var(--fig-bg) 72%);
+  --anatomy-faint: color-mix(in oklch, var(--fig-ink), var(--fig-bg) 84%);
+  --anatomy-lit: var(--accent);
+  --anatomy-dot: var(--fig-ink);
+  --anatomy-red: var(--accent);
+  --anatomy-halo: oklch(0.08 0.01 60);
+  --anatomy-halo-opacity: 0.75;
+  --anatomy-ease: var(--ease-out);
+  --fig-glow-0: color-mix(in oklch, var(--accent), white 35%);
+  --fig-glow-1: color-mix(in oklch, var(--accent) 38%, transparent);
+  --fig-glow-2: color-mix(in oklch, var(--accent) 0%, transparent);
+  --fig-blend: screen;
+}
+
+:is([data-theme='light'], [data-theme='mint']) .iso.portfolio-figure {
+  --anatomy-face: color-mix(in oklch, var(--fig-bg), white 70%);
+  --anatomy-top: color-mix(in oklch, var(--fig-bg), white 70%);
+  --anatomy-shade-0: color-mix(in oklch, var(--fig-bg), black 13%);
+  --anatomy-shade-1: color-mix(in oklch, var(--fig-bg), black 9%);
+  --anatomy-shade-2: color-mix(in oklch, var(--fig-bg), black 5.5%);
+  --anatomy-shade-3: color-mix(in oklch, var(--fig-bg), black 2%);
+  --anatomy-lit-top: color-mix(in oklch, var(--fig-bg), var(--accent) 14%);
+  --anatomy-lit-shade: color-mix(in oklch, var(--fig-bg), var(--accent) 24%);
+  --anatomy-hi: var(--fig-ink);
+  --anatomy-mid: color-mix(in oklch, var(--fig-ink), var(--fig-bg) 48%);
+  --anatomy-lo: color-mix(in oklch, var(--fig-ink), var(--fig-bg) 68%);
+  --anatomy-faint: color-mix(in oklch, var(--fig-ink), var(--fig-bg) 80%);
+  --anatomy-halo: color-mix(in oklch, var(--fig-ink), var(--fig-bg) 35%);
+  --anatomy-halo-opacity: 0.3;
+  --fig-glow-0: color-mix(in oklch, var(--accent), white 20%);
+  --fig-glow-1: color-mix(in oklch, var(--accent) 28%, transparent);
+  --fig-blend: multiply;
+}
+
+.portfolio-figure .iso-figure {
+  margin: 0;
+}
+
+.portfolio-figure .iso-plate {
+  padding: 48px 16px;
+  border-radius: 4px;
+  background: transparent;
+  box-shadow: 0 0 0 1px var(--border-secondary);
+}
+
+.portfolio-figure .iso-plate-corner {
+  font-size: 12px;
+  line-height: 16px;
+}
+
+.portfolio-figure .iso-legend {
+  gap: 8px;
+  margin-top: 12px;
+  font-size: 14px;
+  line-height: 20px;
+  text-wrap: pretty;
+}
+
+/* Interactive stage: focusable, pointer driven, never scroll-blocking. */
+.fig-stage {
+  cursor: pointer;
+  touch-action: pan-y;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  border-radius: 4px;
+  outline: none;
+}
+
+.fig-stage:focus-visible {
+  box-shadow: 0 0 0 2px var(--accent);
+}
+
+.fig-glow {
+  opacity: var(--fig-on, 0);
+  pointer-events: none;
+  mix-blend-mode: var(--fig-blend);
+}
+
+.fig-stop-0 {
+  stop-color: var(--fig-glow-0);
+}
+
+.fig-stop-1 {
+  stop-color: var(--fig-glow-1);
+}
+
+.fig-stop-2 {
+  stop-color: var(--fig-glow-2);
+}
+
+@media (max-width: 560px) {
+  .portfolio-figure .iso-plate {
+    padding: 48px 12px 64px;
+  }
+}

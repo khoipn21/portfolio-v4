@@ -1,0 +1,28 @@
+/* BioWeave figure states; palette tokens come from ../../iso/portfolio-figure.css. */
+.bioweave-figure .bw-seal {
+  opacity: 0;
+  transition: opacity 240ms var(--ease-out);
+}
+
+.bioweave-figure .bw-tag[data-checked] .bw-seal {
+  opacity: 1;
+}
+
+.bioweave-figure .bw-cable {
+  stroke-width: 0.6;
+}
+
+.bioweave-figure .bw-voice {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bioweave-figure .bw-seal {
+    transition: none;
+  }
+}

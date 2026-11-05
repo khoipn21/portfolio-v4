@@ -1,0 +1,21 @@
+/* Murmur chat desk states; palette tokens come from ../../iso/portfolio-figure.css. */
+.mc-mark {
+  fill: var(--anatomy-mid);
+}
+
+.mc-mark-hist {
+  fill: var(--anatomy-lo);
+}
+
+.mc-notch {
+  stroke-width: 1;
+}
+
+.mc-live-region {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}

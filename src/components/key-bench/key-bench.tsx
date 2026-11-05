@@ -1,4 +1,5 @@
 import '@/components/iso/iso.css';
+import '@/components/iso/portfolio-figure.css';
 import './key-bench.css';
 import { Plate } from '@/components/iso/react/draw';
 import { FIGURE_LABEL, keyBenchArt } from './art';
@@ -9,7 +10,7 @@ const ART = keyBenchArt();
 
 export function KeyBench() {
   return (
-    <div className="iso key-bench">
+    <div className="iso portfolio-figure key-bench">
       <Plate
         fig="Fig 1"
         title="Keystroke"

@@ -1,0 +1,16 @@
+/* Request line states; palette tokens come from ../../iso/portfolio-figure.css. */
+.rl-card {
+  opacity: var(--rl-card, 0);
+}
+
+.rl-lamp {
+  fill: color-mix(in oklch, var(--anatomy-faint), var(--anatomy-hi) calc(var(--rl-lamp, 0) * 100%));
+}
+
+.rl-page {
+  opacity: calc(0.2 + 0.8 * var(--rl-page, 0));
+}
+
+.rl-rail {
+  stroke-width: 1.4;
+}

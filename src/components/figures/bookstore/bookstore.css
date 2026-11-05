@@ -1,0 +1,28 @@
+/* Bookstore figure states; palette tokens come from ../../iso/portfolio-figure.css. */
+.bookstore-figure .bs-fade {
+  opacity: var(--bs-fade, 1);
+}
+
+.bookstore-figure .bs-readers {
+  opacity: 0;
+  transition: opacity 420ms var(--ease-out);
+}
+
+.bookstore-figure .bs-stage[data-cart] .bs-readers {
+  opacity: 1;
+}
+
+.bookstore-figure .bs-said {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bookstore-figure .bs-readers {
+    transition: none;
+  }
+}

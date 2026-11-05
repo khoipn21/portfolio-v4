@@ -5,6 +5,9 @@ import { projects, userData, experiences, awards } from '@/data/user-data';
 import { PortfolioMotion } from '@/components/portfolio-motion';
 import { AwardVideo } from '@/components/award-video';
 import { KeyBench } from '@/components/key-bench/key-bench';
+import { RequestLineFigure } from '@/components/figures/request-line/request-line-figure';
+import { ProjectFigure, hasProjectFigure } from '@/components/figures/project-figure';
+import { Spotlight } from '@/components/spotlight';
 
 export default function Home() {
   return (
@@ -12,14 +15,25 @@ export default function Home() {
       <main id="main-content" tabIndex={-1} className="home-page">
         <section className="viewport-panel home-hero" aria-labelledby="intro-heading">
           <div className="hero-opening">
-            <h1 id="intro-heading" className="hero-name" aria-label="Pham Ngoc Khoi">
-              <span data-panel-reveal aria-hidden="true">
-                Pham
-              </span>
-              <span data-panel-reveal aria-hidden="true">
-                Ngoc Khoi
-              </span>
-            </h1>
+            <Spotlight
+              className="hero-spotlight"
+              radius={200}
+              reveal={
+                <p className="hero-name">
+                  <span>From UI</span>
+                  <span>to the API</span>
+                </p>
+              }
+            >
+              <h1 id="intro-heading" className="hero-name" aria-label="Pham Ngoc Khoi">
+                <span data-panel-reveal aria-hidden="true">
+                  Pham
+                </span>
+                <span data-panel-reveal aria-hidden="true">
+                  Ngoc Khoi
+                </span>
+              </h1>
+            </Spotlight>
             <p className="hero-position">
               {userData.headline}. Building considered interfaces and the systems behind them.
             </p>
@@ -47,11 +61,21 @@ export default function Home() {
           aria-labelledby="about-heading"
         >
           <div className="approach-opening">
-            <h2 id="about-heading" data-panel-reveal>
-              Care for the <em>interface</em>.
-              <br />
-              Think through the <em>system</em>.
-            </h2>
+            <Spotlight
+              reveal={
+                <p className="approach-heading">
+                  Sweat the <em>pixels</em>.
+                  <br />
+                  Then trace every <em>request</em>.
+                </p>
+              }
+            >
+              <h2 id="about-heading" className="approach-heading" data-word-reveal>
+                Care for the <em>interface</em>.
+                <br />
+                Think through the <em>system</em>.
+              </h2>
+            </Spotlight>
             <div className="approach-illustration" data-approach-illustration>
               <KeyBench />
             </div>
@@ -75,6 +99,21 @@ export default function Home() {
                 <dd>PostgreSQL · Redis · Docker · AWS</dd>
               </div>
             </dl>
+          </div>
+        </section>
+
+        <section id="how-i-build" className="build-panel" aria-labelledby="build-heading">
+          <div className="build-head">
+            <h2 id="build-heading" data-panel-reveal>
+              How I build
+            </h2>
+            <p>
+              The stack I reach for, traced as one request. A Next.js screen asks a Go service,
+              Go checks Redis first, and only a miss goes on to Postgres and leaves a copy behind.
+            </p>
+          </div>
+          <div className="build-figure">
+            <RequestLineFigure />
           </div>
         </section>
 
@@ -127,7 +166,12 @@ export default function Home() {
                     </div>
                     <p className="work-availability">{project.demoNote}</p>
                   </div>
-                  {project.image && (
+                  {hasProjectFigure(project.slug) ? (
+                    <div className="work-preview work-figure">
+                      <ProjectFigure slug={project.slug} />
+                    </div>
+                  ) : (
+                    project.image && (
                     <figure className="work-preview">
                       <Image
                         src={project.image}
@@ -138,6 +182,7 @@ export default function Home() {
                       />
                       <figcaption>{project.imageCaption}</figcaption>
                     </figure>
+                    )
                   )}
                 </article>
               ))}
@@ -220,11 +265,22 @@ export default function Home() {
         </section>
 
         <section className="viewport-panel contact-panel" aria-labelledby="contact-heading">
-          <h2 id="contact-heading" data-panel-reveal>
-            Have something
-            <br />
-            in <em>mind</em>?
-          </h2>
+          <Spotlight
+            radius={220}
+            reveal={
+              <p className="contact-heading">
+                Let’s make
+                <br />
+                it <em>real</em>.
+              </p>
+            }
+          >
+            <h2 id="contact-heading" className="contact-heading" data-panel-reveal>
+              Have something
+              <br />
+              in <em>mind</em>?
+            </h2>
+          </Spotlight>
           <div className="contact-bottom">
             <a className="contact-email" href={`mailto:${userData.email}`}>
               {userData.email}

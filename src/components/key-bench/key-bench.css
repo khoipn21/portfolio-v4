@@ -1,78 +1,4 @@
-.iso.key-bench {
-  --kb-bg: var(--bg-primary);
-  --kb-ink: var(--text-primary);
-  --anatomy-page: var(--kb-bg);
-  --anatomy-card: var(--kb-bg);
-  --anatomy-paper: var(--kb-bg);
-  --anatomy-text: var(--text-secondary);
-  --anatomy-strong: var(--text-primary);
-  --anatomy-muted: var(--text-muted);
-  --anatomy-face: color-mix(in oklch, var(--kb-bg), white 5%);
-  --anatomy-top: color-mix(in oklch, var(--kb-bg), white 6%);
-  --anatomy-shade-0: color-mix(in oklch, var(--kb-bg), black 28%);
-  --anatomy-shade-1: color-mix(in oklch, var(--kb-bg), black 19%);
-  --anatomy-shade-2: color-mix(in oklch, var(--kb-bg), black 11%);
-  --anatomy-shade-3: color-mix(in oklch, var(--kb-bg), black 4%);
-  --anatomy-lit-top: color-mix(in oklch, var(--kb-bg), white 14%);
-  --anatomy-lit-shade: color-mix(in oklch, var(--kb-bg), white 5%);
-  --anatomy-hi: color-mix(in oklch, var(--kb-ink), var(--kb-bg) 12%);
-  --anatomy-mid: color-mix(in oklch, var(--kb-ink), var(--kb-bg) 52%);
-  --anatomy-lo: color-mix(in oklch, var(--kb-ink), var(--kb-bg) 72%);
-  --anatomy-faint: color-mix(in oklch, var(--kb-ink), var(--kb-bg) 84%);
-  --anatomy-lit: var(--kb-ink);
-  --anatomy-dot: var(--kb-ink);
-  --anatomy-halo: oklch(0.12 0.01 65);
-  --anatomy-halo-opacity: 0.75;
-  --anatomy-ease: var(--ease-out);
-  --kb-glow-0: color-mix(in oklch, var(--accent), white 35%);
-  --kb-glow-1: color-mix(in oklch, var(--accent) 38%, transparent);
-  --kb-glow-2: color-mix(in oklch, var(--accent) 0%, transparent);
-  --kb-blend: screen;
-}
-
-:is([data-theme='light'], [data-theme='mint']) .iso.key-bench {
-  --anatomy-face: color-mix(in oklch, var(--kb-bg), white 70%);
-  --anatomy-top: color-mix(in oklch, var(--kb-bg), white 70%);
-  --anatomy-shade-0: color-mix(in oklch, var(--kb-bg), black 13%);
-  --anatomy-shade-1: color-mix(in oklch, var(--kb-bg), black 9%);
-  --anatomy-shade-2: color-mix(in oklch, var(--kb-bg), black 5.5%);
-  --anatomy-shade-3: color-mix(in oklch, var(--kb-bg), black 2%);
-  --anatomy-lit-top: color-mix(in oklch, var(--kb-bg), white 90%);
-  --anatomy-lit-shade: color-mix(in oklch, var(--kb-bg), white 35%);
-  --anatomy-hi: var(--kb-ink);
-  --anatomy-mid: color-mix(in oklch, var(--kb-ink), var(--kb-bg) 48%);
-  --anatomy-lo: color-mix(in oklch, var(--kb-ink), var(--kb-bg) 68%);
-  --anatomy-faint: color-mix(in oklch, var(--kb-ink), var(--kb-bg) 80%);
-  --anatomy-halo: color-mix(in oklch, var(--kb-ink), var(--kb-bg) 35%);
-  --anatomy-halo-opacity: 0.3;
-  --kb-glow-0: color-mix(in oklch, var(--accent), white 20%);
-  --kb-glow-1: color-mix(in oklch, var(--accent) 28%, transparent);
-  --kb-blend: multiply;
-}
-
-.key-bench .iso-figure {
-  margin: 0;
-}
-
-.key-bench .iso-plate {
-  padding: 48px 16px;
-  background: transparent;
-  box-shadow: 0 0 0 1px var(--border-secondary);
-}
-
-.key-bench .iso-plate-corner {
-  font-size: 12px;
-  line-height: 16px;
-}
-
-.key-bench .iso-legend {
-  gap: 8px;
-  margin-top: 12px;
-  font-size: 14px;
-  line-height: 20px;
-  text-wrap: pretty;
-}
-
+/* KeyBench-specific states; palette tokens come from ../iso/portfolio-figure.css. */
 .kb-stage {
   cursor: pointer;
   touch-action: pan-y;
@@ -89,19 +15,19 @@
 .kb-glow {
   opacity: var(--kb-on, 0);
   pointer-events: none;
-  mix-blend-mode: var(--kb-blend);
+  mix-blend-mode: var(--fig-blend);
 }
 
 .kb-stop-0 {
-  stop-color: var(--kb-glow-0);
+  stop-color: var(--fig-glow-0);
 }
 
 .kb-stop-1 {
-  stop-color: var(--kb-glow-1);
+  stop-color: var(--fig-glow-1);
 }
 
 .kb-stop-2 {
-  stop-color: var(--kb-glow-2);
+  stop-color: var(--fig-glow-2);
 }
 
 .kb-led :is(.iso-fill, .iso-top, .iso-shade) {
@@ -109,7 +35,7 @@
 }
 
 .kb-stage[data-down] .kb-led :is(.iso-fill, .iso-top, .iso-shade) {
-  fill: var(--kb-glow-0);
+  fill: var(--fig-glow-0);
 }
 
 .kb-signal .iso-line,

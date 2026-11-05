@@ -40,6 +40,27 @@ export function PortfolioMotion({ children }: { children: ReactNode }) {
               },
             });
           });
+          root.querySelectorAll<HTMLElement>('[data-word-reveal]').forEach((element) => {
+            SplitText.create(element, {
+              type: 'words',
+              wordsClass: 'reveal-word',
+              autoSplit: true,
+              onSplit(split) {
+                // Words light up one at a time as the heading crosses the trigger
+                // band; CSS eases each word from the muted tone to its final color.
+                const words = split.words as HTMLElement[];
+                return ScrollTrigger.create({
+                  trigger: element,
+                  start: 'top 82%',
+                  end: 'bottom 48%',
+                  onUpdate({ progress }) {
+                    const lit = Math.round(progress * words.length);
+                    words.forEach((word, index) => word.classList.toggle('is-lit', index < lit));
+                  },
+                });
+              },
+            });
+          });
           root.querySelectorAll<HTMLElement>('.work-entry').forEach((entry, index) => {
             const image = entry.querySelector('.work-preview img');
             if (image)

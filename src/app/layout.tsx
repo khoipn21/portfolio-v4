@@ -1,23 +1,18 @@
 import type { Metadata } from 'next';
-import { Cormorant_Garamond, Hanken_Grotesk } from 'next/font/google';
+import { Poppins } from 'next/font/google';
 import './globals.css';
 import { LenisProvider } from '@/components/lenis-provider';
 import { ThemeProvider } from '@/components/theme-provider';
 import { FaviconSwitcher } from '@/components/favicon-switcher';
 import { TopNavbar } from '@/components/layout/top-navbar';
+import { SpotlightCursor } from '@/components/spotlight-cursor';
+import { AmbientSound } from '@/components/ambient-sound';
 import { userData } from '@/data/user-data';
 
-const displayFont = Cormorant_Garamond({
-  variable: '--font-display',
-  weight: ['400', '500'],
-  style: ['normal', 'italic'],
-  subsets: ['latin', 'vietnamese'],
-  display: 'swap',
-});
-
-const bodyFont = Hanken_Grotesk({
+const bodyFont = Poppins({
   variable: '--font-body',
-  subsets: ['latin', 'vietnamese'],
+  weight: ['400', '500', '600'],
+  subsets: ['latin', 'latin-ext'],
   display: 'swap',
 });
 
@@ -102,11 +97,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html
-      lang="en"
-      suppressHydrationWarning
-      className={`${displayFont.variable} ${bodyFont.variable} h-full antialiased`}
-    >
+    <html lang="en" suppressHydrationWarning className={`${bodyFont.variable} h-full antialiased`}>
       <body>
         <LenisProvider>
           <ThemeProvider defaultTheme="dark" storageKey="portfolio-theme">
@@ -126,6 +117,8 @@ export default function RootLayout({
                 <a href={`mailto:${userData.email}`}>Email</a>
               </div>
             </footer>
+            <AmbientSound />
+            <SpotlightCursor />
           </ThemeProvider>
         </LenisProvider>
       </body>

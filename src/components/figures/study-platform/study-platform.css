@@ -1,0 +1,21 @@
+/* StudyPlatformFigure states; palette tokens come from ../../iso/portfolio-figure.css. */
+.study-platform-figure .sp-void {
+  fill: var(--anatomy-shade-0);
+  stroke: none;
+}
+
+.study-platform-figure .sp-lamp {
+  fill: var(--anatomy-shade-0);
+  stroke: none;
+  transition: fill 160ms var(--ease-out);
+}
+
+.study-platform-figure .sp-lamp[data-failed] {
+  fill: var(--anatomy-mid);
+}
+
+.study-platform-figure .sp-lamp[data-on] {
+  fill: var(--anatomy-hi);
+  transition-duration: 40ms;
+}
+
